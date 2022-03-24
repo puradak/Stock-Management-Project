@@ -40,15 +40,16 @@ public class MenuManagement {
 				System.out.println("메뉴에 없는 번호입니다.");
 				break;
 			}
-			System.out.println();
 		}
-		input = new Scanner(System.in);
+		
 		System.out.println("프로그램을 종료합니다.");
 		input.close();
 		return;
 	}
 	
 	public static boolean statistic() {
+		 
+		input = new Scanner(System.in);
 		if(stockList.size() == 0) return false;
 		System.out.print("구매한 종목 목록 : ");
 		int netAsset = 0;
@@ -63,6 +64,8 @@ public class MenuManagement {
 	}
 	
 	public static boolean editStock() {
+		 
+		input = new Scanner(System.in);
 		System.out.print("종목 코드 입력 : ");
 		String ticker = input.nextLine();
 		String[] stock = getElementByTicker(ticker);
@@ -73,6 +76,8 @@ public class MenuManagement {
 		return true;
 	}
 	public static boolean removeStock() {
+		 
+		input = new Scanner(System.in);
 		System.out.print("종목 코드 입력 : ");
 		String ticker = input.nextLine();
 		for(int i=0; i<stockList.size(); i++) {
@@ -86,6 +91,7 @@ public class MenuManagement {
 	
 	public static boolean addStock() throws IOException {
 		System.out.print("종목 코드 입력 : ");
+		 
 		input = new Scanner(System.in);
 		String ticker = input.nextLine();
 		String url = "https://finance.naver.com/item/main.nhn?code="+ticker;
@@ -114,6 +120,8 @@ public class MenuManagement {
 	}
 	
 	public static void display() {
+		 
+		input = new Scanner(System.in);
 		System.out.println("1.Show Stock Table");
 		System.out.println("2.Add Stock");
 		System.out.println("3.Remove Stock");
@@ -124,6 +132,8 @@ public class MenuManagement {
 	}
 	
 	public static boolean showStock() {
+		
+		input = new Scanner(System.in);
 		System.out.print("종목 코드 입력 : ");
 		String ticker = input.nextLine();
 		String[] stock = getElementByTicker(ticker);
