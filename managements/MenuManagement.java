@@ -56,6 +56,7 @@ public class MenuManagement {
 		for(int i=0; i<stockList.size(); i++) {
 			String[] stock = stockList.get(i);
 			System.out.print(stock[1]+"("+ stock[0] +") ");
+			updateStock(stock);
 			netAsset += Integer.parseInt(stock[6]);
 		}
 		System.out.println();
@@ -137,6 +138,7 @@ public class MenuManagement {
 		System.out.print("종목 코드 입력 : ");
 		String ticker = input.nextLine();
 		String[] stock = getElementByTicker(ticker);
+		updateStock(stock);
 		if(stock == null) return false;
 		System.out.println("=============================");
 		System.out.println(stock[1]+" ("+ticker+")");
@@ -146,6 +148,10 @@ public class MenuManagement {
 		System.out.println("자산 : "+stock[6]+"원");
 		System.out.println("=============================");
 		return true;
+	}
+	
+	public static void updateStock(String[] stock) {
+		stock[6] = ""+Integer.parseInt(stock[2])*Integer.parseInt(stock[5]) ;
 	}
 	
 	public static String[] getElementByTicker(String ticker) {
