@@ -1,59 +1,85 @@
 package Data;
-import java.io.IOException;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import java.io.IOException;
 
 public class Stock {
 	
-	private String name;
+	///////////////////////FIELDS/////////////////////////
+	protected String name;
+	protected String price_t;
+	protected String price_y;
+	protected String netChange;
+	protected String type;
+	protected String url;
+	protected boolean isExist;
+	//여기까지 자식 클래스에서 초기화 하는 필드
+	protected String description;
+	protected int asset;
+	//여기까지 외부에서 초기화하는 필드
 	private String code;
-	private String price;
-	private String netChange_sign;
-	private String netChange_value;
-	private String description;
-	private int asset;
-	private boolean isExist;
 	
-	public Stock(String code) throws IOException {
+	//////////////////CONSTRUCTOR/////////////////////////
+	Stock(String code, String url){
 		this.code = code;
-		this.isExist = true;
-
-		String url = "https://finance.naver.com/item/main.nhn?code="+this.code;
-		Document doc = Jsoup.connect(url).get();		
-		if(doc.getElementsByTag("head").select("title").text().equals(": 네이버 금융")||doc.getElementsByTag("head").select("title").text().equals("네이버 :: 세상의 모든 지식, 네이버")) {
-			this.isExist = false;
-			return;
-		}
-		this.name = doc.getElementsByAttribute("href").select("a").get(17).text();
-		this.price = doc.getElementsByAttributeValue("class", "no_today").select("span").get(0).text();
-		this.netChange_sign = doc.getElementsByAttributeValue("class", "no_exday").select("span").get(1).text();
-		this.netChange_value = doc.getElementsByAttributeValue("class", "no_exday").select("span").get(11).text();
+		this.url = url;
 	}
-
+	//////////////////////////////////////////////////////
+	
+	///////////////////METHODS////////////////////////////
+	public void initialize() throws IOException{
+		return;
+	}
+	
+	public void Fresh() throws IOException {
+		//자식클래스에서 완성할 것.
+		return;
+	}
+	
+	public static Stock createStock(String code) throws IOException {
+		if(code.charAt(0) == '0') return new LocalStock(code);
+		else return new ForeignStock(code);
+	}
+	
+	public static String getPureNumber(String number) {
+		String temp1 = "", temp2 = "";
+		String fraction = "";
+		String result = "";
+		int count = 0;
+		
+		for(int i=0; i<number.length(); i++) {
+			if(number.charAt(i)==',') continue;
+			else temp1 += number.charAt(i);
+		}
+		for(int i=0; i<temp1.length(); i++) {
+			if(i>count) {
+				fraction += temp1.charAt(i);
+				continue;
+			}
+			if(number.charAt(i)=='.') count = i;
+			else temp2 += number.charAt(i);
+		}
+		
+		for(int i=0; i<temp2.length(); i++) {
+			if(temp2.charAt(i)==',') continue;
+			else result += temp2.charAt(i);
+		}
+		
+		return result+fraction;
+	}
+	
+	//////////////////////////////////////////////////////
+	
+	//////////////GETTER AND SETTER///////////////////////
+	public String getNetChange() {
+		return this.netChange;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
 	
 	public boolean getExist() {
 		return this.isExist;
-	}
-	
-	public String getCode() {
-		return this.code;
-	}
-
-	public String getNetChange() {
-		String str = "";
-		str += this.netChange_sign+" ";
-		str += this.netChange_sign.equals("하락")?"-":"+";
-		str += this.netChange_value;
-		
-		return str;
-	}
-	
-	public int getNetChangeValue() {
-		return this.netChange_sign.equals("하락") ? (-1)*Integer.parseInt(this.netChange_value) : Integer.parseInt(this.netChange_value);
 	}
 	
 	public void setDescription(String desc) {
@@ -64,8 +90,16 @@ public class Stock {
 		return this.description;
 	}
 
-	public String getPrice() {
-		return this.price;
+	public String getPrice_t() {
+		return this.price_t;
+	}
+	
+	public String getPrice_y() {
+		return this.price_y;
+	}
+	
+	public String getCode() {
+		return this.code;
 	}
 	
 	public int getAsset() {
@@ -76,11 +110,8 @@ public class Stock {
 		this.asset = asset;
 	}
 	
-	public void Fresh() throws IOException {
-		String url = "https://finance.naver.com/item/main.nhn?code="+this.code;
-		Document doc = Jsoup.connect(url).get();		
-		this.price = doc.getElementsByAttributeValue("class", "no_today").select("span").get(0).text();
-		this.netChange_sign = doc.getElementsByAttributeValue("class", "no_exday").select("span").get(1).text();
-		this.netChange_value = doc.getElementsByAttributeValue("class", "no_exday").select("span").get(11).text();
+	public String getType() {
+		return this.type;
 	}
+	//////////////////////////////////////////////////////
 }

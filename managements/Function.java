@@ -7,7 +7,9 @@ import java.util.Scanner;
 import Data.Stock;
 
 public class Function {
-	private ArrayList<Stock> stockList = new ArrayList<Stock>();
+	private ArrayList<Stock> localStockList = new ArrayList<Stock>();
+	private ArrayList<Stock> foreignStockList = new ArrayList<Stock>();
+	
 	Scanner input = new Scanner(System.in);
 	
 	public void addStock() throws IOException {
@@ -19,13 +21,15 @@ public class Function {
 			System.out.println("이미 등록했거나 잘못된 주식코드입니다. 작업을 취소합니다.");
 			return;
 		}
-		Stock stock = new Stock(code);
+		Stock stock = Stock.createStock(code);
+
 		if(!stock.getExist()) {
 			System.out.println("존재하지 않는 주식입니다. 작업을 취소합니다.");
 			stock = null;
 			return;
 		}
-		stockList.add(stock);
+		if(stock.getType().endsWith("local")) localStockList.add(stock);
+		if(stock.getType().endsWith("foreign")) foreignStockList.add(stock);
 		
 		System.out.println("확인되었습니다.");
 		
@@ -55,10 +59,6 @@ public class Function {
 	}
 	
 	public void removeStock() throws IOException {
-		if(stockList.isEmpty()) {
-			System.out.println("목록이 비었습니다. 작업을 취소합니다.");
-			return;
-		}
 		System.out.println("---------------------------");
 		System.out.print("주식 코드를 입력하세요. : ");
 		Stock stock = getElementByCode(input.nextLine());
@@ -72,7 +72,9 @@ public class Function {
 			System.out.print("정말 이 주식을 목록에서 삭제하시겠습니까? (Y/N) : ");
 			String check = input.nextLine();
 			if(check.toLowerCase().equals("y")) {
-				stockList.remove(stock);
+				if(stock.getType().equals("local")) localStockList.remove(stock);
+				if(stock.getType().equals("foreign")) foreignStockList.remove(stock);
+						
 				System.out.println("주식이 목록에서 삭제되었습니다.");
 				stock = null;
 				break;
@@ -90,17 +92,27 @@ public class Function {
 	}
 	
 	public void show_all() throws IOException {
-		if(stockList.isEmpty()) {
+		if(localStockList.isEmpty() && foreignStockList.isEmpty()) {
 			System.out.println("목록이 비었습니다. 주식을 추가하십시오.");
 			return;
 		}
-		System.out.println("======================================");
-		for(Stock stock : stockList) {
+		System.out.println("================국내주식================");
+		for(Stock stock : localStockList) {
 			stock.Fresh();
 			System.out.println("주식명　　: "+stock.getName()+"("+stock.getCode()+")");
-			System.out.println("현재가　　: "+stock.getPrice());
-			System.out.println("보유주　　: "+getTotalAsset(stock,"dot")+"원 ("+stock.getAsset()+"주)");
-			System.out.println("전일대비 "+stock.getNetChange()+"%");
+			System.out.println("현재가　　: "+stock.getPrice_t()+"원");
+			System.out.println("보유자산　　: "+getTotalAsset(stock,"dot","today")+"원 ("+stock.getAsset()+"주)");
+			System.out.println("전일대비 : "+stock.getNetChange()+"%");
+			System.out.println("설명　　　: "+stock.getDescription());
+			System.out.println("======================================");
+		}
+		System.out.println("================국외주식================");
+		for(Stock stock : foreignStockList) {
+			stock.Fresh();
+			System.out.println("주식명　　: "+stock.getName());
+			System.out.println("현재가　　: "+stock.getPrice_t()+" USD");
+			System.out.println("보유자산　　: "+getTotalAsset(stock,"dot","today")+" USD ("+stock.getAsset()+"주)");
+			System.out.println("전일대비 : "+stock.getNetChange()+"%");
 			System.out.println("설명　　　: "+stock.getDescription());
 			System.out.println("======================================");
 		}
@@ -144,36 +156,47 @@ public class Function {
 	}
 	
 	public void statistic() throws IOException {
-		if(stockList.isEmpty()) {
+		
+		if(localStockList.isEmpty() && foreignStockList.isEmpty()) {
 			System.out.println("등록된 주식이 없습니다.");
 			System.out.println("작업을 취소합니다.");
 			return;
 		}
-		for(Stock stock : stockList) {
+		System.out.println("---------------<보유 국내 주식 현황>---------------");
+		for(Stock stock : localStockList) {
 			stock.Fresh();
-			System.out.println(stock.getName()+ "("+stock.getCode()+") : "+getTotalAsset(stock,"dot")+"원 ("+stock.getAsset()+" 주)");
+			System.out.println(stock.getName()+ "("+stock.getCode()+") : "+getTotalAsset(stock,"dot","today")+"원 ("+stock.getAsset()+" 주)");
 		}
-		System.out.println("보유 주가총액 : "+seperateNumber(getWealthOf("y"))+"원 → "+seperateNumber(getWealthOf("t"))+"원 ("+getWealthOf("k")+"%)");
+		System.out.println("보유 국내 주식 총액 : "+seperateNumber(getWealthOf("y","local"))+"원 → "+seperateNumber(getWealthOf("t","local"))+"원 ("+getWealthOf("k","local")+"%)");
+		System.out.println();
+		System.out.println("---------------<보유 국외 주식 현황>---------------");
+		for(Stock stock : foreignStockList) {
+			stock.Fresh();
+			System.out.println(stock.getName()+ "("+stock.getCode()+") : "+getTotalAsset(stock,"dot","today")+" USD ("+stock.getAsset()+" 주)");
+		}
+		System.out.println("보유 국외 주식 총액 : "+seperateNumber(getWealthOf("y","foreign"))+" USD → "+seperateNumber(getWealthOf("t","foreign"))+" USD ("+getWealthOf("k","foreign")+"%)");
+		//달러 시세에 따른 주식 총액의 원/달러 환산액을 구하는 코드 삽입
 	}
 	
 	public boolean isExistStock(String code) {
-		for(Stock stock : stockList) {
-			if(stock.getCode().equals(code)) {
-				return true;
-			}
+		for(Stock stock : localStockList) {
+			if(stock.getCode().equals(code)) return true;
 		}
+		
+		for(Stock stock : foreignStockList) {
+			if(stock.getCode().equals(code)) return true;
+		}
+		
 		return false;
 	}
 	
-	public String getTotalAsset(Stock stock, String type) {
+	public String getTotalAsset(Stock stock, String type, String time) {
 		String temp = "";
-		for(int i=0; i<stock.getPrice().length(); i++) {
-			if(stock.getPrice().charAt(i)==',') continue;
-			else temp += stock.getPrice().charAt(i);
-		}
+		if(time.equals("today")) temp = Stock.getPureNumber(stock.getPrice_t());
+		else if(time.equals("yesterday")) temp = Stock.getPureNumber(stock.getPrice_y());
 		//remove dots from price (string)
 		
-		temp = ""+Integer.parseInt(temp) * stock.getAsset();
+		temp = String.format("%.2f", (Double.parseDouble(temp) * stock.getAsset()));
 		if(type.equals("noDot")) return temp;
 		//get total asset without dots
 		
@@ -183,33 +206,55 @@ public class Function {
 	}
 	
 	public String seperateNumber(String number) {
+		String temp1 = "";
+		String fraction = "";
 		String result = "";
-		for(int i = 0; i<number.length(); i++) {
-			if(i!=0 && (number.length()-i)%3 == 0) {
-				result += ",";
+		int count = 100000000;
+		for(int i=0; i<number.length(); i++) {
+			if(i>count) {
+				fraction += number.charAt(i);
+				continue;
 			}
-			result += number.charAt(i);
+			if(number.charAt(i) == '.') count = i;
+			else temp1 += number.charAt(i);
 		}
-		return result;
+		for(int i=0; i<temp1.length();i++) {
+			if(i!=0 && (temp1.length()-i)%3 == 0) result += ",";
+			result += temp1.charAt(i);
+		}
+		if(fraction.equals("")) fraction = "00";
+		return result+"."+fraction;
 	}
 	
-	public String getWealthOf(String type) throws IOException{
-		int wy=0, wt=0;
-		for(Stock stock : stockList) {
-			stock.Fresh();
-			wt += Integer.parseInt(getTotalAsset(stock,"noDot"));
-			wy += (int)(Integer.parseInt(getTotalAsset(stock,"noDot"))/(double)(1+0.01*stock.getNetChangeValue()));
+	public String getWealthOf(String typeOfWealth, String typeOfStock) throws IOException{
+		double wy=0, wt=0;
+		if(typeOfStock.equals("local")) {
+			for(Stock stock : localStockList) {
+				stock.Fresh();
+				wt += Double.parseDouble(getTotalAsset(stock,"noDot","today"));
+				wy += Double.parseDouble(getTotalAsset(stock,"noDot","yesterday"));
+			}
 		}
-		if(type.equals("y")) return ""+wy;
-		else if(type.equals("t")) return ""+wt;
-		else if(type.equals("k")) return String.format("%.2f", 100*((double)wt/wy-1));
+		if(typeOfStock.equals("foreign")) {
+			for(Stock stock : foreignStockList) {
+				stock.Fresh();
+				wt += Double.parseDouble(getTotalAsset(stock,"noDot","today"));
+				wy += Double.parseDouble(getTotalAsset(stock,"noDot","yesterday"));
+			}
+		}
+		if(typeOfWealth.equals("y")) return String.format("%.2f", wt);
+		else if(typeOfWealth.equals("t")) return String.format("%.2f", wy);
+		else if(typeOfWealth.equals("k")) return String.format("%.2f", (double)100*(wt/wy-1));
 		
 		return null;
 	}
 	
 	public Stock getElementByCode(String code) {
-		for(Stock s : stockList) {
+		for(Stock s : localStockList) {
 			if(s.getCode().equals(code)) return s;
+		}
+		for(Stock s : foreignStockList) {
+			if(s.getCode().equals(code))  return s;
 		}
 		return null;
 	}
