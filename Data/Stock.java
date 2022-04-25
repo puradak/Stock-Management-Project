@@ -26,7 +26,7 @@ public class Stock {
 	//////////////////////////////////////////////////////
 	
 	///////////////////METHODS////////////////////////////
-	public void initialize() throws IOException{
+	private void initialize() throws IOException{
 		return;
 	}
 	
@@ -41,29 +41,25 @@ public class Stock {
 	}
 	
 	public static String getPureNumber(String number) {
-		String temp1 = "", temp2 = "";
+		String temp = "";
 		String fraction = "";
 		String result = "";
 		int count = 0;
 		
 		for(int i=0; i<number.length(); i++) {
 			if(number.charAt(i)==',') continue;
-			else temp1 += number.charAt(i);
+			else temp += number.charAt(i);
 		}
-		for(int i=0; i<temp1.length(); i++) {
+		
+		for(int i=0; i<temp.length(); i++) {
 			if(i>count) {
-				fraction += temp1.charAt(i);
+				fraction += temp.charAt(i);
 				continue;
 			}
 			if(number.charAt(i)=='.') count = i;
-			else temp2 += number.charAt(i);
+			else result += number.charAt(i);
 		}
-		
-		for(int i=0; i<temp2.length(); i++) {
-			if(temp2.charAt(i)==',') continue;
-			else result += temp2.charAt(i);
-		}
-		
+
 		return result+fraction;
 	}
 	

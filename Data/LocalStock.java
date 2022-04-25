@@ -21,10 +21,10 @@ public class LocalStock extends Stock{
 	//////////////////////////////////////////////////////
 	
 	///////////////////METHODS////////////////////////////
-	public void initialize() throws IOException {
+	private void initialize() throws IOException {
 		String url = url_head + code;
 		Document doc = Jsoup.connect(url).get();
-		if(doc.getElementsByTag("head").select("title").text().equals(": 네이버 금융")||doc.getElementsByTag("head").select("title").text().equals("네이버 :: 세상의 모든 지식, 네이버")) {
+		if(doc.getElementsByTag("head").select("title").text().equals(": 네이버 금융")) {
 			this.isExist = false;
 			return;
 		}
