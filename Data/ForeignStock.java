@@ -12,6 +12,10 @@ public class ForeignStock extends Stock{
 	
 	
 	//////////////////CONSTRUCTOR/////////////////////////
+	public ForeignStock(){
+		super(null,null);
+	}
+	
 	ForeignStock(String code) throws IOException {
 		super(code,url_head+code);
 		this.code = code;	
@@ -32,7 +36,7 @@ public class ForeignStock extends Stock{
 		this.name = doc.getElementsByAttributeValue("class", "D(ib) Fz(18px)").text();
 		this.price_t = doc.getElementsByAttributeValue("class", "Fw(b) Fz(36px) Mb(-4px) D(ib)").text();
 		this.price_y = doc.getElementsByAttributeValue("class", "Ta(end) Fw(600) Lh(14px)").get(0).text();
-		this.netChange = String.format("%.2f",(1-Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)))*100);
+		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) - 1)*100);
 		
 		doc = null;
 	}
@@ -40,7 +44,7 @@ public class ForeignStock extends Stock{
 	public void Fresh() throws IOException {
 		Document doc = Jsoup.connect(url_head+this.code).get();		
 		this.price_t = doc.getElementsByAttributeValue("class", "Fw(b) Fz(36px) Mb(-4px) D(ib)").text();
-		this.netChange = String.format("%.2f",(1-Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)))*100);
+		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) - 1)*100);
 		doc = null;
 	}
 	//////////////////////////////////////////////////////

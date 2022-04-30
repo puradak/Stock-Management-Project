@@ -12,6 +12,10 @@ public class LocalStock extends Stock{
 	//////////////////////////////////////////////////////
 	
 	//////////////////CONSTRUCTOR/////////////////////////
+	public LocalStock() {
+		super(null,null);
+	}
+	
 	public LocalStock(String code) throws IOException {
 		super(code, url_head+code);
 		this.code = code;
@@ -32,14 +36,14 @@ public class LocalStock extends Stock{
 		this.name = doc.getElementsByAttribute("href").select("a").get(17).text();
 		this.price_t = doc.getElementsByAttributeValue("class", "no_today").select("span").get(0).text();
 		this.price_y = doc.getElementsByAttributeValue("class", "first").get(0).select("span").get(1).text();
-		this.netChange = String.format("%.2f",(1-Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)))*100);
+		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) -1)*100);
 		doc = null;
 	}
 	
 	public void Fresh() throws IOException {
 		Document doc = Jsoup.connect(url).get();		
 		this.price_t = doc.getElementsByAttributeValue("class", "no_today").select("span").get(0).text();
-		this.netChange = String.format("%.2f",(1-Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)))*100);
+		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) -1)*100);
 		doc = null;
 	}
 	//////////////////////////////////////////////////////

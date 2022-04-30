@@ -17,7 +17,8 @@ public class MenuManagement {
 			if(code.equals("2")) { function.addStock(); continue; }
 			if(code.equals("3")) { function.removeStock(); continue; }
 			if(code.equals("4")) { function.editStock(); continue; }
-			if(code.equals("5")) { function.statistic(); continue; }
+			if(code.equals("5")) { function.searchStock(); continue; }
+			if(code.equals("6")) { function.statistic(); continue; }
 			if(code.equals("0")) { System.out.println("See you again."); break; }
 		}
 		input.close();
@@ -31,7 +32,8 @@ public class MenuManagement {
 		System.out.println("            2.Add Stock");
 		System.out.println("            3.Remove Stock");
 		System.out.println("            4.Edit Stock");
-		System.out.println("            5.Show Statistics");
+		System.out.println("            5.Search Stock");
+		System.out.println("            6.Show Statistics");
 		System.out.println("            0.Exit the program");
 		System.out.println("==================MAIN MENU==================");
 	}
