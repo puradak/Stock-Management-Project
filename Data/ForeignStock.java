@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class ForeignStock extends Stock{
+public class ForeignStock extends Stock implements Functionalities{
 	///////////////////////FIELDS/////////////////////////
 	protected static String url_head ="https://www.google.com/finance/quote/";
 	protected static String url_tail =":NASDAQ";

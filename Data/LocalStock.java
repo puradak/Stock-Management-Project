@@ -4,7 +4,7 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class LocalStock extends Stock{
+public class LocalStock extends Stock implements Functionalities{
 	
 	///////////////////////FIELDS/////////////////////////
 	protected static String url_head ="https://finance.naver.com/item/main.nhn?code=";
