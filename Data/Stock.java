@@ -2,7 +2,7 @@ package Data;
 
 import java.io.IOException;
 
-public class Stock {
+public abstract class Stock {
 	
 	///////////////////////FIELDS/////////////////////////
 	protected String name;
@@ -26,14 +26,8 @@ public class Stock {
 	//////////////////////////////////////////////////////
 	
 	///////////////////METHODS////////////////////////////
-	private void initialize() throws IOException{
-		return;
-	}
-	
-	public void Fresh() throws IOException {
-		//자식클래스에서 완성할 것.
-		return;
-	}
+	protected abstract void initialize() throws IOException;
+	public abstract void Fresh() throws IOException;
 	
 	public static Stock createStock(String code) throws IOException {
 		if(code.charAt(0) == '0') return new LocalStock(code);

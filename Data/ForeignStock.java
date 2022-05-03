@@ -25,7 +25,7 @@ public class ForeignStock extends Stock{
 	//////////////////////////////////////////////////////
 	
 	///////////////////METHODS////////////////////////////
-		private void initialize() throws IOException {
+		protected void initialize() throws IOException {
 		String url = url_head+code;
 		Document doc = Jsoup.connect(url).get();
 		if(doc.getElementsByAttributeValue("class", "Fw(b) Fz(36px) Mb(-4px) D(ib)").text().equals("")) {

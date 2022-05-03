@@ -25,7 +25,7 @@ public class LocalStock extends Stock{
 	//////////////////////////////////////////////////////
 	
 	///////////////////METHODS////////////////////////////
-	private void initialize() throws IOException {
+	protected void initialize() throws IOException {
 		String url = url_head + code;
 		Document doc = Jsoup.connect(url).get();
 		if(doc.getElementsByTag("head").select("title").text().equals(": ³×ÀÌ¹ö ±ÝÀ¶")) {
