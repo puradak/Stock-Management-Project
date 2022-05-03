@@ -33,10 +33,10 @@ public abstract class Stock implements Functionalities {
 		else return new ForeignStock(code);
 	}
 	
-	public static String getListOfCode(String name) throws IOException {
+	public static void getListOfCode(String name) throws IOException {
 		char dist = name.charAt(0);
-		if(dist>='a' && dist<='z') return ForeignStock.getListOfCode(name);
-		else return LocalStock.getListOfCode(name);
+		if(dist>='a' && dist<='z') ForeignStock.getListOfCode(name);
+		else LocalStock.getListOfCode(name);
 	}
 	
 	public static String getPureNumber(String number) {

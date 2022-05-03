@@ -1,7 +1,7 @@
 package Data;
 
 import java.io.IOException;
-
+import java.net.URLEncoder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -49,8 +49,8 @@ public class ForeignStock extends Stock implements Functionalities{
 		doc = null;
 	}
 	
-	public static String getListOfCode(String name) throws IOException {
-		return null;
+	public static void getListOfCode(String name) throws IOException {
+		System.out.println("준비중인 기능입니다.");
 	}
 	
 	//////////////////////////////////////////////////////

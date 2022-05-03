@@ -91,37 +91,10 @@ public class Function {
 		return;
 	}
 	
-	public void searchStock() {
-		if(localStockList.isEmpty() && foreignStockList.isEmpty()) {
-			System.out.println("목록이 비었습니다. 주식을 추가하십시오.");
-			return;
-		}
-		System.out.println("---------------------------");
-		System.out.print("검색할 주식의 코드를 입력하세요. : ");
-		Stock stock = getElementByCode(input.nextLine());
-		if(stock == null) {
-			System.out.println("잘못되었거나, 목록에 존재하지 않는 주식코드입니다. 작업을 취소합니다.");
-			return;
-		}
-		System.out.println();
-		String mark, code;
-		if(stock.getType().equals("local")) { 
-			System.out.print("[ 국내 ");
-			mark = "원";
-			code = "("+stock.getCode()+")";
-		}
-		else {
-			System.out.print("[ 국외 ");
-			mark = "USD";
-			code = "";
-		}
-		System.out.println("주식 정보 ]");
-		System.out.println(stock.getName()+code);
-		System.out.println("시세 : "+stock.getPrice_t()+mark);
-		System.out.println("전일 : "+stock.getPrice_y()+mark);
-		System.out.println("전일 대비 : "+stock.getNetChange()+"%");
-		System.out.println("자산 : "+getTotalAsset(stock, "dot", "today")+mark+" ("+stock.getAsset()+"주)");
-		System.out.println("---------------------------");
+	public void searchStock() throws IOException {
+		System.out.print("코드를 검색할 주식의 이름을 입력하세요 : ");
+		String name = input.nextLine();
+		Stock.getListOfCode(name.toLowerCase()); 
 		
 		return;
 	}
@@ -294,10 +267,5 @@ public class Function {
 		}
 		return null;
 	}
-	
-	public void getCodeByName() throws IOException {
-		System.out.print("코드를 검색할 주식의 이름을 입력하세요 : ");
-		String name = input.nextLine();
-		String result = Stock.getListOfCode(name.toLowerCase()); 
-	}
+
 }
