@@ -7,7 +7,8 @@ import org.jsoup.nodes.Document;
 
 public class ForeignStock extends Stock{
 	///////////////////////FIELDS/////////////////////////
-	protected static String url_head ="https://finance.yahoo.com/quote/";
+	protected static String url_head ="https://www.google.com/finance/quote/";
+	protected static String url_tail =":NASDAQ";
 	protected String code;
 	
 	
@@ -17,7 +18,7 @@ public class ForeignStock extends Stock{
 	}
 	
 	ForeignStock(String code) throws IOException {
-		super(code,url_head+code);
+		super(code,url_head+code+url_tail);
 		this.code = code;	
 		this.type = "foreign";
 		initialize();
@@ -26,24 +27,24 @@ public class ForeignStock extends Stock{
 	
 	///////////////////METHODS////////////////////////////
 		protected void initialize() throws IOException {
-		String url = url_head+code;
+		String url = url_head+code+url_tail;
 		Document doc = Jsoup.connect(url).get();
-		if(doc.getElementsByAttributeValue("class", "Fw(b) Fz(36px) Mb(-4px) D(ib)").text().equals("")) {
+		if(doc.getElementsByAttributeValue("class", "b4EnYd").text().equals("검색어와 일치하는 결과를 찾을 수 없습니다.")) {
 			this.isExist = false;
 			return;
 		}
 		this.isExist = true;
-		this.name = doc.getElementsByAttributeValue("class", "D(ib) Fz(18px)").text();
-		this.price_t = doc.getElementsByAttributeValue("class", "Fw(b) Fz(36px) Mb(-4px) D(ib)").text();
-		this.price_y = doc.getElementsByAttributeValue("class", "Ta(end) Fw(600) Lh(14px)").get(0).text();
+		this.name = doc.getElementsByAttributeValue("class", "zzDege").text();
+		this.price_t = doc.getElementsByAttributeValue("class", "YMlKec fxKbKc").get(0).text().replace("$","");
+		this.price_y = doc.getElementsByAttributeValue("class", "P6K39c").get(0).text().replace("$","");
 		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) - 1)*100);
 		
 		doc = null;
 	}
 	
 	public void Fresh() throws IOException {
-		Document doc = Jsoup.connect(url_head+this.code).get();		
-		this.price_t = doc.getElementsByAttributeValue("class", "Fw(b) Fz(36px) Mb(-4px) D(ib)").text();
+		Document doc = Jsoup.connect(url_head+this.code+url_tail).get();		
+		this.price_t = doc.getElementsByAttributeValue("class", "YMlKec fxKbKc").get(0).text().replace("$","");
 		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) - 1)*100);
 		doc = null;
 	}
