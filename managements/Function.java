@@ -294,4 +294,10 @@ public class Function {
 		}
 		return null;
 	}
+	
+	public void getCodeByName() throws IOException {
+		System.out.print("코드를 검색할 주식의 이름을 입력하세요 : ");
+		String name = input.nextLine();
+		String result = Stock.getListOfCode(name.toLowerCase()); 
+	}
 }

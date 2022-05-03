@@ -48,6 +48,11 @@ public class ForeignStock extends Stock implements Functionalities{
 		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) - 1)*100);
 		doc = null;
 	}
+	
+	public static String getListOfCode(String name) throws IOException {
+		return null;
+	}
+	
 	//////////////////////////////////////////////////////
 	
 	//////////////GETTER AND SETTER///////////////////////
