@@ -63,7 +63,6 @@ public class Function {
 		System.out.println("---------------------------");
 		System.out.print("주식 코드를 입력하세요. : ");
 		String code = input.nextLine();
-		System.out.println("code에 입력된 값 : "+code);
 		Stock stock = getElementByCode(code);
 		if(stock == null) {
 			System.out.println("잘못되었거나, 목록에 존재하지 않는 주식코드입니다. 작업을 취소합니다.");
