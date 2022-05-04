@@ -71,7 +71,7 @@ public class LocalStock extends Stock implements Functionalities{
 		System.out.print("코드를 검색할 주식명의 순번을 입력하세요 : ");
 		int number = input.nextInt();
 		// 몇번째 건지
-		if(number >= count) {
+		if(number > count) {
 			System.out.println("잘못 입력하셨습니다. 작업을 취소합니다.");
 			return;
 		}
