@@ -2,7 +2,6 @@ package Data;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,7 +31,7 @@ public class LocalStock extends Stock implements Functionalities{
 	protected void initialize() throws IOException {
 		String url = url_head + code;
 		Document doc = Jsoup.connect(url).get();
-		if(doc.getElementsByTag("head").select("title").text().equals(": 네이버 금융")) {
+		if(doc.getElementsByTag("head").select("title").text().equals(": 네이버 금융") || doc.getElementsByAttributeValue("class", "error_content").text().contains("불가")) {
 			this.isExist = false;
 			return;
 		}
@@ -51,10 +50,9 @@ public class LocalStock extends Stock implements Functionalities{
 		doc = null;
 	}
 	
-	public static void getListOfCode(String name) throws IOException {
-		Scanner input = new Scanner(System.in);
-		int count = 0;
+	public static ArrayList<String> getListOfCode(String name) throws IOException {
 		ArrayList<String> saveResult = new ArrayList<String>();
+		
 		for(int i=1; ;i++) {
 			Document doc = Jsoup.connect("https://finance.naver.com/search/searchList.naver?query="+URLEncoder.encode(name, "EUC-KR")+"&page="+i).get();
 			if(doc.getElementsByAttributeValue("class", "result_area").text().equals("‘"+name+"’검색결과 (총0건)")){
@@ -63,25 +61,19 @@ public class LocalStock extends Stock implements Functionalities{
 			
 			Elements e = doc.getElementsByAttributeValue("class", "tit");
 			for(String str : e.eachText()) {
-				System.out.println((count+1)+" : "+str);
 				saveResult.add(str);
-				count ++;
 			}
 		}
-		System.out.print("코드를 검색할 주식명의 순번을 입력하세요 : ");
-		int number = input.nextInt();
-		// 몇번째 건지
-		if(number > count) {
-			System.out.println("잘못 입력하셨습니다. 작업을 취소합니다.");
-			return;
-		}
+		return saveResult;
+	}
+	
+	public static String findCodeByName(ArrayList<String> nameList, int index) throws IOException {
+		String exactName = nameList.get(index-1);
 		
-		String exactName = saveResult.get(number-1);
-		
-		Document doc = Jsoup.connect("https://search.naver.com/search.naver?&query="+saveResult.get(number)).get();
+		Document doc = Jsoup.connect("https://search.naver.com/search.naver?&query="+exactName).get();
 		Elements e = doc.getElementsByAttributeValue("class", "t_nm");
-		System.out.println("\n"+exactName+"의 코드는 "+e.text()+" 입니다.");
-
+		String result = e.text();
+		return result;
 	}
 	//////////////////////////////////////////////////////
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Data.LocalStock;
 import Data.Stock;
 
 public class Function {
@@ -61,7 +62,9 @@ public class Function {
 	public void removeStock() throws IOException {
 		System.out.println("---------------------------");
 		System.out.print("주식 코드를 입력하세요. : ");
-		Stock stock = getElementByCode(input.nextLine());
+		String code = input.nextLine();
+		System.out.println("code에 입력된 값 : "+code);
+		Stock stock = getElementByCode(code);
 		if(stock == null) {
 			System.out.println("잘못되었거나, 목록에 존재하지 않는 주식코드입니다. 작업을 취소합니다.");
 			return;
@@ -91,12 +94,39 @@ public class Function {
 		return;
 	}
 	
-	public void searchStock() throws IOException {
-		System.out.print("코드를 검색할 주식의 이름을 입력하세요 : ");
-		String name = input.nextLine();
-		Stock.getListOfCode(name.toLowerCase()); 
+	public String searchStock() throws IOException {
+		System.out.print("검색할 주식이 국내주식이면 L을, 국외주식이면 F를 입력해주세요 : ");
+		String type = input.next().toLowerCase();
+		if(type.equals("f")) {
+			System.out.println("준비중인 기능입니다. 메인 메뉴로 돌아갑니다.");
+			return input.nextLine();
+		}
+		else if (!type.equals("l")) {
+			System.out.println("잘못 입력하셨습니다. 메인 메뉴로 돌아갑니다.");
+			return input.nextLine();
+		}
 		
-		return;
+		System.out.print("코드를 검색할 주식의 이름을 입력하세요 : ");
+		String name = input.next();
+		ArrayList<String> nameList = LocalStock.getListOfCode(name.toLowerCase());
+		
+		int count = 1;
+		for(String str : nameList) {
+			System.out.println(count + " : "+str);
+			count ++;
+		}
+		
+		System.out.print("코드를 검색할 주식명의 순번을 입력하세요 : ");
+		int number = input.nextInt();
+		if(number > nameList.size()) {
+			System.out.println("잘못 입력하셨습니다. 작업을 취소합니다.");
+			return input.nextLine();
+		}
+		
+		String code = LocalStock.findCodeByName(nameList,number);
+		System.out.println(nameList.get(number-1)+"의 주식 코드는 "+code+" 입니다.");
+		System.out.println("메인메뉴로 돌아갑니다.");
+		return input.nextLine();
 	}
 	
 	public void show_all() throws IOException {

@@ -29,16 +29,10 @@ public abstract class Stock implements Functionalities {
 	protected abstract void initialize() throws IOException;
 	
 	public static Stock createStock(String code) throws IOException {
-		if(code.charAt(0) == '0') return new LocalStock(code);
+		if(code.charAt(0) >= '0' && code.charAt(0) <= '9') return new LocalStock(code);
 		else return new ForeignStock(code);
 	}
-	
-	public static void getListOfCode(String name) throws IOException {
-		char dist = name.charAt(0);
-		if(dist>='a' && dist<='z') ForeignStock.getListOfCode(name);
-		else LocalStock.getListOfCode(name);
-	}
-	
+
 	public static String getPureNumber(String number) {
 		String temp = "";
 		String fraction = "";

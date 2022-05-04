@@ -1,7 +1,8 @@
 package Data;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.util.ArrayList;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -49,8 +50,9 @@ public class ForeignStock extends Stock implements Functionalities{
 		doc = null;
 	}
 	
-	public static void getListOfCode(String name) throws IOException {
+	public static ArrayList<String> getListOfCode(String name) throws IOException {
 		System.out.println("준비중인 기능입니다.");
+		return null;
 	}
 	
 	//////////////////////////////////////////////////////

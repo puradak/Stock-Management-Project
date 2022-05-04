@@ -11,7 +11,7 @@ public class MenuManagement {
 		
 		while(true) {
 			displayMenu();
-			System.out.print("입력 :");
+			System.out.print("이동할 메뉴의 번호를 입력하세요 : ");
 			String code = input.nextLine();
 			if(code.equals("1")) { function.show_all(); continue; }
 			if(code.equals("2")) { function.addStock(); continue; }
