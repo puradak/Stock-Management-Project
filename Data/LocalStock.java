@@ -1,6 +1,7 @@
 package Data;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.jsoup.Jsoup;
@@ -52,36 +53,33 @@ public class LocalStock extends Stock implements Functionalities{
 	
 	public static void getListOfCode(String name) throws IOException {
 		Scanner input = new Scanner(System.in);
-		int count = 1;
+		int count = 0;
+		ArrayList<String> saveResult = new ArrayList<String>();
 		for(int i=1; ;i++) {
 			Document doc = Jsoup.connect("https://finance.naver.com/search/searchList.naver?query="+URLEncoder.encode(name, "EUC-KR")+"&page="+i).get();
 			if(doc.getElementsByAttributeValue("class", "result_area").text().equals("‘"+name+"’검색결과 (총0건)")){
 				break;
 			}
+			
 			Elements e = doc.getElementsByAttributeValue("class", "tit");
 			for(String str : e.eachText()) {
-				System.out.println(count+" : "+str);
+				System.out.println((count+1)+" : "+str);
+				saveResult.add(str);
 				count ++;
 			}
 		}
 		System.out.print("코드를 검색할 주식명의 순번을 입력하세요 : ");
 		int number = input.nextInt();
+		// 몇번째 건지
 		if(number >= count) {
 			System.out.println("잘못 입력하셨습니다. 작업을 취소합니다.");
 			return;
 		}
-		int order = number%20;
-		int page = 0;
-		if(order == 0) { page = number/19; order = 20;}
-		else { page = number/order; }
 		
-		Document doc = Jsoup.connect("https://finance.naver.com/search/searchList.naver?query="+URLEncoder.encode(name, "EUC-KR")+"&page="+(page)).get();
-		Elements e = doc.getElementsByAttributeValue("class", "tit");
+		String exactName = saveResult.get(number-1);
 		
-		String exactName = e.eachText().get(order-1);
-		
-		doc = Jsoup.connect("https://search.naver.com/search.naver?&query="+e.eachText().get(order-1)).get();
-		e = doc.getElementsByAttributeValue("class", "t_nm");
+		Document doc = Jsoup.connect("https://search.naver.com/search.naver?&query="+saveResult.get(number)).get();
+		Elements e = doc.getElementsByAttributeValue("class", "t_nm");
 		System.out.println("\n"+exactName+"의 코드는 "+e.text()+" 입니다.");
 
 	}
