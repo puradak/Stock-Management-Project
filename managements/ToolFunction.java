@@ -6,7 +6,7 @@ import java.util.Scanner;
 import Data.Stock;
 import exceptions.NotPositiveNumberExeption;
 
-public class ToolFunction {
+public class ToolFunction extends Printer{
 	
 	// 객체 하나만 쓰기
 	private static ToolFunction tool = new ToolFunction();
@@ -113,4 +113,13 @@ public class ToolFunction {
 		return number;
 	}
 	
+	public boolean isEmpty() {
+		if(MenuFunction.localStockList.isEmpty() && MenuFunction.foreignStockList.isEmpty()) {
+			printEmpty();
+			return true;
+		}
+		return false;
+	}
+
+
 }

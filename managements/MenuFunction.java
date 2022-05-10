@@ -9,7 +9,7 @@ import Data.LocalStock;
 import Data.Stock;
 import exceptions.NotPositiveNumberExeption;
 
-public class MenuFunction {
+public class MenuFunction extends Printer{
 	// 객체 하나만 쓰기
 	private static MenuFunction function = new MenuFunction();
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
@@ -29,10 +29,8 @@ public class MenuFunction {
 	
 	// 1번 메뉴
 	public void show_all() throws IOException {
-		if(localStockList.isEmpty() && foreignStockList.isEmpty()) {
-			System.out.println("목록이 비었습니다. 주식을 추가하십시오.");
-			return;
-		}
+		if(tool.isEmpty()) return;
+		
 		System.out.println("================국내주식================");
 		for(Stock stock : localStockList) {
 			stock.Fresh();
@@ -60,7 +58,8 @@ public class MenuFunction {
 	public void addStock() throws IOException {
 		System.out.println("---------------------------");
 		
-		System.out.print("주식 코드를 입력하세요. : ");
+		System.out.println("주식 코드를 입력하세요.");
+		printInput();
 		String code = input.nextLine();
 		if(tool.isExistStock(code)) {
 			System.out.println("이미 등록했거나 잘못된 주식코드입니다. 작업을 취소합니다.");
@@ -78,7 +77,8 @@ public class MenuFunction {
 		
 		System.out.println("확인되었습니다.");
 		
-		System.out.print("보유중인 수량을 입력하세요. : ");
+		System.out.println("보유중인 수량을 입력하세요.");
+		printInput();
 		
 		int asset = 1;
 
@@ -86,12 +86,10 @@ public class MenuFunction {
 			asset = tool.readInt(input);		
 		} 
 		catch(InputMismatchException e) {
-			System.out.println("잘못 입력하셨습니다. 1주로 설정되었습니다.");
-			System.out.println("Edit Stock 메뉴에서 수정 가능합니다.");
+			printWrongAsset();
 		}
 		catch(NotPositiveNumberExeption e) {
-			System.out.println("잘못 입력하셨습니다. 1주로 설정되었습니다.");
-			System.out.println("Edit Stock 메뉴에서 수정 가능합니다.");
+			printWrongAsset();
 		}
 		finally {
 			stock.setAsset(asset);				
@@ -99,7 +97,7 @@ public class MenuFunction {
 		
 		input.nextLine();
 		
-		System.out.print("(선택사항) 이 주식에 대한 메모를 남기시겠습니까? (Y/N) : ");
+		System.out.println("(선택사항) 이 주식에 대한 메모를 남기시겠습니까? (Y/N) : ");
 		String check = input.nextLine();
 		if(check.toLowerCase().equals("y")) {
 			System.out.print("입력 : ");
@@ -110,8 +108,7 @@ public class MenuFunction {
 		}
 		else {
 			stock.setDescription("(설정되지 않음)");
-			System.out.println("잘못 입력하셨습니다. 메모는 Edit Stock메뉴에서 수정이 가능합니다.");
-			System.out.println("메인 메뉴로 돌아갑니다.");
+			printWrongInput();
 		}
 		
 		System.out.println("---------------------------");
@@ -121,8 +118,11 @@ public class MenuFunction {
 	
 	// 3번 메뉴
 	public void removeStock() throws IOException {
+		if(tool.isEmpty()) return;
+		
 		System.out.println("---------------------------");
-		System.out.print("주식 코드를 입력하세요. : ");
+		System.out.print("주식 코드를 입력하세요.");
+		printInput();
 		String code = input.nextLine();
 		Stock stock = tool.getElementByCode(code);
 		if(stock == null) {
@@ -132,7 +132,8 @@ public class MenuFunction {
 		
 		System.out.println("확인되었습니다.");
 		while(true) {
-			System.out.print("정말 이 주식을 목록에서 삭제하시겠습니까? (Y/N) : ");
+			System.out.print("정말 이 주식을 목록에서 삭제하시겠습니까? (Y/N)");
+			printInput();
 			String check = input.nextLine();
 			if(check.toLowerCase().equals("y")) {
 				if(stock.getType().equals("local")) localStockList.remove(stock);
@@ -156,8 +157,10 @@ public class MenuFunction {
 	
 	// 4번 메뉴
 	public void editStock() {
-
-		System.out.print("수정할 주식의 주식코드를 입력하세요. : ");
+		if(tool.isEmpty()) return;
+		
+		System.out.println("수정할 주식의 주식코드를 입력하세요.");
+		printInput();
 		Stock stock = tool.getElementByCode(input.nextLine());
 		if(stock == null){
 			System.out.println("추가하지 않았거나 존재하지 않는 주식 코드입니다.");
@@ -165,7 +168,8 @@ public class MenuFunction {
 			return;
 		}
 		
-		System.out.print("보유 주식의 수를 변경하시겠습니까? (Y/N) : ");
+		System.out.println("보유 주식의 수를 변경하시겠습니까? (Y/N)");
+		printInput();
 		if(input.nextLine().toLowerCase().equals("y")) {
 			System.out.print("보유 주식 수를 새로 입력하세요. : ");
 			int lastAsset = stock.getAsset();
@@ -215,7 +219,7 @@ public class MenuFunction {
 			return input.nextLine();
 		}
 		else if (!type.equals("l")) {
-			System.out.println("잘못 입력하셨습니다. 메인 메뉴로 돌아갑니다.");
+			printWrongInput();
 			return input.nextLine();
 		}
 		
@@ -235,19 +239,16 @@ public class MenuFunction {
 			number = tool.readInt(input);			
 		}
 		catch (InputMismatchException e){
-			System.out.println("잘못 입력하셨습니다.");
-			System.out.println("메인 메뉴로 돌아갑니다.");
+			printWrongInput();
 			return input.nextLine();
 		}
 		catch (NotPositiveNumberExeption e) {
-			System.out.println("잘못 입력하셨습니다.");
-			System.out.println("메인 메뉴로 돌아갑니다.");
+			printWrongInput();
 			return input.nextLine();
 		}
 		finally {
 			if(number > nameList.size()) {
-				System.out.println("잘못 입력하셨습니다.");
-				System.out.println("메인 메뉴로 돌아갑니다.");
+				printWrongInput();
 				return input.nextLine();
 			}
 		}
@@ -255,18 +256,17 @@ public class MenuFunction {
 		
 		String code = LocalStock.findCodeByName(nameList,number);
 		System.out.println(nameList.get(number-1)+"의 주식 코드는 "+code+" 입니다.");
-		System.out.println("메인 메뉴로 돌아갑니다.");
+		printGoMain();
 		return input.nextLine();
 	}
 	
 	// 6번 메뉴
 	public void statistic() throws IOException {
-		
-		if(localStockList.isEmpty() && foreignStockList.isEmpty()) {
-			System.out.println("등록된 주식이 없습니다.");
-			System.out.println("작업을 취소합니다.");
+		if(tool.isEmpty()) {
+			printEmpty();
 			return;
 		}
+		
 		System.out.println("---------------<보유 국내 주식 현황>---------------");
 		for(Stock stock : localStockList) {
 			stock.Fresh();
@@ -295,7 +295,11 @@ public class MenuFunction {
 					+" USD ("+stock.getAsset()+" 주)"
 					);
 		}
-		System.out.println("보유 국외 주식 총액 : "+tool.seperateNumber(tool.getWealthOf("y","foreign"))+" USD → "+tool.seperateNumber(tool.getWealthOf("t","foreign"))+" USD ("+tool.getWealthOf("k","foreign")+"%)");
+		System.out.println("보유 국외 주식 총액 : "
+						+tool.seperateNumber(tool.getWealthOf("y","foreign"))
+						+" USD → "+tool.seperateNumber(tool.getWealthOf("t","foreign"))
+						+" USD ("+tool.getWealthOf("k","foreign")+"%)"
+						);
 		//달러 시세에 따른 주식 총액의 원/달러 환산액을 구하는 코드 삽입
 	}
 }
