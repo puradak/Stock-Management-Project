@@ -7,8 +7,7 @@ public class MenuManagement {
 	public static void main(String[] args) throws IOException {
 		
 		Scanner input = new Scanner(System.in);
-		Function function = new Function();
-		
+		MenuFunction function = MenuFunction.getFunctionObject();
 		while(true) {
 			displayMenu();
 			System.out.print("이동할 메뉴의 번호를 입력하세요 : ");
