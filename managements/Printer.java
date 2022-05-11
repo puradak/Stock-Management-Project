@@ -53,6 +53,7 @@ public class Printer {
 			}
 		}
 	}
+	
 	public void printMenu() {
 		System.out.println();
 		System.out.println("==================MAIN MENU==================");

@@ -158,7 +158,7 @@ public class MenuFunction extends Printer{
 		
 		if(input.nextLine().toLowerCase().equals("y")) {
 			System.out.println("변경된 보유 주식 수를 입력하세요.");
-			printOf("WrongInput","Cancle");
+			printOf("Checked");
 			
 			int lastAsset = stock.getAsset();
 			int currAsset = lastAsset;
