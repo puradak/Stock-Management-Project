@@ -16,7 +16,7 @@ public class ToolFunction extends Printer{
 	public static ToolFunction getToolFunctionObject() {
 		return tool;
 	}
-	
+		
 	// 리스트에 등록된 주식인지 검사 (유 : T / 무 : F)
 	public boolean isExistStock(String code) {
 		for(Stock stock : MenuFunction.localStockList) {
@@ -108,20 +108,20 @@ public class ToolFunction extends Printer{
 		int number = input.nextInt();
 		
 		if(number <= 0) throw new NotPositiveNumberExeption(number);
-		else printChecked();
+		else printOf("Checked");
 		
 		return number;
 	}
 	
 	public boolean isCorrectWith(String str, Scanner input) {
-		printAskGoMain();
+		printOf("AskGoMain");
 		if(input.nextLine().toLowerCase().equals(str)) return true;
 		else return false;
 	}
 	
 	public boolean isEmpty() {
 		if(MenuFunction.localStockList.isEmpty() && MenuFunction.foreignStockList.isEmpty()) {
-			printEmpty();
+			printOf("Empty");
 			return true;
 		}
 		return false;
@@ -129,12 +129,51 @@ public class ToolFunction extends Printer{
 	
 	public boolean isNull(Stock stock) {
 		if(stock == null) {
-			printWrongCode();
-			printCancle();
+			printOf("WongCode");
+			printOf("Cancle");
 			return true;
 		}
-		printChecked();
+		printOf("Checked");
 		return false;
 	}
-
+	
+	public void getFreshedInfo(Stock stock) throws IOException {
+		stock.Fresh();
+		System.out.println("주식명　　: "+stock.getName()
+		+"("+stock.getCode()+")");
+		System.out.println("현재가　　: "+stock.getPrice_t()+"원");
+		System.out.println("보유자산　　: "+tool.getTotalAsset(stock,"dot","today")
+		+"원 ("+stock.getAsset()
+		+"주)");
+		System.out.println("전일대비 : "+stock.getNetChange()+"%");
+		System.out.println("설명　　　: "+stock.getDescription());
+		System.out.println("======================================");
+	}
+	
+	public void getStatisticInfo_each(Stock stock, String type) throws IOException {
+		String currency;
+		if(type.equals("local")) currency = "원";
+		else currency = "USD";
+		
+		stock.Fresh();
+		System.out.println(
+				stock.getName()
+				+"("+stock.getCode()+") : "
+				+getTotalAsset(stock,"dot","today")
+				+currency+" ("+stock.getAsset()+" 주)"
+				);
+	}
+	
+	public void getStatisticInfo_total(String type) throws IOException {
+		String currency;
+		if(type.equals("local")) currency = "원";
+		else currency = "USD";
+		
+		System.out.println(""
+				+"보유 국내 주식 총액 : "
+				+tool.seperateNumber(getWealthOf("y",type))
+				+currency+" → " + seperateNumber(getWealthOf("t",type))
+				+currency+" (" + getWealthOf("k",type) + "%)"
+				);
+	}
 }

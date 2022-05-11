@@ -9,11 +9,11 @@ public class MenuManagement {
 		Scanner input = new Scanner(System.in);
 		MenuFunction function = MenuFunction.getFunctionObject();
 		while(true) {
-			printer.printGoMain();
+			printer.printOf("GoMain");
 			displayMenu();
 			System.out.print("이동할 메뉴의 번호를 입력하세요 : ");
 			String code = input.nextLine();
-			printer.printLines();
+			printer.printOf("Lines");
 			if(code.equals("1")) function.show_all(); 
 			if(code.equals("2")) function.addStock(); 
 			if(code.equals("3")) function.removeStock();
@@ -21,7 +21,7 @@ public class MenuManagement {
 			if(code.equals("5")) function.searchStock();
 			if(code.equals("6")) function.statistic(); 
 			if(code.equals("0")) { System.out.println("See you again."); break; }
-			printer.printLines();
+			printer.printOf("Lines");
 		}
 		input.close();
 		return;
