@@ -108,9 +108,15 @@ public class ToolFunction extends Printer{
 		int number = input.nextInt();
 		
 		if(number <= 0) throw new NotPositiveNumberExeption(number);
-		else System.out.println("확인되었습니다.");
+		else printChecked();
 		
 		return number;
+	}
+	
+	public boolean isCorrectWith(String str, Scanner input) {
+		printAskGoMain();
+		if(input.nextLine().toLowerCase().equals(str)) return true;
+		else return false;
 	}
 	
 	public boolean isEmpty() {
@@ -120,6 +126,15 @@ public class ToolFunction extends Printer{
 		}
 		return false;
 	}
-
+	
+	public boolean isNull(Stock stock) {
+		if(stock == null) {
+			printWrongCode();
+			printCancle();
+			return true;
+		}
+		printChecked();
+		return false;
+	}
 
 }
