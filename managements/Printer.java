@@ -53,4 +53,17 @@ public class Printer {
 			}
 		}
 	}
+	public void printMenu() {
+		System.out.println();
+		System.out.println("==================MAIN MENU==================");
+		System.out.println("            1.Show Stock Table");
+		System.out.println("            2.Add Stock");
+		System.out.println("            3.Remove Stock");
+		System.out.println("            4.Edit Stock");
+		System.out.println("            5.Search the Code of Stock");
+		System.out.println("            6.Show Statistics");
+		System.out.println("            0.Exit the program");
+		System.out.println("==================MAIN MENU==================");
+		return;
+	}
 }
