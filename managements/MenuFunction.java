@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import Data.LocalStock;
-import Data.Stock;
+import data.LocalStock;
+import data.Stock;
 import exceptions.NotPositiveNumberExeption;
 
 public class MenuFunction extends Printer{

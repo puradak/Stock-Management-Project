@@ -3,7 +3,7 @@ package managements;
 import java.io.IOException;
 import java.util.Scanner;
 
-import Data.Stock;
+import data.Stock;
 import exceptions.NotPositiveNumberExeption;
 
 public class ToolFunction extends Printer{
