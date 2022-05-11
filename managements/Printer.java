@@ -9,10 +9,10 @@ public class Printer {
 		for(String str : name) {
 			switch(str.toLowerCase()) {
 			case "wronginput":
-				System.out.println("잘못된 주식코드입니다.");
+				System.out.println("잘못 입력하셨습니다.");
 				break;
 			case "wrongcode" :
-				System.out.println("잘못 입력하셨습니다.");
+				System.out.println("잘못된 주식코드입니다.");
 				break;
 			case "cancle" :
 				System.out.println("작업을 취소합니다.");
