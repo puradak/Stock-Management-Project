@@ -3,33 +3,25 @@ package managements;
 import java.io.IOException;
 import java.util.Scanner;
 
-import exceptions.NotInRangeEcxeption;
+import exceptions.NotInRangeException;
+import exceptions.NotPositiveNumberExeption;
 
-public class MenuManagement { 
-	public static void main(String[] args) throws IOException {
+public class MenuManagement { 	
+	public static void main(String[] args) throws IOException, NotInRangeException, NotPositiveNumberExeption {
 		Printer printer = new Printer();
 		Scanner input = new Scanner(System.in);
+		ToolFunction tool = ToolFunction.getToolFunctionObject();
 		MenuFunction function = MenuFunction.getFunctionObject();
 		while(true) {
-			printer.printOf("GoMain");
-			printer.printMenu();
-			System.out.print("이동할 메뉴의 번호를 입력하세요 : ");
-			String code = "";
-			try{
-				code = input.nextLine();
-				int number = Integer.parseInt(code);
-				if(0>number || number>6) throw new NotInRangeEcxeption();
-			}
-			catch(NotInRangeEcxeption e) {
-				System.out.println("0부터 6까지의 숫자를 입력하세요.");
-				System.out.println();
+			
+			printer.printOf("Menu","이동할 메뉴의 번호를 입력하세요","input");
+			String code = String.valueOf(tool.readInt(input,0,6));
+			
+			if(!tool.isValidMenu(input, code)) {
+				printer.printOf("WrongInput","0부터 6까지의 정수 하나를 입력하세요");
 				continue;
 			}
-			catch(NumberFormatException e) {
-				printer.printOf("WrongInput");
-				System.out.println();
-				continue;
-			}
+			
 			printer.printOf("Lines");
 			if(code.equals("1")) function.show_all(); 
 			if(code.equals("2")) function.addStock(); 

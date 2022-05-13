@@ -22,6 +22,8 @@ public class MenuFunction extends Printer{
 	// 스캐너 인스턴스
 	Scanner input = new Scanner(System.in);
 	
+	// kind Enum 인스턴스
+	
 	// 객체 넘겨주기
 	public static MenuFunction getFunctionObject() {
 		return function;
@@ -31,34 +33,25 @@ public class MenuFunction extends Printer{
 	// 1번 메뉴
 	public void show_all() throws IOException {
 		if(tool.isEmpty()) return;
-		
-		System.out.println("================국내주식================");
-		for(Stock stock : localStockList) {
-			tool.getFreshedInfo(stock);
+		ArrayList<Stock> stockList;
+		for(int i=0; i<2; i++) {
+			System.out.println("================"+tool.kind[i]+"주식================");
+			stockList = tool.getList(i);
+			for(Stock stock : stockList) {
+				tool.getFreshedInfo(stock);
+			}
+			if(tool.getList((i+1)%2).isEmpty()) 
+				while(true)
+					if(tool.isCorrectWith("m", input)) return;
 		}
-		
-		if(!foreignStockList.isEmpty()) 
-			System.out.println("================국외주식================");
-		else {
-			while(true) if(tool.isCorrectWith("m", input)) return;
-		}
-		
-		for(Stock stock : foreignStockList) {
-			tool.getFreshedInfo(stock);
-		}
-		
-		while(true) if(tool.isCorrectWith("m", input)) return;
 	}
 	
 	// 2번 메뉴
 	public void addStock() throws IOException {
-		
 		printOf("InputCode");
 		String code = input.nextLine();
-		if(tool.isExistStock(code)) {
-			printOf("WrongCode");
-			return;
-		}
+		if(tool.isExistStock(code))	return;
+		
 		Stock stock = Stock.createStock(code);
 
 		if(!stock.getExist()) {
@@ -66,12 +59,10 @@ public class MenuFunction extends Printer{
 			stock = null;
 			return;
 		}
-		if(stock.getType().equals("local")) localStockList.add(stock);
-		if(stock.getType().equals("foreign")) foreignStockList.add(stock);
-		
-		printOf("Checked");
+
 		System.out.println("주식 명 : "+stock.getName());
-		System.out.println();
+		printOf("Checked");
+		
 		System.out.println("보유중인 수량을 입력하세요.");
 		printOf("Input");
 		
@@ -87,9 +78,10 @@ public class MenuFunction extends Printer{
 			printOf("WrongInput","Cancle");
 			return;
 		}
-		finally {
-			stock.setAsset(asset);				
-		}
+		
+		if(stock.getType().equals("local")) localStockList.add(stock);
+		if(stock.getType().equals("foreign")) foreignStockList.add(stock);
+		stock.setAsset(asset);				
 		
 		input.nextLine();
 		
@@ -140,8 +132,7 @@ public class MenuFunction extends Printer{
 				printOf("WrongInput");
 			}
 		}
-		
-		
+				
 		return;
 	}
 	
@@ -208,22 +199,13 @@ public class MenuFunction extends Printer{
 	}
 	
 	// 5번 메뉴
-	public String searchStock() throws IOException {
-		System.out.println("검색할 주식이 국내주식이면 L을, 국외주식이면 F를 입력해주세요.");
-		printOf("Input");
-		String type = input.next().toLowerCase();
-		if(type.equals("f")) {
-			System.out.println("준비중인 기능입니다.");
-			return input.nextLine();
-		}
-		else if (!type.equals("l")) {
-			printOf("WrongInput");
-			return input.nextLine();
-		}
-		
+	public String searchStock() throws IOException, NotPositiveNumberExeption {
+
 		System.out.println("코드를 검색할 주식의 이름을 입력하세요.");
 		printOf("Input");
-		String name = input.next();
+		String name = tool.readKorean(input);
+		if(name.isEmpty()) return input.nextLine();
+		
 		ArrayList<String> nameList = LocalStock.getListOfCode(name.toLowerCase());
 		
 		int count = 1;
@@ -242,9 +224,6 @@ public class MenuFunction extends Printer{
 		catch (InputMismatchException e){
 			printOf("WrongInput","Cancle");
 		}
-		catch (NotPositiveNumberExeption e) {
-			printOf("WrongInput","Cancle");
-		}
 		finally {
 			if(number > nameList.size()) {
 				printOf("WrongInput","Cancle");
@@ -260,23 +239,16 @@ public class MenuFunction extends Printer{
 	
 	// 6번 메뉴
 	public void statistic() throws IOException {
-		if(tool.isEmpty()) {
-			printOf("Empty");
-			return;
+		if(tool.isEmpty()) return;
+		for(int i=0; i<2; i++) {
+			System.out.println("---------------<보유 "+tool.kind[i]+" 주식 현황>---------------");
+			for(Stock stock : localStockList) {
+				tool.getStatisticInfo_each(stock, tool.kind[i]);
+			}
+			tool.getStatisticInfo_total(i);
+			System.out.println();
 		}
 		
-		System.out.println("---------------<보유 국내 주식 현황>---------------");
-		for(Stock stock : localStockList) {
-			tool.getStatisticInfo_each(stock, "local");
-		}
-		tool.getStatisticInfo_total("local");
-		System.out.println();
-		
-		System.out.println("---------------<보유 국외 주식 현황>---------------");
-		for(Stock stock : foreignStockList) {
-			tool.getStatisticInfo_each(stock, "foreign");
-		}
-		tool.getStatisticInfo_total("foreign");
 		//달러 시세에 따른 주식 총액의 원/달러 환산액을 구하는 코드 삽입
 	}
 }

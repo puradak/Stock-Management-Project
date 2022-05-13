@@ -28,19 +28,21 @@ public class ForeignStock extends Stock implements Functionalities{
 	
 	///////////////////METHODS////////////////////////////
 		protected void initialize() throws IOException {
-		String url = url_head+code+url_tail;
-		Document doc = Jsoup.connect(url).get();
-		if(doc.getElementsByAttributeValue("class", "b4EnYd").text().equals("검색어와 일치하는 결과를 찾을 수 없습니다.")) {
+		try {
+			String url = url_head+code+url_tail;
+			Document doc = Jsoup.connect(url).get();
+		
+			this.isExist = true;
+			this.name = doc.getElementsByAttributeValue("class", "zzDege").text();
+			this.price_t = doc.getElementsByAttributeValue("class", "YMlKec fxKbKc").get(0).text().replace("$","");
+			this.price_y = doc.getElementsByAttributeValue("class", "P6K39c").get(0).text().replace("$","");
+			this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) - 1)*100);
+			
+			doc = null;
+		} catch (IndexOutOfBoundsException e) {
 			this.isExist = false;
 			return;
 		}
-		this.isExist = true;
-		this.name = doc.getElementsByAttributeValue("class", "zzDege").text();
-		this.price_t = doc.getElementsByAttributeValue("class", "YMlKec fxKbKc").get(0).text().replace("$","");
-		this.price_y = doc.getElementsByAttributeValue("class", "P6K39c").get(0).text().replace("$","");
-		this.netChange = String.format("%.2f",(Double.parseDouble(Stock.getPureNumber(this.price_t)) / Double.parseDouble(Stock.getPureNumber(this.price_y)) - 1)*100);
-		
-		doc = null;
 	}
 	
 	public void Fresh() throws IOException {
@@ -51,7 +53,7 @@ public class ForeignStock extends Stock implements Functionalities{
 	}
 	
 	public static ArrayList<String> getListOfCode(String name) throws IOException {
-		System.out.println("준비중인 기능입니다.");
+		// 준비중인 기능입니다.
 		return null;
 	}
 	
