@@ -224,4 +224,10 @@ public class ToolFunction extends Printer{
 				+currency+" (" + getWealthOf("k",type) + "%)"
 				);
 	}
+	
+	public void pause(Scanner input) {
+		printOf("AskGoMain");
+		while(true)
+			if(input.nextLine().toLowerCase().equals("m")) return;
+	}
 }

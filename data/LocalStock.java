@@ -66,6 +66,7 @@ public class LocalStock extends Stock implements Functionalities{
 				saveResult.add(str);
 			}
 		}
+		if (saveResult.isEmpty()) return null;
 		return saveResult;
 	}
 	

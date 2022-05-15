@@ -22,8 +22,6 @@ public class MenuFunction extends Printer{
 	// 스캐너 인스턴스
 	Scanner input = new Scanner(System.in);
 	
-	// kind Enum 인스턴스
-	
 	// 객체 넘겨주기
 	public static MenuFunction getFunctionObject() {
 		return function;
@@ -40,10 +38,8 @@ public class MenuFunction extends Printer{
 			for(Stock stock : stockList) {
 				tool.getFreshedInfo(stock);
 			}
-			if(tool.getList((i+1)%2).isEmpty()) 
-				while(true)
-					if(tool.isCorrectWith("m", input)) return;
 		}
+		tool.pause(input);
 	}
 	
 	// 2번 메뉴
@@ -60,11 +56,8 @@ public class MenuFunction extends Printer{
 			return;
 		}
 
-		System.out.println("주식 명 : "+stock.getName());
-		printOf("Checked");
-		
-		System.out.println("보유중인 수량을 입력하세요.");
-		printOf("Input");
+		printOf("주식 명 : "+stock.getName()
+		,"Checked" ,"보유중인 수량을 입력하세요.", "Input");
 		
 		int asset=0;
 		try {
@@ -85,8 +78,7 @@ public class MenuFunction extends Printer{
 		
 		input.nextLine();
 		
-		System.out.println("(선택사항) 이 주식에 대한 메모를 남기시겠습니까? (Y/N)");
-		printOf("Input");
+		printOf("(선택사항) 이 주식에 대한 메모를 남기시겠습니까? (Y/N)", "Input");
 		String check = input.nextLine();
 		if(check.toLowerCase().equals("y")) {
 			printOf("Input");
@@ -113,8 +105,7 @@ public class MenuFunction extends Printer{
 		if(tool.isNull(stock)) return;
 		
 		while(true) {
-			System.out.println("정말 이 주식을 목록에서 삭제하시겠습니까? (Y/N)");
-			printOf("WrongInput","Cancle");
+			printOf("정말 이 주식을 목록에서 삭제하시겠습니까? (Y/N)", "Input");
 			String check = input.nextLine();
 			if(check.toLowerCase().equals("y")) {
 				if(stock.getType().equals("local")) localStockList.remove(stock);
@@ -145,11 +136,10 @@ public class MenuFunction extends Printer{
 		if(tool.isNull(stock)) return;
 		
 		System.out.println("보유 주식의 수를 변경하시겠습니까? (Y/N)");
-		printOf("WrongInput","Cancle");
 		
 		if(input.nextLine().toLowerCase().equals("y")) {
-			System.out.println("변경된 보유 주식 수를 입력하세요.");
-			printOf("Checked");
+			System.out.println();
+			printOf("변경된 보유 주식 수를 입력하세요.", "Input");
 			
 			int lastAsset = stock.getAsset();
 			int currAsset = lastAsset;
@@ -173,15 +163,15 @@ public class MenuFunction extends Printer{
 					()+"주)\n"
 					);
 		}
+		else System.out.println("변경하지 않습니다.");
 
 		input.nextLine();
 		
-		System.out.println("해당 주식의 설명을 변경하시겠습니까? (Y/N)");
-		printOf("Input");
+		printOf("해당 주식의 설명을 변경하시겠습니까? (Y/N)", "Input");
 		
 		if(input.nextLine().toLowerCase().equals("y")) {
-			System.out.println("주식의 설명을 입력하세요.");
-			printOf("Input");
+			System.out.println();
+			printOf("주식의 설명을 입력하세요.", "Input");
 			
 			String lastDesc = stock.getDescription();
 			stock.setDescription(input.nextLine());
@@ -199,24 +189,27 @@ public class MenuFunction extends Printer{
 	}
 	
 	// 5번 메뉴
-	public String searchStock() throws IOException, NotPositiveNumberExeption {
-
-		System.out.println("코드를 검색할 주식의 이름을 입력하세요.");
-		printOf("Input");
+	public void searchStock() throws IOException, NotPositiveNumberExeption {
+		printOf("코드를 검색할 주식의 이름을 입력하세요.", "Input");
 		String name = tool.readKorean(input);
-		if(name.isEmpty()) return input.nextLine();
+		if(name.isEmpty()) return;
 		
 		ArrayList<String> nameList = LocalStock.getListOfCode(name.toLowerCase());
 		
 		int count = 1;
-		for(String str : nameList) {
-			System.out.println(count + " : "+str);
-			count ++;
+		try {
+			for(String str : nameList) {
+				System.out.println(count + " : "+str);
+				count ++;
+			}
 		}
-		
+		catch (NullPointerException e) {
+			printOf("해당 단어를 포함하는 주식이 존재하지 않습니다.","Cancle");
+			tool.pause(input);
+			return;
+		}
 		int number = 0;
-		System.out.println("코드를 검색할 주식명의 순번을 입력하세요.");
-		printOf("Input");
+		printOf("코드를 검색할 주식명의 순번을 입력하세요.", "Input");
 		
 		try {
 			number = tool.readInt(input);			
@@ -227,14 +220,14 @@ public class MenuFunction extends Printer{
 		finally {
 			if(number > nameList.size()) {
 				printOf("WrongInput","Cancle");
-				return input.nextLine();
+				return;
 			}
 		}
 		
 		String code = LocalStock.findCodeByName(nameList,number);
 		System.out.println(nameList.get(number-1)+"의 주식 코드는 "+code+" 입니다.");
-		
-		return input.nextLine();
+		tool.pause(input);
+		return;
 	}
 	
 	// 6번 메뉴
@@ -248,7 +241,6 @@ public class MenuFunction extends Printer{
 			tool.getStatisticInfo_total(i);
 			System.out.println();
 		}
-		
-		//달러 시세에 따른 주식 총액의 원/달러 환산액을 구하는 코드 삽입
+		tool.pause(input);
 	}
 }
