@@ -5,8 +5,9 @@ import java.util.Scanner;
 
 import exceptions.NotInRangeException;
 import exceptions.NotPositiveNumberExeption;
+import logging.Logger;
 
-public class MenuManagement { 	
+public class MenuManagement extends Logger{ 	
 	public static void main(String[] args) throws IOException, NotInRangeException, NotPositiveNumberExeption {
 		Printer printer = new Printer();
 		Scanner input = new Scanner(System.in);
@@ -23,6 +24,7 @@ public class MenuManagement {
 			}
 			
 			printer.printOf("Lines");
+			
 			if(code.equals("1")) function.show_all(); 
 			if(code.equals("2")) function.addStock(); 
 			if(code.equals("3")) function.removeStock();

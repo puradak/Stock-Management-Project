@@ -160,7 +160,7 @@ public class ToolFunction extends Printer{
 			number = input.nextInt();
 			if(number >= from && number <= to) return number;
 			else throw new NotInRangeException(number);
-		} catch(InputMismatchException e) {
+		} catch( InputMismatchException e) {
 			return -1;
 		} catch ( NotInRangeException e ) {
 			return -1;
