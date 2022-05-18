@@ -1,12 +1,14 @@
 package data;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class ForeignStock extends Stock implements Functionalities{
+public class ForeignStock extends Stock implements Functionalities, Serializable{
+	private static final long serialVersionUID = -6377618593730327752L;
 	///////////////////////FIELDS/////////////////////////
 	protected static String url_head ="https://www.google.com/finance/quote/";
 	protected static String url_tail =":NASDAQ";

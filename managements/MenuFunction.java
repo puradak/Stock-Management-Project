@@ -12,12 +12,12 @@ import exceptions.NotPositiveNumberExeption;
 public class MenuFunction extends Printer{
 	// 객체 하나만 쓰기
 	private static MenuFunction function = new MenuFunction();
+	private static LoadManager loader = LoadManager.getLoadManagerObject(); 
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
 	private MenuFunction() {}
-	
 	// 주식 정보 리스트
-	protected static ArrayList<Stock> localStockList = new ArrayList<Stock>();
-	protected static ArrayList<Stock> foreignStockList = new ArrayList<Stock>();
+	protected static ArrayList<Stock> localStockList = loader.LoadList("local");
+	protected static ArrayList<Stock> foreignStockList = loader.LoadList("Foreign");
 	
 	// 스캐너 인스턴스
 	Scanner input = new Scanner(System.in);

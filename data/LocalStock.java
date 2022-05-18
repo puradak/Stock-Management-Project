@@ -1,5 +1,6 @@
 package data;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -7,8 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class LocalStock extends Stock implements Functionalities{
-	
+public class LocalStock extends Stock implements Functionalities, Serializable{
+	private static final long serialVersionUID = -510433286210521767L;
 	///////////////////////FIELDS/////////////////////////
 	protected static String url_head ="https://finance.naver.com/item/main.nhn?code=";
 	protected String code;
