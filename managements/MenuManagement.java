@@ -13,6 +13,9 @@ public class MenuManagement {
 		ToolFunction tool = ToolFunction.getToolFunctionObject();
 		MenuFunction function = MenuFunction.getFunctionObject();
 		SaveManager saver = new SaveManager();
+		
+		function.cleanMenuLog();
+		
 		while(true) {
 			printer.printOf("Menu","이동할 메뉴의 번호를 입력하세요","input");
 			String code = String.valueOf(tool.readInt(input,0,6));
@@ -31,10 +34,9 @@ public class MenuManagement {
 			if(code.equals("4")) function.editStock();
 			if(code.equals("5")) function.searchStock();
 			if(code.equals("6")) function.statistic(); 
-			if(code.equals("0")) { System.out.println("See you again."); break; }
+			if(code.equals("0")) { input.close(); function.saveStocks(); break; }
 			printer.printOf("Lines");
 		}
-		input.close();
 		return;
 	}
 }

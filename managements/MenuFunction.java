@@ -13,11 +13,12 @@ public class MenuFunction extends Printer{
 	// 객체 하나만 쓰기
 	private static MenuFunction function = new MenuFunction();
 	private static LoadManager loader = LoadManager.getLoadManagerObject(); 
+	private SaveManager saver = new SaveManager();
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
 	private MenuFunction() {}
 	// 주식 정보 리스트
 	protected static ArrayList<Stock> localStockList = loader.LoadList("local");
-	protected static ArrayList<Stock> foreignStockList = loader.LoadList("Foreign");
+	protected static ArrayList<Stock> foreignStockList = loader.LoadList("foreign");	
 	
 	// 스캐너 인스턴스
 	Scanner input = new Scanner(System.in);
@@ -26,7 +27,11 @@ public class MenuFunction extends Printer{
 	public static MenuFunction getFunctionObject() {
 		return function;
 	}
-
+	
+	public void cleanMenuLog() {
+		loader.cleanMenuLog();
+		return;
+	}
 	
 	// 1번 메뉴
 	public void show_all() throws IOException {
@@ -98,7 +103,36 @@ public class MenuFunction extends Printer{
 	// 3번 메뉴
 	public void removeStock() throws IOException {
 		if(tool.isEmpty()) return;
-				
+		
+		printOf("delete?","input");
+		int answer = 0;
+		while(answer<1) {
+			answer = tool.readInt(input,1,4);
+			if(answer == -1) { 
+				printOf("WrongInput","delete?","input");
+				continue;
+			}
+			else if (answer == 3) break;
+			else if(answer == 4) {
+				printOf("Cancle");
+				return;
+			}
+			else {
+				input.nextLine();
+				printOf("정말 삭제하시겠습니까? (Y/N)","input");
+				if(input.nextLine().toLowerCase().equals("y")) {
+					if(answer == 1) localStockList = new ArrayList<Stock>();
+					else foreignStockList = new ArrayList<Stock>();
+					System.out.println("삭제되었습니다.");
+					return;
+				}
+				else {
+					printOf("Cancle");
+					return;
+				}
+			}
+		}
+		
 		printOf("InputCode");
 		String code = input.nextLine();
 		Stock stock = tool.getElementByCode(code);
@@ -235,12 +269,24 @@ public class MenuFunction extends Printer{
 		if(tool.isEmpty()) return;
 		for(int i=0; i<2; i++) {
 			System.out.println("---------------<보유 "+tool.kind[i]+" 주식 현황>---------------");
-			for(Stock stock : localStockList) {
+			for(Stock stock : tool.getList(i)) {
 				tool.getStatisticInfo_each(stock, tool.kind[i]);
 			}
 			tool.getStatisticInfo_total(i);
 			System.out.println();
 		}
 		tool.pause(input);
+	}
+
+	
+	// 0번 메뉴
+	public void saveStocks() {
+		System.out.println("주식 정보를 저장합니다.");
+		if(!saver.saveObject()) {
+			printOf("저장에 실패하였습니다.","프로그램을 종료합니다.","Lines");
+			System.exit(-1);
+		}
+		else printOf("저장에 성공하였습니다.", "프로그램을 종료합니다.");
+		return;
 	}
 }

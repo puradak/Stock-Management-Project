@@ -4,11 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.InputMismatchException;
-
-import data.Stock;
 
 public class SaveManager extends Printer{
 	private static int count = 0;
@@ -16,24 +12,38 @@ public class SaveManager extends Printer{
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
 	
 	public SaveManager() {}
-	
+		
 	private String getLogMessage(String code) {
 		Date date = new Date();
 		String result = "";
 		try {
 			count ++;
-			result = ""+count+"번째 행동 : "+menu[Integer.parseInt(code)]+date;
-		} catch ( InputMismatchException e) {
-			result = ""+count+"번째 행동 : 메인 메뉴에서 "+code+"입력";
+			result = ""+count+"번째 행동 : "+menu[Integer.parseInt(code)]+" "+date+"\n";
+		} catch ( NumberFormatException e ) {
+			result = ""+count+"번째 행동 : 메인 메뉴에서 "+code+"입력"+"\n";
 		}
 		return result;
+	}
+	
+	private void saveCheck() {
+		try {
+			FileOutputStream out = new FileOutputStream("check.txt");
+			out.write("o".getBytes());
+			out.close();
+		} catch (IOException e) {
+			printOf("예외가 발생하였습니다.","Cancle");
+			return;
+		}
 	}
 	
 	public void saveLog(String code, boolean isValid) {
 		try {
 			FileOutputStream out= new FileOutputStream("MenuLog.txt", true);
 			if(isValid) out.write(getLogMessage(code).getBytes());
-			else out.write("WrongInput : ShowMenu".getBytes());
+			else {
+				count++;
+				out.write((""+count+"번째 행동 : "+"WrongInput : ShowMenu\n").getBytes());
+			}
 			out.close();
 		} catch (FileNotFoundException e) {
 			printOf("예외가 발생하였습니다.","Cancle");
@@ -44,21 +54,22 @@ public class SaveManager extends Printer{
 		}
 	}
 	
-	public void saveObject() {
+	public boolean saveObject() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ObjectSave.ser"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ObjectSave.txt"));
 			for(int i = 0; i<2; i++) {
 				out.writeObject(tool.getList(i));
 			}
 			out.close();
+			saveCheck();
 		} catch (IOException e) {
 			printOf("예외가 발생하였습니다.","Cancle");
-			return;
+			return false;
 		}
-		
+		return true;
 	}
 	
-	public void FreshMenuLog() {
+	public void cleanMenuLog() {
 		try {
 			FileOutputStream out = new FileOutputStream("MenuLog.txt");
 			out.write("".getBytes());
@@ -71,16 +82,4 @@ public class SaveManager extends Printer{
 			return;
 		}
 	}
-	public void FreshObjectSave() {
-		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ObjectSave.ser"));
-			out.writeObject(null);
-			out.close();
-			
-		} catch (IOException e) {
-			printOf("예외가 발생하였습니다.","Cancle");
-			return;
-		}
-	}
-	
 }

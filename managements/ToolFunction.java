@@ -22,7 +22,7 @@ public class ToolFunction extends Printer{
 		return tool;
 	}
 	String[] kind = {"국내", "국외"};
-
+	
 	public ArrayList<Stock> getList(int number){
 		if(number == 0) return MenuFunction.localStockList;
 		else return MenuFunction.foreignStockList;
@@ -59,7 +59,7 @@ public class ToolFunction extends Printer{
 	
 	public boolean isNull(Stock stock) {
 		if(stock == null) {
-			printOf("WongCode","Cancle");
+			printOf("WrongCode","Cancle");
 			return true;
 		}
 		printOf("Checked");
@@ -71,6 +71,28 @@ public class ToolFunction extends Printer{
 			input.nextLine(); 
 			return false;}
 		else return true;
+	}
+
+	// 3자리 이상의 수를 3자리마다 쉼표로 구분하여 반환함
+	public String seperateNumber(String number) {
+		String temp1 = "";
+		String fraction = "";
+		String result = "";
+		int count = 100000000;
+		for(int i=0; i<number.length(); i++) {
+			if(i>count) {
+				fraction += number.charAt(i);
+				continue;
+			}
+			if(number.charAt(i) == '.') count = i;
+			else temp1 += number.charAt(i);
+		}
+		for(int i=0; i<temp1.length();i++) {
+			if(i!=0 && (temp1.length()-i)%3 == 0) result += ",";
+		result += temp1.charAt(i);
+		}
+		if(fraction.equals("")) fraction = "00";
+		return result+"."+fraction;
 	}
 	
 	// 보유한 주식의 시세(또는 전일 마감 가격)와 현재 보유한 주식 수의 곱을 반환
@@ -88,28 +110,6 @@ public class ToolFunction extends Printer{
 		
 		return seperateNumber(temp);
 		// return total asset with dots
-	}
-	
-	// 3자리 이상의 수를 3자리마다 쉼표로 구분하여 반환함
-	public String seperateNumber(String number) {
-		String temp1 = "";
-		String fraction = "";
-		String result = "";
-		int count = 100000000;
-		for(int i=0; i<number.length(); i++) {
-			if(i>count) {
-				fraction += number.charAt(i);
-				continue;
-			}
-			if(number.charAt(i) == '.') count = i;
-			else temp1 += number.charAt(i);
-		}
-		for(int i=0; i<temp1.length();i++) {
-			if(i!=0 && (temp1.length()-i)%3 == 0) result += ",";
-			result += temp1.charAt(i);
-		}
-		if(fraction.equals("")) fraction = "00";
-		return result+"."+fraction;
 	}
 	
 	// 보유한 모든 주식에 대한 총 자산과 전일 대비 증감량을 반환
@@ -142,45 +142,6 @@ public class ToolFunction extends Printer{
 			if(str.getCode().equals(code)) return str;
 		}
 		return null;
-	}
-	
-	public int readInt(Scanner input) throws NotPositiveNumberExeption {
-		int number = input.nextInt();
-		
-		if(number <= 0) throw new NotPositiveNumberExeption(number);
-		
-		else printOf("Checked");
-		
-		return number;
-	}
-	
-	public int readInt(Scanner input, int from, int to) {
-		int number = -1;
-		try {
-			number = input.nextInt();
-			if(number >= from && number <= to) return number;
-			else throw new NotInRangeException(number);
-		} catch( InputMismatchException e) {
-			return -1;
-		} catch ( NotInRangeException e ) {
-			return -1;
-		}
-	}
-	
-	public String readKorean(Scanner input) {
-		String word;
-		try {
-			word = input.nextLine().toLowerCase();
-			if(word.charAt(0) >= 'a' 
-			&& word.charAt(0) <= 'z') {
-				throw new NotAKoreanException(word);
-			}
-		} catch (NotAKoreanException e){
-			System.out.println("준비되지 않은 기능입니다.");
-			return null;
-		}
-		
-		return word;
 	}
 	
 	public void getFreshedInfo(Stock stock) throws IOException {
@@ -225,9 +186,52 @@ public class ToolFunction extends Printer{
 				);
 	}
 	
+	public int readInt(Scanner input) throws NotPositiveNumberExeption {
+		int number = input.nextInt();
+		
+		if(number <= 0) throw new NotPositiveNumberExeption(number);
+		
+		else printOf("Checked");
+		
+		return number;
+	}
+	
+	public int readInt(Scanner input, int from, int to) {
+		int number = -1;
+		try {
+			number = input.nextInt();
+			if(number >= from && number <= to) return number;
+			else throw new NotInRangeException(number);
+		} catch( InputMismatchException e) {
+			return -1;
+		} catch ( NotInRangeException e ) {
+			return -1;
+		}
+	}
+	
+	public String readKorean(Scanner input) {
+		String word;
+		try {
+			word = input.nextLine().toLowerCase();
+			if(word.charAt(0) >= 'a' 
+			&& word.charAt(0) <= 'z') {
+				throw new NotAKoreanException(word);
+			}
+		} catch (NotAKoreanException e){
+			System.out.println("준비되지 않은 기능입니다.");
+			return null;
+		}
+		
+		return word;
+	}
+	
 	public void pause(Scanner input) {
 		printOf("AskGoMain");
 		while(true)
 			if(input.nextLine().toLowerCase().equals("m")) return;
 	}
+	
+
+	
+	
 }

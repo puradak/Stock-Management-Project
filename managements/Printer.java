@@ -55,6 +55,14 @@ public class Printer {
 				System.out.println("            0.Exit the program");
 				System.out.println("==================MAIN MENU==================\n");
 				break;
+			case "delete?" :
+				System.out.println("보유 주식 삭제 유형을 선택하세요. (입력 : 1,2,3,4)\n"
+						+ "1. 국내주식 일괄 삭제"
+						+ ", 2. 국외주식 일괄 삭제"
+						+ ", 3. 단 하나의 주식만 삭제"
+						+ ", 4. 취소"
+				);
+				break;
 			default:
 				System.out.println(str);
 				break;
