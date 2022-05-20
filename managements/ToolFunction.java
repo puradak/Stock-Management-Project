@@ -210,7 +210,7 @@ public class ToolFunction extends Printer{
 	}
 	
 	public String readKorean(Scanner input) {
-		String word;
+		String word = "";
 		try {
 			word = input.nextLine().toLowerCase();
 			if(word.charAt(0) >= 'a' 
@@ -220,7 +220,7 @@ public class ToolFunction extends Printer{
 		} catch (NotAKoreanException e){
 			System.out.println("준비되지 않은 기능입니다.");
 			return null;
-		}
+		} 
 		
 		return word;
 	}

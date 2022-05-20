@@ -14,21 +14,7 @@ public class LoadManager extends Printer {
 	private boolean isArrayEmpty;
 	
 	private LoadManager() {
-		if(!LoadStocks()) {
-			try {
-				byte[] code = new byte[2];
-				FileInputStream in = new FileInputStream("check.txt");
-				in.read(code);
-				in.close();
-				if(!code.equals("o".getBytes())) throw new FileNotFoundException();
-			}catch ( FileNotFoundException e ) {
-				this.isArrayEmpty = true;
-			}catch ( IOException e ) {
-				System.out.println("알 수 없는 예외가 발생했습니다. 프로그램을 종료합니다.");
-				System.exit(-1);
-			}
-			this.isArrayEmpty = false;
-		}
+		LoadStocks();
 	}
 	
 	private static LoadManager loadManager = new LoadManager();
@@ -40,7 +26,6 @@ public class LoadManager extends Printer {
 	
 	@SuppressWarnings("unchecked")
 	private boolean LoadStocks() {
-		if(this.isArrayEmpty) return true;
 		try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("ObjectSave.txt"));
 			this.LocalStockList = (ArrayList<Stock>)in.readObject();

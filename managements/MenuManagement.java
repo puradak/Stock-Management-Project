@@ -22,11 +22,11 @@ public class MenuManagement {
 			
 			if(!tool.isValidMenu(input, code)) {
 				printer.printOf("WrongInput","0부터 6까지의 정수 하나를 입력하세요");
-				saver.saveLog(code, false);
+				saver.saveLog(code);
 				continue;
 			}
 			
-			saver.saveLog(code, true);
+			saver.saveLog(code);
 			printer.printOf("Lines");
 			if(code.equals("1")) function.show_all(); 
 			if(code.equals("2")) function.addStock(); 

@@ -226,7 +226,13 @@ public class MenuFunction extends Printer{
 	public void searchStock() throws IOException, NotPositiveNumberExeption {
 		printOf("코드를 검색할 주식의 이름을 입력하세요.", "Input");
 		String name = tool.readKorean(input);
-		if(name.isEmpty()) return;
+		try {
+			if(name.isEmpty()) return;			
+		} catch (NullPointerException e) {
+			printOf("WrongInput", "Cancle");
+			return;
+		}
+		
 		
 		ArrayList<String> nameList = LocalStock.getListOfCode(name.toLowerCase());
 		
@@ -278,7 +284,6 @@ public class MenuFunction extends Printer{
 		tool.pause(input);
 	}
 
-	
 	// 0번 메뉴
 	public void saveStocks() {
 		System.out.println("주식 정보를 저장합니다.");
