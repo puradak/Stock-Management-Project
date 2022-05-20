@@ -11,8 +11,6 @@ import data.Stock;
 
 public class LoadManager extends Printer {
 	
-	private boolean isArrayEmpty;
-	
 	private LoadManager() {
 		LoadStocks();
 	}
