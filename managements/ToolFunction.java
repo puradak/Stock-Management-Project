@@ -144,15 +144,19 @@ public class ToolFunction extends Printer{
 		return null;
 	}
 	
-	public void getFreshedInfo(Stock stock) throws IOException {
+	public void getFreshedInfo(Stock stock, String type) throws IOException {
+		String currency;
+		if(type.equals("국내")) currency = "원";
+		else currency = "USD";
+		
 		stock.Fresh();
 		System.out.println("주식명　　: "+stock.getName()
 		+"("+stock.getCode()+")");
-		System.out.println("현재가　　: "+stock.getPrice_t()+"원");
+		System.out.println("현재가　　: "+stock.getPrice_t()+currency);
 		System.out.println(
 						"보유자산　　: "
 						+tool.getTotalAsset(stock,"dot","today")
-						+"원 ("+stock.getAsset()
+						+currency+"("+stock.getAsset()
 						+"주)");
 		System.out.println("전일대비 : "+stock.getNetChange()+"%");
 		System.out.println("설명　　　: "+stock.getDescription());

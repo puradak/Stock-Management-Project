@@ -41,7 +41,7 @@ public class MenuFunction extends Printer{
 			System.out.println("================"+tool.kind[i]+"аж╫д================");
 			stockList = tool.getList(i);
 			for(Stock stock : stockList) {
-				tool.getFreshedInfo(stock);
+				tool.getFreshedInfo(stock,tool.kind[i]);
 			}
 		}
 		tool.pause(input);
