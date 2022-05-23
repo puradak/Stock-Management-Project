@@ -1,4 +1,4 @@
-package managements;
+package functions;
 
 public class Printer {
 

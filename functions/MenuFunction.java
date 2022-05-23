@@ -1,4 +1,4 @@
-package managements;
+package functions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.util.Scanner;
 import data.LocalStock;
 import data.Stock;
 import exceptions.NotPositiveNumberExeption;
+import file_management.LoadManager;
+import file_management.SaveManager;
 
 public class MenuFunction extends Printer{
 	// 객체 하나만 쓰기
@@ -284,6 +286,12 @@ public class MenuFunction extends Printer{
 		tool.pause(input);
 	}
 
+	// 7번 메뉴
+	public void openWindow() {
+		System.out.println("JFrame을 이용해 GUI 윈도우를 열 예정");
+		return;
+	}
+	
 	// 0번 메뉴
 	public void saveStocks() {
 		System.out.println("주식 정보를 저장합니다.");

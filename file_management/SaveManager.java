@@ -1,4 +1,4 @@
-package managements;
+package file_management;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,9 +7,12 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import functions.Printer;
+import functions.ToolFunction;
+
 public class SaveManager extends Printer{
 	private static int count = 0;
-	private String[] menu = {"0.Exit","1.Show_All", "2.Add Stock", "3.Delete Stock", "4.Edit Stock", "5.Search Stock", "6.Statistics"};
+	private String[] menu = {"0.Exit","1.Show_All", "2.Add Stock", "3.Delete Stock", "4.Edit Stock", "5.Search Stock", "6.Statistics", "7.Open Window"};
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
 	private SimpleDateFormat type = new SimpleDateFormat("yy-MM-dd hh-mm-ss");
 	public SaveManager() {}

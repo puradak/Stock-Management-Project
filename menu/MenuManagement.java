@@ -1,10 +1,14 @@
-package managements;
+package menu;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 import exceptions.NotInRangeException;
 import exceptions.NotPositiveNumberExeption;
+import file_management.SaveManager;
+import functions.MenuFunction;
+import functions.Printer;
+import functions.ToolFunction;
 
 public class MenuManagement { 	
 	public static void main(String[] args) throws IOException, NotInRangeException, NotPositiveNumberExeption {
@@ -18,10 +22,10 @@ public class MenuManagement {
 		
 		while(true) {
 			printer.printOf("Menu","이동할 메뉴의 번호를 입력하세요","input");
-			String code = String.valueOf(tool.readInt(input,0,6));
+			String code = String.valueOf(tool.readInt(input,0,7));
 			
 			if(!tool.isValidMenu(input, code)) {
-				printer.printOf("WrongInput","0부터 6까지의 정수 하나를 입력하세요");
+				printer.printOf("WrongInput","0부터 7까지의 정수 하나를 입력하세요");
 				saver.saveLog(code);
 				continue;
 			}
@@ -33,6 +37,7 @@ public class MenuManagement {
 			if(code.equals("3")) function.removeStock();
 			if(code.equals("4")) function.editStock();
 			if(code.equals("5")) function.searchStock();
+			if(code.equals("7")) function.openWindow();
 			if(code.equals("6")) function.statistic(); 
 			if(code.equals("0")) { input.close(); function.saveStocks(); break; }
 			printer.printOf("Lines");

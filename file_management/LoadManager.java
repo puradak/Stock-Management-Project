@@ -1,4 +1,4 @@
-package managements;
+package file_management;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import data.Stock;
+import functions.Printer;
 
 public class LoadManager extends Printer {
 	
@@ -25,17 +26,14 @@ public class LoadManager extends Printer {
 	@SuppressWarnings("unchecked")
 	private boolean LoadStocks() {
 		try {
+			System.out.println("저장된 주식 리스트를 불러옵니다.");
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("ObjectSave.txt"));
 			this.LocalStockList = (ArrayList<Stock>)in.readObject();
 			this.ForeignStockList = (ArrayList<Stock>)in.readObject();
 			in.close();
 		}catch ( IOException e ) {
-			System.out.println("예외가 발생하였습니다. : LoadStocks IOException");
-			System.out.println(e.getStackTrace());
 			return false;
 		}catch ( ClassNotFoundException e ) {
-			System.out.println("예외가 발생하였습니다. : LoadStocks ClassNotFoundException");
-			e.getStackTrace();
 			return false;
 		}
 		return true;
