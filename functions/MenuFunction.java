@@ -10,6 +10,7 @@ import data.Stock;
 import exceptions.NotPositiveNumberExeption;
 import file_management.LoadManager;
 import file_management.SaveManager;
+import gui_management.MainMenu;
 
 public class MenuFunction extends Printer{
 	// 객체 하나만 쓰기
@@ -288,7 +289,8 @@ public class MenuFunction extends Printer{
 
 	// 7번 메뉴
 	public void openWindow() {
-		System.out.println("JFrame을 이용해 GUI 윈도우를 열 예정");
+		MainMenu menuPrinter = new MainMenu();
+		menuPrinter.printMenu();
 		return;
 	}
 	

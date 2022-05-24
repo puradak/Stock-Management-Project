@@ -37,8 +37,8 @@ public class MenuManagement {
 			if(code.equals("3")) function.removeStock();
 			if(code.equals("4")) function.editStock();
 			if(code.equals("5")) function.searchStock();
-			if(code.equals("7")) function.openWindow();
 			if(code.equals("6")) function.statistic(); 
+			if(code.equals("7")) function.openWindow();
 			if(code.equals("0")) { input.close(); function.saveStocks(); break; }
 			printer.printOf("Lines");
 		}
