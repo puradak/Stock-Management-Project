@@ -4,11 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Window.Type;
-
 import javax.swing.*;
-
 import interfaces.BasicGUI;
 
 public class AddStock extends JFrame implements BasicGUI{
