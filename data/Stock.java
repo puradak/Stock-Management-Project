@@ -3,6 +3,8 @@ package data;
 import java.io.IOException;
 import java.io.Serializable;
 
+import interfaces.Functionalities;
+
 public abstract class Stock implements Functionalities, Serializable{
 	private static final long serialVersionUID = -8759194372306531642L;
 	///////////////////////FIELDS/////////////////////////

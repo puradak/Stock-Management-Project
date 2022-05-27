@@ -290,7 +290,7 @@ public class MenuFunction extends Printer{
 	// 7¹ø ¸Þ´º
 	public void openWindow() {
 		MainMenu menuPrinter = new MainMenu();
-		menuPrinter.printMenu();
+		menuPrinter.printGUI();
 		return;
 	}
 	

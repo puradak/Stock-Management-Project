@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import interfaces.Functionalities;
+
 public class ForeignStock extends Stock implements Functionalities, Serializable{
 	private static final long serialVersionUID = -6377618593730327752L;
 	///////////////////////FIELDS/////////////////////////

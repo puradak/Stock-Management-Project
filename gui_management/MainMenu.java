@@ -3,12 +3,13 @@ package gui_management;
 import java.awt.*;
 import javax.swing.*;
 
-public class MainMenu extends JFrame{
+import interfaces.BasicGUI;
+
+public class MainMenu extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -7295373837441585468L;
-	private JFrame frame;
 	
-	public void printMenu() {
-		frame = new JFrame("Main Menu");
+	public void printGUI() {
+		JFrame frame = new JFrame("Main Menu");
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setSize(new Dimension(650, 550));
 		frame.getContentPane().setSize(new Dimension(650, 550));
@@ -87,7 +88,6 @@ public class MainMenu extends JFrame{
 		
 		JButton btn2 = new JButton("Add Stocks");
 		btn2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btn2.setActionCommand("");
 		btn2.setBounds(12, 10, 145, 55);
 		p_button.add(btn2);
 		
@@ -103,7 +103,6 @@ public class MainMenu extends JFrame{
 		
 		JButton btn5 = new JButton("Find Ticker");
 		btn5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
 		btn5.setBounds(483, 10, 145, 55);
 		p_button.add(btn5);
 		
@@ -126,6 +125,7 @@ public class MainMenu extends JFrame{
 		btn0.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn0.setBounds(483, 75, 145, 55);
 		p_button.add(btn0);
+		
 		frame.setBounds(100, 100, 687, 532);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);

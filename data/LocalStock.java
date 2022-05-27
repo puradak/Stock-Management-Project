@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import interfaces.Functionalities;
+
 public class LocalStock extends Stock implements Functionalities, Serializable{
 	private static final long serialVersionUID = -510433286210521767L;
 	///////////////////////FIELDS/////////////////////////
