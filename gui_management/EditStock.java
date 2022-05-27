@@ -1,10 +1,6 @@
 package gui_management;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
-
+import java.awt.*;
 import javax.swing.*;
 
 import interfaces.BasicGUI;
