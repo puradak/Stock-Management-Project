@@ -17,7 +17,6 @@ public class About extends JFrame implements BasicGUI{
 		frame.setResizable(false);
 		frame.setType(Type.UTILITY);
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Stock-Management-System");
@@ -65,6 +64,8 @@ public class About extends JFrame implements BasicGUI{
 		LibraryURL.setBackground(new Color(245, 245, 245));
 		LibraryURL.setBounds(102, 156, 120, 21);
 		frame.getContentPane().add(LibraryURL);
+		
+		frame.setVisible(true);
 	}
 
 }
