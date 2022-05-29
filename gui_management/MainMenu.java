@@ -1,6 +1,9 @@
 package gui_management;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 
 import interfaces.BasicGUI;
@@ -90,42 +93,77 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn2.setBounds(12, 10, 145, 55);
 		p_button.add(btn2);
+		btn2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				new AddStock().printGUI();
+			}
+		});
 		
 		JButton btn1 = new JButton("Show Stocks");
 		btn1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn1.setBounds(12, 75, 145, 55);
 		p_button.add(btn1);
+		btn1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				new ShowStock().printGUI();
+			}
+		});
 		
 		JButton btn4 = new JButton("Edit Stock");
 		btn4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn4.setBounds(326, 10, 145, 55);
 		p_button.add(btn4);
-		
+		btn4.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				new EditStock().printGUI();
+			}
+		});
+
 		JButton btn5 = new JButton("Find Ticker");
 		btn5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn5.setBounds(483, 10, 145, 55);
 		p_button.add(btn5);
-		
+		btn5.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				new FindTicker().printGUI();
+			}
+		});
 		JButton btn3 = new JButton("Remove Stocks");
 		btn3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn3.setBounds(169, 10, 145, 55);
 		p_button.add(btn3);
-		
+		btn3.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				new RemoveStock().printGUI();
+			}
+		});
 		JButton btn6 = new JButton("Statistics");
 		btn6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn6.setBounds(169, 75, 145, 55);
 		p_button.add(btn6);
-		
+		btn6.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				new Statistics().printGUI();
+			}
+		});
 		JButton btn8 = new JButton("About");
 		btn8.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn8.setBounds(326, 75, 145, 55);
 		p_button.add(btn8);
-		
+		btn8.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				new About().printGUI();
+			}
+		});
 		JButton btn0 = new JButton("EXIT");
 		btn0.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn0.setBounds(483, 75, 145, 55);
 		p_button.add(btn0);
-		
+		btn0.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				System.exit(0);
+			}
+		});
 		frame.setBounds(100, 100, 687, 532);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
