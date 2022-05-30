@@ -3,7 +3,9 @@ package functions;
 import data.Stock;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,6 +14,9 @@ import exceptions.NotInRangeException;
 import exceptions.NotPositiveNumberExeption;
 
 public class ToolFunction extends Printer{
+	
+	public ArrayList<String> localNameList = new ArrayList<String>();
+	public ArrayList<String> foreignNameList = new ArrayList<String>();
 	
 	// 객체 하나만 쓰기
 	private static ToolFunction tool = new ToolFunction();
@@ -22,6 +27,19 @@ public class ToolFunction extends Printer{
 		return tool;
 	}
 	String[] kind = {"국내", "국외"};
+	
+	public void freshNameList() {
+		for(int i=0; i<2; i++) {
+			for(int j=0; j<getList(i).size(); j++) {
+				getNameList(i).add(getList(i).get(j).getName());
+			}
+		}
+	}
+	
+	public ArrayList<String> getNameList(int number) {
+		if(number == 0) return localNameList;
+		else return foreignNameList;
+	}
 	
 	public ArrayList<Stock> getList(int number){
 		if(number == 0) return MenuFunction.localStockList;
@@ -133,6 +151,15 @@ public class ToolFunction extends Printer{
 		return null;
 	}
 	
+	public Stock getElementByName(String name) {
+		for(int i=0; i<2; i++) {
+			for(Stock s : getList(i)) {
+				if(s.getName().equals(name)) return s;
+			}
+		}
+		return null;
+	}
+	
 	// 보유 주식 리스트에 해당 코드를 가진 객체를 반환 - 존재하지 않으면 null 반환
 	public Stock getElementByCode(String code) {
 		for(Stock str : MenuFunction.localStockList) {
@@ -235,7 +262,21 @@ public class ToolFunction extends Printer{
 			if(input.nextLine().toLowerCase().equals("m")) return;
 	}
 	
-
+	public boolean isOpen(Stock stock) {
+		int Hour = LocalTime.now().getHour();
+		int Min = LocalTime.now().getMinute();
+		if(stock.getType().equals("local")) {
+			if(Hour >= 9 && Hour < 15) return true;
+			else if(Hour == 15 && Min<= 30) return true;
+			else return false;
+		}
+		if(stock.getType().equals("foreign")) {
+			if(Hour==23 && Min >= 30) return true;
+			else if(Hour>23 && Hour<=6) return true;
+			else return false;
+		}
+		return false;
+	}
 	
 	
 }

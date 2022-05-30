@@ -16,11 +16,12 @@ public class RemoveStock extends JFrame implements BasicGUI{
 
 	public void printGUI() {
 		JFrame removeFrame = new JFrame();
-		removeFrame.getContentPane().setBackground(new Color(255, 255, 255));
-		removeFrame.setType(Type.UTILITY);
-		removeFrame.setTitle("Remove Stock");
 		removeFrame.setAlwaysOnTop(true);
+		removeFrame.setTitle("Remove Stock");
+		removeFrame.setType(Type.UTILITY);
 		removeFrame.setBounds(100, 100, 450, 300);
+
+		removeFrame.getContentPane().setBackground(new Color(255, 255, 255));
 		removeFrame.getContentPane().setLayout(null);
 		
 		JLabel introduce = new JLabel("변경할 주식의 주식코드를 입력하고, 확인 버튼을 눌러주세요.");

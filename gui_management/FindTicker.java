@@ -19,12 +19,13 @@ public class FindTicker extends JFrame implements BasicGUI{
 
 	public void printGUI() {
 		JFrame findFrame = new JFrame();
-		findFrame.getContentPane().setBackground(new Color(255, 255, 255));
-		findFrame.setResizable(false);
+		findFrame.setAlwaysOnTop(true);
 		findFrame.setTitle("Find Ticker");
 		findFrame.setType(Type.UTILITY);
-		findFrame.setBounds(100, 100, 300, 400);
-		findFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		findFrame.setBounds(100, 100, 310, 412);
+		findFrame.setResizable(false);
+		
+		findFrame.getContentPane().setBackground(new Color(255, 255, 255));
 		findFrame.getContentPane().setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
@@ -69,18 +70,7 @@ public class FindTicker extends JFrame implements BasicGUI{
 		panel_2.add(input);
 		input.setColumns(10);
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"apple", "tesla", "microsoft", "delmont", "google"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		list.setBounds(12, 10, 270, 195);
-		findFrame.getContentPane().add(list);
+		findFrame.setVisible(true);
 	}
 
 }

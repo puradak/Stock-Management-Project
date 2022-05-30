@@ -3,13 +3,22 @@ package gui_management;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import data.Stock;
+import file_management.LoadManager;
+import functions.ToolFunction;
 import interfaces.BasicGUI;
 
 public class MainMenu extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -7295373837441585468L;
+	ToolFunction tool = ToolFunction.getToolFunctionObject();
+	LoadManager loader = LoadManager.getLoadManagerObject();
+	AddStock frame = new AddStock();
+	ArrayList<Stock> localStockList = loader.LoadList("local");
+	ArrayList<Stock> foreignStockList = loader.LoadList("foreign");
 	
 	public void printGUI() {
 		JFrame frame = new JFrame("Main Menu");
@@ -164,6 +173,8 @@ public class MainMenu extends JFrame implements BasicGUI{
 				System.exit(0);
 			}
 		});
+		
+		
 		frame.setBounds(100, 100, 687, 532);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);

@@ -16,6 +16,7 @@ public class Statistics extends JFrame implements BasicGUI{
 
 	public void printGUI() {
 		JFrame statFrame = new JFrame();
+		statFrame.setAlwaysOnTop(true);
 		statFrame.setBackground(new Color(255, 255, 255));
 		statFrame.getContentPane().setBackground(new Color(255, 255, 255));
 		statFrame.getContentPane().setLayout(null);

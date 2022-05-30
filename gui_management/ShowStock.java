@@ -1,141 +1,274 @@
 package gui_management;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.List;
+import java.awt.Window.Type;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import data.Stock;
+import functions.ToolFunction;
 import interfaces.BasicGUI;
 
 public class ShowStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -2920264366783929183L;
-	
+	private ToolFunction tool = ToolFunction.getToolFunctionObject();
+	private ArrayList<Stock> localStocks = new ArrayList<>();
+	private ArrayList<Stock> foreignStocks = new ArrayList<>();
+	private ArrayList<String> localNameList = new ArrayList<>();
+	private ArrayList<String> foreignNameList = new ArrayList<>();
+	private Stock stock;
 	public void printGUI() {
-			JFrame f_showStock = new JFrame();
-			f_showStock.setTitle("Show Stock");
-			f_showStock.setType(Type.UTILITY);
-			f_showStock.getContentPane().setBackground(Color.WHITE);
-			f_showStock.getContentPane().setLayout(null);
-			f_showStock.setSize(new Dimension(650, 521));
-			f_showStock.setResizable(false);
-			
-			JPanel p_property = new JPanel();
-			p_property.setBackground(new Color(240, 248, 255));
-			p_property.setBounds(12, 141, 190, 167);
-			f_showStock.getContentPane().add(p_property);
-			p_property.setLayout(null);
-			
-			JLabel lb_name = new JLabel("name");
-			lb_name.setBounds(28, 10, 55, 20);
-			lb_name.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			lb_name.setPreferredSize(new Dimension(90, 20));
-			p_property.add(lb_name);
-			
-			JLabel name = new JLabel("New label");
-			name.setBounds(90, 10, 100, 20);
-			name.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			name.setPreferredSize(new Dimension(90, 20));
-			p_property.add(name);
-			
-			JLabel lb_price_t = new JLabel("price_t");
-			lb_price_t.setBounds(28, 35, 55, 20);
-			lb_price_t.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			lb_price_t.setPreferredSize(new Dimension(90, 20));
-			p_property.add(lb_price_t);
-			
-			JLabel price_t = new JLabel("New label");
-			price_t.setBounds(90, 35, 100, 20);
-			price_t.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			price_t.setPreferredSize(new Dimension(90, 20));
-			p_property.add(price_t);
-			
-			JLabel lb_price_y = new JLabel("price_y");
-			lb_price_y.setBounds(28, 60, 55, 20);
-			lb_price_y.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			lb_price_y.setPreferredSize(new Dimension(90, 20));
-			p_property.add(lb_price_y);
-			
-			JLabel price_y = new JLabel("New label");
-			price_y.setBounds(90, 60, 100, 20);
-			price_y.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			price_y.setPreferredSize(new Dimension(90, 20));
-			p_property.add(price_y);
-			
-			JLabel lb_change = new JLabel("change");
-			lb_change.setBounds(28, 85, 55, 20);
-			lb_change.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			lb_change.setPreferredSize(new Dimension(90, 20));
-			p_property.add(lb_change);
-			
-			JLabel change = new JLabel("New label");
-			change.setBounds(90, 85, 90, 20);
-			change.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			change.setPreferredSize(new Dimension(90, 20));
-			p_property.add(change);
-			
-			JLabel lb_asset = new JLabel("asset");
-			lb_asset.setBounds(28, 110, 55, 20);
-			lb_asset.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			lb_asset.setPreferredSize(new Dimension(90, 20));
-			p_property.add(lb_asset);
-			
-			JLabel asset = new JLabel("New label");
-			asset.setBounds(90, 110, 100, 20);
-			asset.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			asset.setPreferredSize(new Dimension(90, 20));
-			p_property.add(asset);
-			
-			JLabel lb_wealth = new JLabel("wealth");
-			lb_wealth.setBounds(28, 135, 55, 20);
-			lb_wealth.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			lb_wealth.setPreferredSize(new Dimension(90, 20));
-			p_property.add(lb_wealth);
-			
-			JLabel wealth = new JLabel("New label");
-			wealth.setBounds(90, 135, 100, 20);
-			wealth.setFont(new Font("±¼¸²", Font.PLAIN, 16));
-			wealth.setPreferredSize(new Dimension(90, 20));
-			p_property.add(wealth);
-			
-			JPanel p_chartImage = new JPanel();
-			p_chartImage.setBackground(Color.WHITE);
-			p_chartImage.setForeground(Color.WHITE);
-			p_chartImage.setBounds(214, 10, 415, 298);
-			f_showStock.getContentPane().add(p_chartImage);
-			
-			JPanel p_logoImage = new JPanel();
-			p_logoImage.setBackground(Color.WHITE);
-			p_logoImage.setForeground(Color.WHITE);
-			p_logoImage.setBounds(12, 10, 190, 121);
-			f_showStock.getContentPane().add(p_logoImage);
-			
-			JPanel panel = new JPanel();
-			panel.setBackground(new Color(240, 248, 255));
-			panel.setBounds(125, 318, 400, 160);
-			f_showStock.getContentPane().add(panel);
-			panel.setLayout(null);
-			
-			List list = new List();
-			list.setBounds(10, 33, 170, 88);
-			list.setMultipleSelections(false);
-			panel.add(list);
-			
-			List list_2 = new List();
-			list_2.setMultipleSelections(false);
-			list_2.setBounds(220, 33, 170, 88);
-			panel.add(list_2);
-			
-			JLabel lb_local = new JLabel("±¹³» ÁÖ½Ä");
-			lb_local.setHorizontalAlignment(SwingConstants.CENTER);
-			lb_local.setBounds(10, 10, 170, 15);
-			panel.add(lb_local);
-			
-			JLabel lo_foreign = new JLabel("±¹¿Ü ÁÖ½Ä");
-			lo_foreign.setHorizontalAlignment(SwingConstants.CENTER);
-			lo_foreign.setBounds(220, 10, 170, 15);
-			panel.add(lo_foreign);
+		JFrame f_showStock = new JFrame();
+		f_showStock.setAlwaysOnTop(true);
+		f_showStock.setTitle("Show Stock");
+		f_showStock.setType(Type.UTILITY);
+		f_showStock.setSize(new Dimension(800, 600));
+		f_showStock.setResizable(false);
+
+		f_showStock.getContentPane().setBackground(Color.WHITE);
+		f_showStock.getContentPane().setLayout(null);
+		
+		JPanel p_property = new JPanel();
+		p_property.setBackground(new Color(240, 248, 255));
+		p_property.setBounds(12, 10, 190, 343);
+		f_showStock.getContentPane().add(p_property);
+		p_property.setLayout(null);
+		
+		JLabel lb_name = new JLabel("name");
+		lb_name.setBounds(10, 35, 55, 20);
+		lb_name.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		lb_name.setPreferredSize(new Dimension(82, 20));
+		p_property.add(lb_name);
+		
+		JLabel name = new JLabel("");
+		name.setBounds(82, 35, 100, 20);
+		name.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		name.setPreferredSize(new Dimension(82, 20));
+		p_property.add(name);
+		
+		JLabel lb_price_t = new JLabel("price_t");
+		lb_price_t.setBounds(10, 85, 55, 20);
+		lb_price_t.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		lb_price_t.setPreferredSize(new Dimension(82, 20));
+		p_property.add(lb_price_t);
+		
+		JLabel price_t = new JLabel("");
+		price_t.setBounds(82, 85, 100, 20);
+		price_t.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		price_t.setPreferredSize(new Dimension(82, 20));
+		p_property.add(price_t);
+		
+		JLabel lb_price_y = new JLabel("price_y");
+		lb_price_y.setBounds(10, 135, 55, 20);
+		lb_price_y.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		lb_price_y.setPreferredSize(new Dimension(82, 20));
+		p_property.add(lb_price_y);
+		
+		JLabel price_y = new JLabel("");
+		price_y.setBounds(82, 135, 100, 20);
+		price_y.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		price_y.setPreferredSize(new Dimension(82, 20));
+		p_property.add(price_y);
+		
+		JLabel lb_change = new JLabel("change");
+		lb_change.setBounds(10, 185, 55, 20);
+		lb_change.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		lb_change.setPreferredSize(new Dimension(82, 20));
+		p_property.add(lb_change);
+		
+		JLabel change = new JLabel("");
+		change.setBounds(82, 185, 82, 20);
+		change.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		change.setPreferredSize(new Dimension(82, 20));
+		p_property.add(change);
+		
+		JLabel lb_asset = new JLabel("asset");
+		lb_asset.setBounds(10, 235, 55, 20);
+		lb_asset.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		lb_asset.setPreferredSize(new Dimension(82, 20));
+		p_property.add(lb_asset);
+		
+		JLabel asset = new JLabel("");
+		asset.setBounds(82, 235, 100, 20);
+		asset.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		asset.setPreferredSize(new Dimension(82, 20));
+		p_property.add(asset);
+		
+		JLabel lb_wealth = new JLabel("wealth");
+		lb_wealth.setBounds(10, 285, 55, 20);
+		lb_wealth.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		lb_wealth.setPreferredSize(new Dimension(82, 20));
+		p_property.add(lb_wealth);
+		
+		JLabel wealth = new JLabel("");
+		wealth.setBounds(82, 285, 100, 20);
+		wealth.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		wealth.setPreferredSize(new Dimension(82, 20));
+		p_property.add(wealth);
+		
+		JPanel p_chartImage = new JPanel();
+		p_chartImage.setBackground(Color.WHITE);
+		p_chartImage.setForeground(Color.WHITE);
+		p_chartImage.setBounds(214, 10, 568, 343);
+		f_showStock.getContentPane().add(p_chartImage);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(240, 248, 255));
+		panel.setBounds(12, 363, 770, 198);
+		f_showStock.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		localStocks = tool.getList(0);
+		for(Stock stock : localStocks) {
+			localNameList.add(stock.getName());
+		}
+		DefaultListModel<String> localModel = new DefaultListModel<>();
+		for(String str : localNameList) {
+			localModel.addElement(str);
+		}
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(120, 33, 170, 88);
+		panel.add(scrollPane);
+		JList<String> localList = new JList<String>(localModel);
+		scrollPane.setViewportView(localList);
+		localList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		foreignStocks = tool.getList(1);
+		for(Stock stock : foreignStocks) {
+			foreignNameList.add(stock.getName());
+		}
+		DefaultListModel<String> foreignModel = new DefaultListModel<>();
+		for(String str : foreignNameList) {
+			foreignModel.addElement(str);
+		}
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(350, 33, 170, 88);
+		panel.add(scrollPane_1);
+		JList<String> foreignList = new JList<>(foreignModel);
+		scrollPane_1.setViewportView(foreignList);
+		foreignList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		JLabel lb_local = new JLabel("±¹³» ÁÖ½Ä");
+		lb_local.setHorizontalAlignment(SwingConstants.CENTER);
+		lb_local.setBounds(120, 10, 170, 15);
+		panel.add(lb_local);
+		
+		JLabel lo_foreign = new JLabel("±¹¿Ü ÁÖ½Ä");
+		lo_foreign.setHorizontalAlignment(SwingConstants.CENTER);
+		lo_foreign.setBounds(350, 10, 170, 15);
+		panel.add(lo_foreign);
+		
+		JButton btn_ok1 = new JButton("°Ë»öÇÏ±â");
+		btn_ok1.setBounds(350, 128, 170, 60);
+		panel.add(btn_ok1);
+		btn_ok1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btn_ok1.setPreferredSize(new Dimension(60, 60));
+		btn_ok1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stock = tool.getElementByName(foreignList.getSelectedValue());
+				try {
+					name.setText(stock.getName());
+					price_t.setText(stock.getPrice_t()+"$");
+					price_y.setText(stock.getPrice_y()+"$");
+					change.setText(stock.getNetChange()+"%");
+					asset.setText(""+stock.getAsset()+"ÁÖ");
+					wealth.setText(tool.getTotalAsset(stock, "local", "today")+"$");
+				} catch ( NullPointerException e1 ) {
+					JLabel tempLabel = new JLabel("±¹¿ÜÁÖ½ÄÀº Â÷Æ® ÀÌ¹ÌÁö°¡ Á¦°øµÇÁö ¾Ê½À´Ï´Ù.");
+					tempLabel.setLocation(0,0);
+					tempLabel.setSize(570,350);
+					p_chartImage.add(tempLabel);
+				}
+			}
+		});
+		
+		JButton btn_ok2 = new JButton("°Ë»öÇÏ±â");
+		btn_ok2.setBounds(120, 128, 170, 60);
+		panel.add(btn_ok2);
+		btn_ok2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btn_ok2.setPreferredSize(new Dimension(60, 60));
+		btn_ok2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					stock = tool.getElementByName(localList.getSelectedValue());
+					name.setText(stock.getName());
+					price_t.setText(stock.getPrice_t()+"¿ø");
+					price_y.setText(stock.getPrice_y()+"¿ø");
+					change.setText(stock.getNetChange()+"%");
+					asset.setText(""+stock.getAsset()+"ÁÖ");
+					wealth.setText(tool.getTotalAsset(stock, "local", "today")+"¿ø");
+				} catch ( NullPointerException e2 ) {
+					
+				}
+				try {
+					String imageURL = "https://ssl.pstatic.net/imgfinance/chart/item/area/day/"+stock.getCode()+".png?sidcode=1653922362019";
+					URL url = new URL(imageURL);
+					ReadableByteChannel channel = Channels.newChannel(url.openStream());
+					FileOutputStream stream = new FileOutputStream("chart.png");
+					stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+					stream.close();
+					
+					double scale = 0.85;
+					ImageIcon originalImage = new ImageIcon("chart.png");
+					Image tempChartImage = originalImage.getImage();
+					Image chartImage = tempChartImage.getScaledInstance((int)(700*scale), (int)(289*scale), Image.SCALE_SMOOTH);
+					ImageIcon chartIcon = new ImageIcon(chartImage);
+					JLabel ImageLabel = new JLabel(chartIcon);
+					ImageLabel.setLocation(0,0);
+					ImageLabel.setSize(570,350);
+					p_chartImage.add(ImageLabel);
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (NullPointerException e1) {
+				}
+			}
+		});
+		JButton btn_cancle = new JButton("Ãë¼Ò");
+		btn_cancle.setBounds(660, 72, 60, 60);
+		panel.add(btn_cancle);
+		btn_cancle.setPreferredSize(new Dimension(60, 60));
+		btn_cancle.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				f_showStock.setVisible(false);
+			}
+		});
+		
+		JButton btn_reset = new JButton("ÃÊ±âÈ­");
+		btn_reset.setMargin(new Insets(0, 0, 0, 0));
+		btn_reset.setPreferredSize(new Dimension(60, 60));
+		btn_reset.setBounds(580, 72, 60, 60);
+		panel.add(btn_reset);
+		btn_reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				name.setText("");
+				price_t.setText("");
+				price_y.setText("");
+				change.setText("");
+				asset.setText("");
+				wealth.setText("");
+			}
+		});
+		f_showStock.setVisible(true);
 	}
 
 }

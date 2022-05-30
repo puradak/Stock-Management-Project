@@ -38,7 +38,6 @@ public class About extends JFrame implements BasicGUI{
 		frame.getContentPane().add(lb_gitURL);
 		
 		JTextField gitURL = new JTextField();
-		gitURL.setFocusable(false);
 		gitURL.setDisabledTextColor(new Color(0, 0, 255));
 		gitURL.setEditable(false);
 		gitURL.setDragEnabled(true);
@@ -55,7 +54,6 @@ public class About extends JFrame implements BasicGUI{
 		
 		JTextField LibraryURL = new JTextField();
 		LibraryURL.setText("https://jsoup.org/");
-		LibraryURL.setFocusable(false);
 		LibraryURL.setEditable(false);
 		LibraryURL.setDragEnabled(true);
 		LibraryURL.setDisabledTextColor(new Color(0, 0, 255));
