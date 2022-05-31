@@ -21,7 +21,7 @@ public class Statistics extends JFrame implements BasicGUI{
 		statFrame.getContentPane().setBackground(new Color(255, 255, 255));
 		statFrame.getContentPane().setLayout(null);
 		
-		JPanel p_local = new JPanel();
+		JPanel p_local = new JPanel(); 
 		p_local.setAlignmentX(0.0f);
 		p_local.setBackground(new Color(255, 255, 255));
 		p_local.setBounds(-5, 0, 220, 271);

@@ -34,7 +34,7 @@ public class AddStock extends JFrame implements BasicGUI{
 	private int sqFlag = 0;
 	private Stock stock;
 	
-	public void printGUI() {
+	public void printGUI() { 
 		f = new JFrame();
 		f.getContentPane().setBackground(Color.WHITE);
 		f.getContentPane().setLayout(null);

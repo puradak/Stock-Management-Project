@@ -99,7 +99,7 @@ public class MenuFunction extends Printer{
 			stock.setDescription("(설정되지 않음)");
 			printOf("WrongInput","Cancle");
 		}
-		
+		 
 		return;
 	}
 	

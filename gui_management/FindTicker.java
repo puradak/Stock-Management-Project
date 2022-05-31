@@ -29,7 +29,7 @@ public class FindTicker extends JFrame implements BasicGUI{
 	ArrayList<String> nameList;
 	
 	public void printGUI() {
-		JFrame findFrame = new JFrame();
+		JFrame findFrame = new JFrame(); 
 		findFrame.setAlwaysOnTop(true);
 		findFrame.setTitle("Find Ticker");
 		findFrame.setType(Type.UTILITY);

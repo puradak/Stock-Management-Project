@@ -24,7 +24,7 @@ public class EditStock extends JFrame implements BasicGUI {
 	private int sqFlag = 0;
 	
 	public void printGUI() {
-		editFrame.setAlwaysOnTop(true);
+		editFrame.setAlwaysOnTop(true); 
 		editFrame.setType(Type.UTILITY);
 		editFrame.setTitle("Edit Stock");
 		editFrame.setBounds(100, 100, 450, 330);

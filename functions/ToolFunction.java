@@ -20,7 +20,7 @@ public class ToolFunction extends Printer{
 	
 	// 객체 하나만 쓰기
 	private static ToolFunction tool = new ToolFunction();
-	private ToolFunction() {}
+	private ToolFunction() {} 
 	
 	// 객체 넘겨주기
 	public static ToolFunction getToolFunctionObject() {

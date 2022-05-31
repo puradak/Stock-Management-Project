@@ -22,7 +22,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 	
 	public void printGUI() {
 		JFrame frame = new JFrame("Main Menu");
-		frame.getContentPane().setBackground(Color.WHITE);
+		frame.getContentPane().setBackground(Color.WHITE); 
 		frame.setSize(new Dimension(650, 550));
 		frame.getContentPane().setSize(new Dimension(650, 550));
 		frame.getContentPane().setLayout(null);

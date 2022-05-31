@@ -34,7 +34,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 	private ArrayList<String> localNameList = new ArrayList<>();
 	private ArrayList<String> foreignNameList = new ArrayList<>();
 	private Stock stock;
-	public void printGUI() {
+	public void printGUI() { 
 		JFrame f_showStock = new JFrame();
 		f_showStock.setAlwaysOnTop(true);
 		f_showStock.setTitle("Show Stock");

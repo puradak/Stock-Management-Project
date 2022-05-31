@@ -95,7 +95,7 @@ public class RemoveStock extends JFrame implements BasicGUI{
 		name.setBounds(59, 10, 94, 20);
 		panel.add(name);
 		
-		JLabel asset = new JLabel("보유주");
+		JLabel asset = new JLabel("보유주"); 
 		asset.setHorizontalAlignment(SwingConstants.LEFT);
 		asset.setFont(new Font("굴림", Font.PLAIN, 15));
 		asset.setBounds(new Rectangle(0, 0, 0, 20));
