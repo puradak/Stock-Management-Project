@@ -232,7 +232,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 					
 				}
 				try {
-					String imageURL = "https://ssl.pstatic.net/imgfinance/chart/item/area/day/"+stock.getCode()+".png?sidcode=1653922362019";
+					String imageURL = "https://ssl.pstatic.net/imgfinance/chart/item/area/week/"+stock.getCode()+".png?sidcode=1653922362019";
 					URL url = new URL(imageURL);
 					ReadableByteChannel channel = Channels.newChannel(url.openStream());
 					FileOutputStream stream = new FileOutputStream("chart.png");
@@ -247,6 +247,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 					JLabel ImageLabel = new JLabel(chartIcon);
 					ImageLabel.setLocation(0,0);
 					ImageLabel.setSize(570,350);
+					p_chartImage.removeAll();
 					p_chartImage.add(ImageLabel);
 				} catch (MalformedURLException e1) {
 					e1.printStackTrace();
@@ -280,7 +281,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 				asset.setText("");
 				wealth.setText("");
 				lb_desc.setText("");
-				
+				p_chartImage.removeAll();
 			}
 		});
 		f_showStock.setVisible(true);
