@@ -1,21 +1,19 @@
 package gui_management;
 
 import java.awt.*;
-import java.awt.Window.Type;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import data.Stock;
-import functions.ToolFunction;
+import file_management.LoadManager;
 import interfaces.BasicGUI;
 
 public class EditStock extends JFrame implements BasicGUI {
 	private static final long serialVersionUID = 634635532486231804L;
-	private ToolFunction tool = ToolFunction.getToolFunctionObject();
+	private LoadManager loader = LoadManager.getLoadManagerObject();
 	private JFrame editFrame = new JFrame();
 	private JTextField tF_input = new JTextField();
 	private JLabel lb_narr = new JLabel("변경할 주식을 선택하고, 확인 버튼을 눌러주세요.");
@@ -57,7 +55,7 @@ public class EditStock extends JFrame implements BasicGUI {
 		editFrame.getContentPane().add(scrollPane);
 		
 		DefaultListModel<String> localModel = new DefaultListModel<>();
-		for(Stock stock : tool.getList(0)) {
+		for(Stock stock : loader.getList(0)) {
 			localModel.addElement(stock.getName());
 		}
 		JList<String> localList = new JList<>(localModel);
@@ -68,7 +66,7 @@ public class EditStock extends JFrame implements BasicGUI {
 		editFrame.getContentPane().add(scrollPane_1);
 		
 		DefaultListModel<String> foreignModel = new DefaultListModel<>();
-		for(Stock stock : tool.getList(1)) {
+		for(Stock stock : loader.getList(1)) {
 			foreignModel.addElement(stock.getName());
 		}
 		JList<String> foreignList = new JList<>(foreignModel);
@@ -79,12 +77,15 @@ public class EditStock extends JFrame implements BasicGUI {
 		editFrame.getContentPane().add(btn_select1);
 		btn_select1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				if(sqFlag != 0) return;
 				int saveAsset= 0;
-				for(Stock s : tool.getList(0)) {
-					if(localList.getSelectedValue().equals(s.getName())) {
+				for(Stock s : loader.getList(0)) {
+					try{
+						if(localList.getSelectedValue().equals(s.getName())) {
 						stock = s;
 						saveAsset = stock.getAsset();
-					}
+						}
+					} catch ( NullPointerException e1 ) {}
 				}
 				lb_narr.setText("변경할 보유 주식 수를 입력하세요. 현재 "+saveAsset+"주를 보유중입니다.");
 			}
@@ -95,7 +96,8 @@ public class EditStock extends JFrame implements BasicGUI {
 		editFrame.getContentPane().add(btn_select2);
 		btn_select2.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				for(Stock s : tool.getList(1)) {
+				if(sqFlag != 0) return;
+				for(Stock s : loader.getList(1)) {
 					if(foreignList.getSelectedValue().equals(s.getName())) {
 						stock = s;
 						saveAsset = stock.getAsset();

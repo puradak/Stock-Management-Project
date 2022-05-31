@@ -4,6 +4,7 @@ import file_management.LoadManager;
 import gui_management.MainMenu;
 
 public class MenuManagement { 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		LoadManager loader = LoadManager.getLoadManagerObject();
 		

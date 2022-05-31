@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.List;
-import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -23,12 +21,14 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import data.Stock;
+import file_management.LoadManager;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
 
 public class ShowStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -2920264366783929183L;
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
+	LoadManager loader = LoadManager.getLoadManagerObject();
 	private ArrayList<Stock> localStocks = new ArrayList<>();
 	private ArrayList<Stock> foreignStocks = new ArrayList<>();
 	private ArrayList<String> localNameList = new ArrayList<>();
@@ -146,7 +146,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 		f_showStock.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		localStocks = tool.getList(0);
+		localStocks = loader.getList(0);
 		for(Stock stock : localStocks) {
 			localNameList.add(stock.getName());
 		}
@@ -162,7 +162,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 		scrollPane.setViewportView(localList);
 		localList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		foreignStocks = tool.getList(1);
+		foreignStocks = loader.getList(1);
 		for(Stock stock : foreignStocks) {
 			foreignNameList.add(stock.getName());
 		}

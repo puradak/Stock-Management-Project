@@ -8,9 +8,8 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import data.Stock;
-import functions.Printer;
 
-public class LoadManager extends Printer {
+public class LoadManager {
 	
 	private LoadManager() {
 		LoadStocks();
@@ -23,10 +22,14 @@ public class LoadManager extends Printer {
 	private ArrayList<Stock> LocalStockList = new ArrayList<Stock>();
 	private ArrayList<Stock> ForeignStockList = new ArrayList<Stock>();
 	
+	public ArrayList<Stock> getList(int number){
+		if(number == 0) return LocalStockList;
+		else return ForeignStockList;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private boolean LoadStocks() {
 		try {
-			System.out.println("저장된 주식 리스트를 불러옵니다.");
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("ObjectSave.txt"));
 			this.LocalStockList = (ArrayList<Stock>)in.readObject();
 			this.ForeignStockList = (ArrayList<Stock>)in.readObject();
@@ -45,10 +48,8 @@ public class LoadManager extends Printer {
 			out.write("".getBytes());
 			out.close();
 		} catch (FileNotFoundException e) {
-			printOf("예외가 발생하였습니다.","Cancle");
 			return;
 		} catch ( IOException e ) {
-			printOf("예외가 발생하였습니다.","Cancle");
 			return;
 		}
 	}

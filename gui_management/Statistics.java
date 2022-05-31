@@ -1,109 +1,89 @@
 package gui_management;
 
 import java.awt.Color;
-
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-
+import data.Stock;
+import file_management.LoadManager;
 import interfaces.BasicGUI;
 
 public class Statistics extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -5443809365075419678L;
-
+	LoadManager loader = LoadManager.getLoadManagerObject();
 	public void printGUI() {
 		JFrame statFrame = new JFrame();
 		statFrame.setAlwaysOnTop(true);
 		statFrame.setBackground(new Color(255, 255, 255));
 		statFrame.getContentPane().setBackground(new Color(255, 255, 255));
 		statFrame.getContentPane().setLayout(null);
+
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(240, 248, 255));
+		panel.setBounds(12, 211, 570, 80);
+		statFrame.getContentPane().add(panel);
+		panel.setLayout(null);
 		
-		JPanel p_local = new JPanel(); 
-		p_local.setAlignmentX(0.0f);
-		p_local.setBackground(new Color(255, 255, 255));
-		p_local.setBounds(-5, 0, 220, 271);
-		statFrame.getContentPane().add(p_local);
-		p_local.setLayout(null);
-		
-		JLabel lb_local = new JLabel("Local");
+		JLabel lb_local = new JLabel("국내주식");
 		lb_local.setHorizontalAlignment(SwingConstants.CENTER);
-		lb_local.setBounds(12, 10, 196, 15);
-		p_local.add(lb_local);
+		lb_local.setBounds(12, 10, 261, 20);
+		panel.add(lb_local);
 		
-		JTextPane locals = new JTextPane();
-		locals.setBorder(new LineBorder(new Color(0, 0, 0)));
-		locals.setBounds(12, 35, 196, 163);
-		p_local.add(locals);
+		JLabel local = new JLabel("New label");
+		local.setBounds(12, 40, 261, 20);
+		panel.add(local);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(12, 201, 196, 60);
-		p_local.add(panel_2);
-		panel_2.setLayout(null);
+		JLabel lb_foreign = new JLabel("국외주식");
+		lb_foreign.setHorizontalAlignment(SwingConstants.CENTER);
+		lb_foreign.setBounds(297, 10, 261, 20);
+		panel.add(lb_foreign);
 		
-		JLabel lb_totalAsset_l = new JLabel("total asset");
-		lb_totalAsset_l.setBounds(5, 10, 57, 15);
-		panel_2.add(lb_totalAsset_l);
+		JLabel foreign = new JLabel("New label");
+		foreign.setBounds(297, 43, 261, 20);
+		panel.add(foreign);
 		
-		JLabel totalAsset_l = new JLabel("total asset");
-		totalAsset_l.setBounds(66, 10, 125, 15);
-		panel_2.add(totalAsset_l);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(255, 255, 255));
+		scrollPane.setBounds(12, 10, 275, 191);
+		statFrame.getContentPane().add(scrollPane);
 		
-		JLabel lb_netChange_l = new JLabel("percent");
-		lb_netChange_l.setBounds(5, 35, 57, 15);
-		panel_2.add(lb_netChange_l);
+		ArrayList<Stock> localStocks = loader.getList(0);
+		DefaultListModel<String> localModel = new DefaultListModel<>();
+		double localWealth = 0;
+		for(Stock stock : localStocks) {
+			localModel.addElement(stock.getName()+"("+stock.getAsset()+"주)"+" : "+stock.getPrice_t()+" (원)");
+			localWealth += stock.getAsset() * Double.parseDouble(Stock.getPureNumber(stock.getPrice_t()));
+		}
+		local.setText("총 보유 자산 : "+localWealth+" 원");
+		JList<String> localList = new JList<>(localModel);
+		localList.setFocusable(false);
+		scrollPane.setViewportView(localList);
 		
-		JLabel netChange_l = new JLabel("percentage");
-		netChange_l.setBounds(66, 35, 125, 15);
-		panel_2.add(netChange_l);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(299, 10, 275, 191);
+		statFrame.getContentPane().add(scrollPane_1);
 		
-		JPanel p_foreign = new JPanel();
-		p_foreign.setAlignmentX(0.0f);
-		p_foreign.setBackground(new Color(255, 255, 255));
-		p_foreign.setBounds(219, 0, 220, 271);
-		statFrame.getContentPane().add(p_foreign);
-		p_foreign.setLayout(null);
+		ArrayList<Stock> foreignStocks = loader.getList(1);
+		DefaultListModel<String> foreignModel = new DefaultListModel<>();
+		double foreignWealth = 0;
+		for(Stock stock : foreignStocks) {
+			foreignModel.addElement(stock.getName()+"("+stock.getAsset()+"주)"+" : "+stock.getPrice_t()+" ($)");
+			foreignWealth += stock.getAsset() * Double.parseDouble(Stock.getPureNumber(stock.getPrice_t()));
+		}
+		foreign.setText("총 보유 자산 : "+foreignWealth+" $");
+		JList<String> foreignList = new JList<>(foreignModel);
+		scrollPane_1.setViewportView(foreignList);
 		
-		JLabel lb_Foreign = new JLabel("Foreign");
-		lb_Foreign.setHorizontalAlignment(SwingConstants.CENTER);
-		lb_Foreign.setBounds(12, 10, 196, 15);
-		p_foreign.add(lb_Foreign);
 		
-		JTextPane foreigns = new JTextPane();
-		foreigns.setBorder(new LineBorder(new Color(0, 0, 0)));
-		foreigns.setBounds(12, 35, 196, 163);
-		p_foreign.add(foreigns);
-		
-		JPanel panel_2_1 = new JPanel();
-		panel_2_1.setLayout(null);
-		panel_2_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2_1.setBackground(Color.WHITE);
-		panel_2_1.setBounds(12, 201, 196, 60);
-		p_foreign.add(panel_2_1);
-		
-		JLabel lb_totalAsset_f = new JLabel("total asset");
-		lb_totalAsset_f.setBounds(5, 10, 57, 15);
-		panel_2_1.add(lb_totalAsset_f);
-		
-		JLabel totalAsset_f = new JLabel("total asset");
-		totalAsset_f.setBounds(66, 10, 125, 15);
-		panel_2_1.add(totalAsset_f);
-		
-		JLabel lb_netChange_f = new JLabel("percent");
-		lb_netChange_f.setBounds(5, 35, 57, 15);
-		panel_2_1.add(lb_netChange_f);
-		
-		JLabel netChange_f = new JLabel("percentage");
-		netChange_f.setBounds(66, 35, 125, 15);
-		panel_2_1.add(netChange_f);
 		statFrame.setResizable(false);
 		statFrame.setTitle("Statistics");
 		statFrame.setType(Type.UTILITY);
-		statFrame.setBounds(100, 100, 450, 300);
+		statFrame.setBounds(100, 100, 605, 340);
 		statFrame.setVisible(true);
 	}
 

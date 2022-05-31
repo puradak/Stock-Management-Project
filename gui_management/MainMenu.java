@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import data.Stock;
 import file_management.LoadManager;
+import file_management.SaveManager;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
 
@@ -16,9 +17,15 @@ public class MainMenu extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -7295373837441585468L;
 	ToolFunction tool = ToolFunction.getToolFunctionObject();
 	LoadManager loader = LoadManager.getLoadManagerObject();
+	SaveManager saver = new SaveManager();
 	AddStock frame = new AddStock();
 	ArrayList<Stock> localStockList = loader.LoadList("local");
 	ArrayList<Stock> foreignStockList = loader.LoadList("foreign");
+	
+	public MainMenu() {
+		saver.cleanMenuLog();
+		saver.saveLog(8);
+	}
 	
 	public void printGUI() {
 		JFrame frame = new JFrame("Main Menu");
@@ -105,6 +112,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn2.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				new AddStock().printGUI();
+				saver.saveLog(2);
 			}
 		});
 		
@@ -115,6 +123,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				new ShowStock().printGUI();
+				saver.saveLog(1);
 			}
 		});
 		
@@ -125,6 +134,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn4.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				new EditStock().printGUI();
+				saver.saveLog(4);
 			}
 		});
 
@@ -135,6 +145,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn5.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				new FindTicker().printGUI();
+				saver.saveLog(5);
 			}
 		});
 		JButton btn3 = new JButton("Remove Stocks");
@@ -144,6 +155,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn3.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				new RemoveStock().printGUI();
+				saver.saveLog(3);
 			}
 		});
 		JButton btn6 = new JButton("Statistics");
@@ -153,6 +165,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn6.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				new Statistics().printGUI();
+				saver.saveLog(6);
 			}
 		});
 		JButton btn8 = new JButton("About");
@@ -162,6 +175,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn8.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				new About().printGUI();
+				saver.saveLog(7);
 			}
 		});
 		JButton btn0 = new JButton("EXIT");
@@ -170,10 +184,11 @@ public class MainMenu extends JFrame implements BasicGUI{
 		p_button.add(btn0);
 		btn0.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
+				saver.saveLog(0);
+				saver.saveObject();
 				System.exit(0);
 			}
 		});
-		
 		
 		frame.setBounds(100, 100, 687, 532);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
