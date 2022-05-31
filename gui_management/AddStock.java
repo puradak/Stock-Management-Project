@@ -24,7 +24,6 @@ public class AddStock extends JFrame implements BasicGUI{
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
 	private JFrame f;
 	private JLabel lb_narr = new JLabel("ÁÖ½Ä¸í");;
-	private JPanel p_logoImage;
 	private JLabel name = new JLabel(""); 
 	private JLabel price_t = new JLabel(""); 
 	private JLabel price_y = new JLabel(""); 
@@ -45,68 +44,16 @@ public class AddStock extends JFrame implements BasicGUI{
 		lb_narr.setBounds(0, 10, 432, 15);
 		f.getContentPane().add(lb_narr);
 		
-		p_logoImage = new JPanel();
-		p_logoImage.setBounds(12, 47, 200, 138);
-		f.getContentPane().add(p_logoImage);
-		
-		JLabel lb_name = new JLabel("ÁÖ½Ä¸í");
-		lb_name.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		lb_name.setBounds(223, 53, 42, 18);
-		f.getContentPane().add(lb_name);
-		
-		JLabel lb_price_t = new JLabel("ÇöÀç°¡");
-		lb_price_t.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		lb_price_t.setBounds(224, 80, 42, 18);
-		f.getContentPane().add(lb_price_t);
-		
-		JLabel lb_price_y = new JLabel("ÀüÀÏ°¡");
-		lb_price_y.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		lb_price_y.setBounds(224, 108, 42, 18);
-		f.getContentPane().add(lb_price_y);
-		
-		JLabel lb_change = new JLabel("º¯È­À²");
-		lb_change.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		lb_change.setBounds(224, 136, 42, 18);
-		f.getContentPane().add(lb_change);
-		
-		JLabel lb_isOpen = new JLabel("°³Àå¿©ºÎ");
-		lb_isOpen.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		lb_isOpen.setBounds(224, 164, 56, 18);
-		f.getContentPane().add(lb_isOpen);
-		
 		JLabel lb_input = new JLabel("ÀÔ·Â : ");
-		lb_input.setBounds(112, 27, 36, 15);
+		lb_input.setBounds(112, 27, 36, 20);
 		f.getContentPane().add(lb_input);
 		
 		tF_input = new JTextField();
+		tF_input.setFont(new Font("±¼¸²", Font.PLAIN, 18));
 		tF_input.setHorizontalAlignment(SwingConstants.LEFT);
-		tF_input.setBounds(150, 26, 116, 16);
+		tF_input.setBounds(150, 26, 133, 21);
 		f.getContentPane().add(tF_input);
 		tF_input.setColumns(10);
-		
-		name.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		name.setBounds(289, 53, 144, 18);
-		f.getContentPane().add(name);
-		
-		price_t = new JLabel("");
-		price_t.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		price_t.setBounds(289, 80, 143, 18);
-		f.getContentPane().add(price_t);
-		
-		price_y = new JLabel("");
-		price_y.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		price_y.setBounds(289, 108, 143, 18);
-		f.getContentPane().add(price_y);
-		
-		change = new JLabel("");
-		change.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		change.setBounds(289, 136, 143, 18);
-		f.getContentPane().add(change);
-		
-		isOpen = new JLabel("");
-		isOpen.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		isOpen.setBounds(289, 164, 143, 18);
-		f.getContentPane().add(isOpen);
 		
 		JButton btn_ok = new JButton("È®ÀÎ");
 		btn_ok.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -176,8 +123,64 @@ public class AddStock extends JFrame implements BasicGUI{
 		
 		JButton btn_cancle = new JButton("Ãë¼Ò");
 		btn_cancle.setPreferredSize(new Dimension(60, 60));
-		btn_cancle.setBounds(224, 201, 60, 60);
+		btn_cancle.setBounds(223, 201, 60, 60);
 		f.getContentPane().add(btn_cancle);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(240, 248, 255));
+		panel.setBounds(12, 52, 422, 140);
+		f.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lb_name = new JLabel("\uC8FC\uC2DD\uBA85");
+		lb_name.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		lb_name.setBounds(100, 6, 42, 18);
+		panel.add(lb_name);
+		
+		JLabel lb_price_t = new JLabel("\uD604\uC7AC\uAC00");
+		lb_price_t.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		lb_price_t.setBounds(100, 33, 42, 18);
+		panel.add(lb_price_t);
+		
+		JLabel lb_price_y = new JLabel("\uC804\uC77C\uAC00");
+		lb_price_y.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		lb_price_y.setBounds(100, 61, 42, 18);
+		panel.add(lb_price_y);
+		
+		JLabel lb_change = new JLabel("\uBCC0\uD654\uC728");
+		lb_change.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		lb_change.setBounds(100, 89, 42, 18);
+		panel.add(lb_change);
+		
+		JLabel lb_isOpen = new JLabel("\uAC1C\uC7A5\uC5EC\uBD80");
+		lb_isOpen.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		lb_isOpen.setBounds(100, 117, 56, 18);
+		panel.add(lb_isOpen);
+		
+		isOpen = new JLabel("");
+		isOpen.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		isOpen.setBounds(186, 116, 143, 18);
+		panel.add(isOpen);
+		
+		change = new JLabel("");
+		change.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		change.setBounds(186, 88, 143, 18);
+		panel.add(change);
+		
+		price_y = new JLabel("");
+		price_y.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		price_y.setBounds(186, 60, 143, 18);
+		panel.add(price_y);
+		
+		price_t = new JLabel("");
+		price_t.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		price_t.setBounds(186, 32, 143, 18);
+		panel.add(price_t);
+		
+		name = new JLabel("");
+		name.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		name.setBounds(186, 5, 144, 18);
+		panel.add(name);
 		btn_cancle.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				f.setVisible(false);
