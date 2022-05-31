@@ -73,8 +73,8 @@ public class LocalStock extends Stock implements Functionalities, Serializable{
 		return saveResult;
 	}
 	
-	public static String findCodeByName(ArrayList<String> nameList, int index) throws IOException {
-		String exactName = nameList.get(index-1);
+	public static String findCodeByName(String name) throws IOException {
+		String exactName = name;
 		
 		Document doc = Jsoup.connect("https://search.naver.com/search.naver?&query="+exactName).get();
 		Elements e = doc.getElementsByAttributeValue("class", "t_nm");

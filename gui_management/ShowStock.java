@@ -126,8 +126,19 @@ public class ShowStock extends JFrame implements BasicGUI{
 		JPanel p_chartImage = new JPanel();
 		p_chartImage.setBackground(Color.WHITE);
 		p_chartImage.setForeground(Color.WHITE);
-		p_chartImage.setBounds(214, 10, 568, 343);
+		p_chartImage.setBounds(214, 10, 568, 303);
 		f_showStock.getContentPane().add(p_chartImage);
+		
+		JLabel lb_desc = new JLabel("");
+		lb_desc.setHorizontalAlignment(SwingConstants.CENTER);
+		lb_desc.setBounds(0, 0, 568, 40);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(240, 248, 255));
+		panel_1.setBounds(214, 313, 568, 40);
+		panel_1.setLayout(null);
+		panel_1.add(lb_desc);
+		f_showStock.getContentPane().add(panel_1);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 248, 255));
@@ -191,6 +202,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 					change.setText(stock.getNetChange()+"%");
 					asset.setText(""+stock.getAsset()+"주");
 					wealth.setText(tool.getTotalAsset(stock, "local", "today")+"$");
+					lb_desc.setText(stock.getDescription());
 				} catch ( NullPointerException e1 ) {
 					JLabel tempLabel = new JLabel("국외주식은 차트 이미지가 제공되지 않습니다.");
 					tempLabel.setLocation(0,0);
@@ -215,6 +227,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 					change.setText(stock.getNetChange()+"%");
 					asset.setText(""+stock.getAsset()+"주");
 					wealth.setText(tool.getTotalAsset(stock, "local", "today")+"원");
+					lb_desc.setText(stock.getDescription());
 				} catch ( NullPointerException e2 ) {
 					
 				}
@@ -266,6 +279,8 @@ public class ShowStock extends JFrame implements BasicGUI{
 				change.setText("");
 				asset.setText("");
 				wealth.setText("");
+				lb_desc.setText("");
+				
 			}
 		});
 		f_showStock.setVisible(true);

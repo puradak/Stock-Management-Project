@@ -165,7 +165,7 @@ public class MenuFunction extends Printer{
 	}
 	
 	// 4번 메뉴
-	public void editStock() {
+/*	public void editStock() {
 		if(tool.isEmpty()) return;
 		printOf("InputCode");
 		
@@ -226,7 +226,7 @@ public class MenuFunction extends Printer{
 	}
 	
 	// 5번 메뉴
-	public void searchStock() throws IOException, NotPositiveNumberExeption {
+/*	public void searchStock() throws IOException, NotPositiveNumberExeption {
 		printOf("코드를 검색할 주식의 이름을 입력하세요.", "Input");
 		String name = tool.readKorean(input);
 		try {
@@ -272,7 +272,7 @@ public class MenuFunction extends Printer{
 		tool.pause(input);
 		return;
 	}
-	
+*/	
 	// 6번 메뉴
 	public void statistic() throws IOException {
 		if(tool.isEmpty()) return;

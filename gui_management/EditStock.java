@@ -13,19 +13,21 @@ import data.Stock;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
 
-public class EditStock extends JFrame implements BasicGUI{
+public class EditStock extends JFrame implements BasicGUI {
 	private static final long serialVersionUID = 634635532486231804L;
 	private ToolFunction tool = ToolFunction.getToolFunctionObject();
-	JFrame editFrame = new JFrame();
-	JList<Stock> foreignList = new JList<Stock>();
-	JTextField tF_input = new JTextField();
-	JLabel lb_narr = new JLabel("변경할 주식을 선택하고, 확인 버튼을 눌러주세요.");
+	private JFrame editFrame = new JFrame();
+	private JTextField tF_input = new JTextField();
+	private JLabel lb_narr = new JLabel("변경할 주식을 선택하고, 확인 버튼을 눌러주세요.");
+	private Stock stock = null;
+	private int saveAsset= 0;
+	private int sqFlag = 0;
+	
 	public void printGUI() {
-		
 		editFrame.setAlwaysOnTop(true);
 		editFrame.setType(Type.UTILITY);
 		editFrame.setTitle("Edit Stock");
-		editFrame.setBounds(100, 100, 450, 300);
+		editFrame.setBounds(100, 100, 450, 330);
 		
 		editFrame.getContentPane().setBackground(Color.WHITE);
 		editFrame.getContentPane().setLayout(null);
@@ -35,60 +37,111 @@ public class EditStock extends JFrame implements BasicGUI{
 		lb_narr.setBounds(12, 10, 410, 15);
 		editFrame.getContentPane().add(lb_narr);
 		
-		JButton btn_ok = new JButton("확인");
-		btn_ok.setBounds(143, 191, 60, 60);
+		tF_input.setBounds(67, 167, 330, 21);
+		tF_input.setColumns(10);
+		editFrame.getContentPane().add(tF_input);
+		
+		JLabel lb_input = new JLabel("입력 :");
+		lb_input.setBounds(32, 170, 57, 15);
+		editFrame.getContentPane().add(lb_input);
+		
+		JLabel lb_changes = new JLabel("");
+		lb_changes.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lb_changes.setOpaque(true);
+		lb_changes.setBackground(new Color(240, 248, 255));
+		lb_changes.setBounds(32, 190, 365, 28);
+		editFrame.getContentPane().add(lb_changes);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(32, 30, 182, 100);
+		editFrame.getContentPane().add(scrollPane);
+		
+		DefaultListModel<String> localModel = new DefaultListModel<>();
+		for(Stock stock : tool.getList(0)) {
+			localModel.addElement(stock.getName());
+		}
+		JList<String> localList = new JList<>(localModel);
+		scrollPane.setViewportView(localList);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(215, 30, 182, 100);
+		editFrame.getContentPane().add(scrollPane_1);
+		
+		DefaultListModel<String> foreignModel = new DefaultListModel<>();
+		for(Stock stock : tool.getList(1)) {
+			foreignModel.addElement(stock.getName());
+		}
+		JList<String> foreignList = new JList<>(foreignModel);
+		scrollPane_1.setViewportView(foreignList);
+		
+		JButton btn_select1 = new JButton("선택하기");
+		btn_select1.setBounds(38, 135, 168, 30);
+		editFrame.getContentPane().add(btn_select1);
+		btn_select1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				int saveAsset= 0;
+				for(Stock s : tool.getList(0)) {
+					if(localList.getSelectedValue().equals(s.getName())) {
+						stock = s;
+						saveAsset = stock.getAsset();
+					}
+				}
+				lb_narr.setText("변경할 보유 주식 수를 입력하세요. 현재 "+saveAsset+"주를 보유중입니다.");
+			}
+		});
+		
+		JButton btn_select2 = new JButton("선택하기");
+		btn_select2.setBounds(223, 135, 168, 30);
+		editFrame.getContentPane().add(btn_select2);
+		btn_select2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				for(Stock s : tool.getList(1)) {
+					if(foreignList.getSelectedValue().equals(s.getName())) {
+						stock = s;
+						saveAsset = stock.getAsset();
+					}
+				}
+				lb_narr.setText("변경할 보유 주식 수를 입력하세요. 현재 "+saveAsset+"주를 보유중입니다.");
+				tF_input.setText("");
+			}
+		});
+		
+		JButton btn_ok = new JButton("변경");
+		btn_ok.setBounds(150, 225, 60, 60);
 		editFrame.getContentPane().add(btn_ok);
 		btn_ok.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e){
-				
+			public void mouseClicked(MouseEvent e) {
+				if(sqFlag == 0) {
+					try {
+						stock.setAsset(Integer.parseInt(tF_input.getText()));
+						lb_narr.setText("변경할 주식 설명을 입력하세요. 취소를 누르면 변경하지 않습니다.");
+						lb_changes.setText("[변경사항] "+saveAsset+"주 → "+tF_input.getText()+"주");
+						tF_input.setText("");
+						sqFlag++;
+					} catch (NumberFormatException e1) {
+						lb_narr.setText("잘못 입력하셨습니다. 변경할 주식 수를 입력하세요.(현재 : "+saveAsset+"주");
+					}
+				}
+				else {
+					String saveDesc = stock.getDescription();
+					stock.setDescription(tF_input.getText());
+					sqFlag = 0;
+					lb_narr.setText("변경되었습니다.");
+					lb_changes.setText("[변경사항] "+saveDesc+" → "+tF_input.getText());
+					tF_input.setText("");
+					
+				}
 			}
 		});
 		
 		JButton btn_cancle = new JButton("취소");
-		btn_cancle.setBounds(215, 191, 60, 60);
+		btn_cancle.setBounds(220, 225, 60, 60);
 		editFrame.getContentPane().add(btn_cancle);
 		btn_cancle.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				editFrame.setVisible(false);
 			}
 		});
-		
-		
-		ArrayList<String> localNames = new ArrayList<>();
-		DefaultListModel<String> localModel = new DefaultListModel<String>();
-		ArrayList<Stock> stocks = tool.getList(0);
-		for(int i=0; i<stocks.size(); i++) {
-			localNames.add(stocks.get(i).getName());
-		}
-		for(String str : localNames) {
-			localModel.addElement(str);
-			System.out.println(str);
-		}
-		JList<String> localList = new JList<String>(localModel);
-		localList.setBorder(new LineBorder(new Color(0, 0, 0)));
-		localList.setBounds(32, 61, 182, 96);
-		editFrame.getContentPane().add(localList);
-		
-
-		foreignList.setBorder(new LineBorder(new Color(0, 0, 0)));
-		foreignList.setBounds(215, 61, 182, 96);
-		editFrame.getContentPane().add(foreignList);
-		
-		tF_input.setText("1234");
-		tF_input.setBounds(117, 30, 196, 21);
-		editFrame.getContentPane().add(tF_input);
-		tF_input.setColumns(10);
-		
-		JLabel lb_input = new JLabel("입력 :");
-		lb_input.setBounds(83, 33, 57, 15);
-		editFrame.getContentPane().add(lb_input);
-		
-		JLabel lb_changes = new JLabel("New label");
-		lb_changes.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lb_changes.setOpaque(true);
-		lb_changes.setBackground(new Color(240, 248, 255));
-		lb_changes.setBounds(32, 160, 365, 28);
-		editFrame.getContentPane().add(lb_changes);
 		
 		editFrame.setVisible(true);
 	}
