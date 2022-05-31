@@ -154,7 +154,6 @@ public class ShowStock extends JFrame implements BasicGUI{
 		for(String str : localNameList) {
 			localModel.addElement(str);
 		}
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(120, 33, 170, 88);
 		panel.add(scrollPane);
@@ -204,10 +203,29 @@ public class ShowStock extends JFrame implements BasicGUI{
 					wealth.setText(tool.getTotalAsset(stock, "local", "today")+"$");
 					lb_desc.setText(stock.getDescription());
 				} catch ( NullPointerException e1 ) {
-					JLabel tempLabel = new JLabel("국외주식은 차트 이미지가 제공되지 않습니다.");
-					tempLabel.setLocation(0,0);
-					tempLabel.setSize(570,350);
-					p_chartImage.add(tempLabel);
+					
+				}
+				try {
+					String imageURL = "https://ssl.pstatic.net/imgfinance/chart/mobile/world/item/candle/month/"+stock.getCode().toUpperCase()+".O_end.png";
+					URL url = new URL(imageURL);
+					ReadableByteChannel channel = Channels.newChannel(url.openStream());
+					FileOutputStream stream = new FileOutputStream("chart.png");
+					stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+					stream.close();
+					
+					double scale = 0.7;
+					ImageIcon originalImage = new ImageIcon("chart.png");
+					Image tempChartImage = originalImage.getImage();
+					Image chartImage = tempChartImage.getScaledInstance((int)(658*scale), (int)(408*scale), Image.SCALE_SMOOTH);
+					ImageIcon chartIcon = new ImageIcon(chartImage);
+					JLabel ImageLabel = new JLabel(chartIcon);
+					ImageLabel.setLocation(0,0);
+					ImageLabel.setSize(570,350);
+					p_chartImage.removeAll();
+					p_chartImage.add(ImageLabel);
+				} catch (MalformedURLException e1) {
+				} catch (IOException e1) {
+				} catch (NullPointerException e1) {
 				}
 			}
 		});
@@ -232,7 +250,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 					
 				}
 				try {
-					String imageURL = "https://ssl.pstatic.net/imgfinance/chart/item/area/week/"+stock.getCode()+".png?sidcode=1653922362019";
+					String imageURL = "https://ssl.pstatic.net/imgfinance/chart/item/area/week/"+stock.getCode()+".png";
 					URL url = new URL(imageURL);
 					ReadableByteChannel channel = Channels.newChannel(url.openStream());
 					FileOutputStream stream = new FileOutputStream("chart.png");
@@ -250,9 +268,7 @@ public class ShowStock extends JFrame implements BasicGUI{
 					p_chartImage.removeAll();
 					p_chartImage.add(ImageLabel);
 				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
 				} catch (IOException e1) {
-					e1.printStackTrace();
 				} catch (NullPointerException e1) {
 				}
 			}
