@@ -12,8 +12,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import data.News;
-import file_management.SaveManager;
 import interfaces.BasicGUI;
+import log_management.SaveManager;
 
 public class MainMenu extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -7295373837441585468L;

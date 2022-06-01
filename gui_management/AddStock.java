@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import data.Stock;
-import file_management.LoadManager;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
+import log_management.LoadManager;
 
 public class AddStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = 5227932774846019655L;

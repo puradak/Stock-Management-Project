@@ -16,8 +16,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import data.Stock;
-import file_management.LoadManager;
 import interfaces.BasicGUI;
+import log_management.LoadManager;
 
 public class RemoveStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -7973139397981674187L;

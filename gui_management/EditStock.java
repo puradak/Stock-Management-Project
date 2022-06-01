@@ -8,8 +8,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import data.Stock;
-import file_management.LoadManager;
 import interfaces.BasicGUI;
+import log_management.LoadManager;
 
 public class EditStock extends JFrame implements BasicGUI {
 	private static final long serialVersionUID = 634635532486231804L;

@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import data.Stock;
-import file_management.LoadManager;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
+import log_management.LoadManager;
 
 public class ShowStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -2920264366783929183L;

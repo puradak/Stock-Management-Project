@@ -1,7 +1,7 @@
 package menu;
 
-import file_management.LoadManager;
 import gui_management.MainMenu;
+import log_management.LoadManager;
 
 public class MenuManagement { 	
 	@SuppressWarnings("unused")

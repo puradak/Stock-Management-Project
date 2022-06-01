@@ -1,4 +1,4 @@
-package file_management;
+package log_management;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
