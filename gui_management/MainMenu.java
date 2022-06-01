@@ -51,7 +51,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 	public MainMenu() {
 		setNews();
 		saver.cleanMenuLog();
-		saver.saveLog(9);
+		saver.saveLog(10);
 	}
 	
 	public void printGUI() {
@@ -87,6 +87,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		head[0].addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				News news = new News(0);
+				saver.saveLog(9, news.getTitle());
 				NewsPage page = new NewsPage(news);
 				page.printGUI();
 			}
@@ -94,6 +95,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		head[1].addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				News news = new News(1);
+				saver.saveLog(9, news.getTitle());
 				NewsPage page = new NewsPage(news);
 				page.printGUI();
 			}
@@ -101,6 +103,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		head[2].addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				News news = new News(2);
+				saver.saveLog(9, news.getTitle());
 				NewsPage page = new NewsPage(news);
 				page.printGUI();
 			}
@@ -108,6 +111,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		head[3].addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				News news = new News(3);
+				saver.saveLog(9, news.getTitle());
 				NewsPage page = new NewsPage(news);
 				page.printGUI();
 			}
@@ -115,6 +119,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 		head[4].addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				News news = new News(4);
+				saver.saveLog(9, news.getTitle());
 				NewsPage page = new NewsPage(news);
 				page.printGUI();
 			}

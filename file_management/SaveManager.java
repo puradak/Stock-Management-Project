@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class SaveManager{
 	private static int count = 0;
-	private String[] menu = {"0.Exit","1.Show_All", "2.Add Stock", "3.Delete Stock", "4.Edit Stock", "5.Search Stock", "6.Statistics", "7.About",/*8*/"Refresh News",/*9*/"System On"};
+	private String[] menu = {"0.Exit","1.Show_All", "2.Add Stock", "3.Delete Stock", "4.Edit Stock", "5.Search Stock", "6.Statistics", "7.About",/*8*/"Refresh News",/*9*/"Watch News - ",/*10*/"System On"};
 	private LoadManager loader = LoadManager.getLoadManagerObject();
 	private SimpleDateFormat type = new SimpleDateFormat("yy-MM-dd hh-mm-ss");
 	public SaveManager() {
@@ -19,6 +19,10 @@ public class SaveManager{
 	private String getLogMessage( int code ) {
 		count ++;
 		return count+"번째 행동 : "+type.format(new Date())+"  "+menu[code]+"\n";
+	}
+	private String getLogMessage( int code , String title ) {
+		count ++;
+		return count+"번째 행동 : "+type.format(new Date())+"  "+menu[code]+title+"\n";
 	}
 	
 	private void saveCheck() {
@@ -43,6 +47,17 @@ public class SaveManager{
 		}
 	}
 	
+	public void saveLog( int code, String title ) {
+		try {
+			FileOutputStream out= new FileOutputStream( "MenuLog.txt", true );
+			out.write(getLogMessage(code, title).getBytes());
+			out.close();
+		} catch ( FileNotFoundException e ) {
+			return;
+		} catch ( IOException e ) {
+			return;
+		}
+	}
 	public boolean saveObject() {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( "ObjectSave.txt" ) );
