@@ -9,10 +9,12 @@ import java.util.Date;
 
 public class SaveManager{
 	private static int count = 0;
-	private String[] menu = {"0.Exit","1.Show_All", "2.Add Stock", "3.Delete Stock", "4.Edit Stock", "5.Search Stock", "6.Statistics", "7.About",/*8*/"System On"};
+	private String[] menu = {"0.Exit","1.Show_All", "2.Add Stock", "3.Delete Stock", "4.Edit Stock", "5.Search Stock", "6.Statistics", "7.About",/*8*/"Refresh News",/*9*/"System On"};
 	private LoadManager loader = LoadManager.getLoadManagerObject();
 	private SimpleDateFormat type = new SimpleDateFormat("yy-MM-dd hh-mm-ss");
-	public SaveManager() {}
+	public SaveManager() {
+		cleanMenuLog();
+	}
 		
 	private String getLogMessage( int code ) {
 		count ++;
