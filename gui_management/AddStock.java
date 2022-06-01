@@ -125,6 +125,11 @@ public class AddStock extends JFrame implements BasicGUI{
 		btn_cancle.setPreferredSize(new Dimension(60, 60));
 		btn_cancle.setBounds(223, 201, 60, 60);
 		f.getContentPane().add(btn_cancle);
+		btn_cancle.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				f.setVisible(false);
+			}
+		});
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 248, 255));
