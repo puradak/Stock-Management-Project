@@ -31,9 +31,12 @@ public abstract class Stock implements Functionalities, Serializable{
 	///////////////////METHODS////////////////////////////
 	protected abstract void initialize() throws IOException;
 	
-	public static Stock createStock(String code) throws IOException {
-		if(code.charAt(0) >= '0' && code.charAt(0) <= '9') return new LocalStock(code);
-		else return new ForeignStock(code);
+	public static Stock createStock(String code) throws IOException  {
+		try {
+			if(code.charAt(0) >= '0' && code.charAt(0) <= '9') return new LocalStock(code);
+			else return new ForeignStock(code);
+		} catch ( StringIndexOutOfBoundsException e ) {}
+		return null;
 	}
 
 	public static String getPureNumber(String number) {

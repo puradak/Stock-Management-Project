@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Window.Type;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -262,6 +263,8 @@ public class RemoveStock extends JFrame implements BasicGUI{
 		btn_ok.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				list.remove(target);
+				done();
+				warningFrame.setVisible(false);
 			}
 		});
 		JButton btn_no = new JButton("취소");
@@ -281,5 +284,28 @@ public class RemoveStock extends JFrame implements BasicGUI{
 		warningFrame.getContentPane().add(lb_sentence);
 		
 		warningFrame.setVisible(true);
+	}
+	
+	public void done() {
+		JFrame removed = new JFrame();
+		removed.setType(Type.UTILITY);
+		removed.setAlwaysOnTop(true);
+		removed.setBounds(100, 100, 271, 221);
+		removed.getContentPane().setLayout(null);
+		
+		JLabel lb_narr = new JLabel("삭제되었습니다.");
+		lb_narr.setHorizontalAlignment(SwingConstants.CENTER);
+		lb_narr.setBounds(12, 42, 231, 30);
+		removed.getContentPane().add(lb_narr);
+		
+		JButton btn_done = new JButton("확인");
+		btn_done.setBounds(83, 82, 90, 50);
+		removed.getContentPane().add(btn_done);
+		btn_done.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				removed.setVisible(false);
+			}
+		});
+		removed.setVisible(true);
 	}
 }

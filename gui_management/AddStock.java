@@ -34,6 +34,7 @@ public class AddStock extends JFrame implements BasicGUI{
 	private Stock stock;
 	
 	public void printGUI() { 
+		sqFlag = 0;
 		f = new JFrame();
 		f.getContentPane().setBackground(Color.WHITE);
 		f.getContentPane().setLayout(null);
@@ -60,8 +61,11 @@ public class AddStock extends JFrame implements BasicGUI{
 		btn_ok.setPreferredSize(new Dimension(60, 60));
 		btn_ok.setBounds(152, 201, 60, 60);
 		f.getContentPane().add(btn_ok);
+		try {
+			
 		btn_ok.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
+				System.out.println(sqFlag);
 				if(tool.isExistStock(tF_input.getText()))	{
 					lb_narr.setText("이미 리스트에 등록한 주식입니다. 다시 입력하세요.");
 					tF_input.setText("");
@@ -83,6 +87,7 @@ public class AddStock extends JFrame implements BasicGUI{
 						sqFlag++;
 						return;
 					}
+					return;
 				}
 				while(sqFlag == 2) {
 					if(addStock_desc(tF_input.getText())) {
@@ -120,6 +125,9 @@ public class AddStock extends JFrame implements BasicGUI{
 				return;
 			}
 		});
+		} catch ( StringIndexOutOfBoundsException e ) {
+			
+		}
 		
 		JButton btn_cancle = new JButton("취소");
 		btn_cancle.setPreferredSize(new Dimension(60, 60));
@@ -237,9 +245,6 @@ public class AddStock extends JFrame implements BasicGUI{
 			return false;
 		}
 		
-		if(stock.getType().equals("local")) localStockList.add(stock);
-		if(stock.getType().equals("foreign")) foreignStockList.add(stock);
-		
 		try {
 			int asset = Integer.parseInt(Asset);
 			if(asset <= 0) throw new NumberFormatException();
@@ -249,6 +254,9 @@ public class AddStock extends JFrame implements BasicGUI{
 			return false;
 		}
 		
+		if(stock.getType().equals("local")) localStockList.add(stock);
+		if(stock.getType().equals("foreign")) foreignStockList.add(stock);
+
 		lb_narr.setText("주식 등록 완료! 주식에 대한 설명을 입력하세요.(선택사항)");
 		return true;
 	}
