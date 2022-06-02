@@ -200,7 +200,6 @@ public class MainMenu extends JFrame implements BasicGUI{
 		if (index > 0 && index < 8) functions[index-1].printGUI();
 		if (index == 0) {
 			saver.saveObject();
-			saver.saveLog(0);
 			System.exit(0);
 		}
 		if (index == 8) setNews();
