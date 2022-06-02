@@ -2,7 +2,6 @@ package data;
 
 import java.io.IOException;
 import java.io.Serializable;
-
 import interfaces.Functionalities;
 
 public abstract class Stock implements Functionalities, Serializable{

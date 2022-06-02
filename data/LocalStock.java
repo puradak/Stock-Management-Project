@@ -3,11 +3,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
 import interfaces.Functionalities;
 
 public class LocalStock extends Stock implements Functionalities, Serializable{

@@ -21,7 +21,7 @@ public class AddStock extends JFrame implements BasicGUI{
 	LoadManager loader = LoadManager.getLoadManagerObject();
 	ArrayList<Stock> localStockList = loader.LoadList("local");
 	ArrayList<Stock> foreignStockList = loader.LoadList("foreign");
-	private ToolFunction tool = ToolFunction.getToolFunctionObject();
+	private ToolFunction tool = new ToolFunction();
 	private JFrame f;
 	private JLabel lb_narr = new JLabel("аж╫д╦М");;
 	private JLabel name = new JLabel(""); 

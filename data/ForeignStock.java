@@ -3,10 +3,8 @@ package data;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import interfaces.Functionalities;
 
 public class ForeignStock extends Stock implements Functionalities, Serializable{
@@ -15,7 +13,6 @@ public class ForeignStock extends Stock implements Functionalities, Serializable
 	protected static String url_head ="https://www.google.com/finance/quote/";
 	protected static String url_tail =":NASDAQ";
 	protected String code;
-	
 	
 	//////////////////CONSTRUCTOR/////////////////////////
 	public ForeignStock(){
@@ -29,7 +26,6 @@ public class ForeignStock extends Stock implements Functionalities, Serializable
 		initialize();
 	}
 	//////////////////////////////////////////////////////
-	
 	///////////////////METHODS////////////////////////////
 		protected void initialize() throws IOException {
 		try {

@@ -17,9 +17,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import data.Stock;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
@@ -27,7 +25,7 @@ import log_management.LoadManager;
 
 public class ShowStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = -2920264366783929183L;
-	private ToolFunction tool = ToolFunction.getToolFunctionObject();
+	private ToolFunction tool = new ToolFunction();
 	LoadManager loader = LoadManager.getLoadManagerObject();
 	private ArrayList<Stock> localStocks = new ArrayList<>();
 	private ArrayList<Stock> foreignStocks = new ArrayList<>();
