@@ -25,16 +25,6 @@ public class SaveManager{
 		return count+"번째 행동 : "+type.format(new Date())+"  "+menu[code]+title+"\n";
 	}
 	
-	private void saveCheck() {
-		try {
-			FileOutputStream out = new FileOutputStream("check.txt");
-			out.write("o".getBytes());
-			out.close();
-		} catch (IOException e) {
-			return;
-		}
-	}
-	
 	public void saveLog( int code ) {
 		try {
 			FileOutputStream out= new FileOutputStream( "MenuLog.txt", true );
@@ -65,7 +55,6 @@ public class SaveManager{
 				out.writeObject(loader.getList(i));
 			}
 			out.close();
-			saveCheck();
 		} catch (IOException e) {
 			return false;
 		}

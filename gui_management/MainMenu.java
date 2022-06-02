@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import data.GUIs;
 import data.News;
 import interfaces.BasicGUI;
 import log_management.SaveManager;
@@ -31,15 +32,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 			new JButton("About"),			//7
 			new JButton("Refresh")			//8
 			};
-	private BasicGUI[] functions = {
-			new ShowStock(),
-			new AddStock(),
-			new RemoveStock(),
-			new EditStock(),
-			new FindTicker(),
-			new Statistics(),
-			new About()
-	};
+
 	private JButton[] head = {
 			new JButton("news head 1"), 
 			new JButton("news head 2"), 
@@ -197,7 +190,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 
 	private void openGUI(int index) {
 		saver.saveLog(index);
-		if (index > 0 && index < 8) functions[index-1].printGUI();
+		if (index > 0 && index < 8) new GUIs().printGUI(index);
 		if (index == 0) {
 			saver.saveObject();
 			System.exit(0);

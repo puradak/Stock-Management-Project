@@ -34,7 +34,6 @@ public class AddStock extends JFrame implements BasicGUI{
 	private Stock stock;
 	
 	public void printGUI() { 
-		sqFlag = 0;
 		f = new JFrame();
 		f.getContentPane().setBackground(Color.WHITE);
 		f.getContentPane().setLayout(null);
@@ -61,8 +60,6 @@ public class AddStock extends JFrame implements BasicGUI{
 		btn_ok.setPreferredSize(new Dimension(60, 60));
 		btn_ok.setBounds(152, 201, 60, 60);
 		f.getContentPane().add(btn_ok);
-		try {
-			
 		btn_ok.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				System.out.println(sqFlag);
@@ -125,9 +122,6 @@ public class AddStock extends JFrame implements BasicGUI{
 				return;
 			}
 		});
-		} catch ( StringIndexOutOfBoundsException e ) {
-			
-		}
 		
 		JButton btn_cancle = new JButton("√Îº“");
 		btn_cancle.setPreferredSize(new Dimension(60, 60));
