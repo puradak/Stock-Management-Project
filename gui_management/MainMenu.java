@@ -193,10 +193,10 @@ public class MainMenu extends JFrame implements BasicGUI{
 		frame.setBounds(100, 100, 687, 532);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 	}
 
 	private void openGUI(int index) {
+		saver.saveLog(index);
 		if (index > 0 && index < 8) functions[index-1].printGUI();
 		if (index == 0) {
 			saver.saveObject();
@@ -204,13 +204,10 @@ public class MainMenu extends JFrame implements BasicGUI{
 			System.exit(0);
 		}
 		if (index == 8) setNews();
-		
-		saver.saveLog(index);
 	}
 	private void setNews() {
 		String baseURL = "https://finance.naver.com/";
 		String[] news = new String[5];
-		
 		try {
 			Document doc = Jsoup.connect(baseURL).get();
 			Elements newsSection = doc.getElementsByAttributeValue("class", "h_strategy");
@@ -219,8 +216,6 @@ public class MainMenu extends JFrame implements BasicGUI{
 				news[i] = newsSection.next().select("a").get(i).text();
 				head[i].setText(news[i]);
 			}
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
