@@ -29,7 +29,7 @@ public class News {
 				this.news[i].replace("\n", System.getProperty("line.separator"));
 			}
 
-			this.news[temp.length-1] = author;
+			this.news[temp.length-1] = author + System.getProperty("line.separator");
 			this.news[temp.length] = ""
 					+ ""
 					+ "뉴스 출처 : "+url;
