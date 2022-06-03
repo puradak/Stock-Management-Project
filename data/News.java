@@ -26,7 +26,7 @@ public class News {
 			for(int i=0; i<temp.length; i++) {
 				if(i == temp.length-1) break;
 				this.news[i] = temp[i]+"."+"\n\n";
-				this.news[i].replaceAll("\n", System.getProperty("line.separator"));
+				this.news[i].replace("\n", System.getProperty("line.separator"));
 			}
 
 			this.news[temp.length-1] = author;
