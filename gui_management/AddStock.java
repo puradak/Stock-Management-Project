@@ -8,9 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import data.Stock;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
@@ -19,8 +17,8 @@ import log_management.LoadManager;
 public class AddStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = 5227932774846019655L;
 	LoadManager loader = LoadManager.getLoadManagerObject();
-	ArrayList<Stock> localStockList = loader.LoadList("local");
-	ArrayList<Stock> foreignStockList = loader.LoadList("foreign");
+	ArrayList<Stock> localStockList = loader.getList(0);
+	ArrayList<Stock> foreignStockList = loader.getList(1);
 	private ToolFunction tool = new ToolFunction();
 	private JFrame f;
 	private JLabel lb_narr = new JLabel("주식명");;
@@ -62,7 +60,6 @@ public class AddStock extends JFrame implements BasicGUI{
 		f.getContentPane().add(btn_ok);
 		btn_ok.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
-				System.out.println(sqFlag);
 				if(tool.isExistStock(tF_input.getText()))	{
 					lb_narr.setText("이미 리스트에 등록한 주식입니다. 다시 입력하세요.");
 					tF_input.setText("");
@@ -111,6 +108,7 @@ public class AddStock extends JFrame implements BasicGUI{
 						lb_sentence.setFont(new Font("굴림", Font.PLAIN, 15));
 						lb_sentence.setBounds(12, 39, 360, 20);
 						checkFrame.getContentPane().add(lb_sentence);
+						
 						lb_narr.setText("보유한 주식의 주식코드를 입력하고, 확인 버튼을 누르세요.");
 						checkFrame.setVisible(true);
 						
@@ -139,27 +137,27 @@ public class AddStock extends JFrame implements BasicGUI{
 		f.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lb_name = new JLabel("\uC8FC\uC2DD\uBA85");
+		JLabel lb_name = new JLabel("주식명");
 		lb_name.setFont(new Font("굴림", Font.PLAIN, 15));
 		lb_name.setBounds(100, 6, 42, 18);
 		panel.add(lb_name);
 		
-		JLabel lb_price_t = new JLabel("\uD604\uC7AC\uAC00");
+		JLabel lb_price_t = new JLabel("현재가");
 		lb_price_t.setFont(new Font("굴림", Font.PLAIN, 15));
 		lb_price_t.setBounds(100, 33, 42, 18);
 		panel.add(lb_price_t);
 		
-		JLabel lb_price_y = new JLabel("\uC804\uC77C\uAC00");
+		JLabel lb_price_y = new JLabel("전일가");
 		lb_price_y.setFont(new Font("굴림", Font.PLAIN, 15));
 		lb_price_y.setBounds(100, 61, 42, 18);
 		panel.add(lb_price_y);
 		
-		JLabel lb_change = new JLabel("\uBCC0\uD654\uC728");
+		JLabel lb_change = new JLabel("변화율");
 		lb_change.setFont(new Font("굴림", Font.PLAIN, 15));
 		lb_change.setBounds(100, 89, 42, 18);
 		panel.add(lb_change);
 		
-		JLabel lb_isOpen = new JLabel("\uAC1C\uC7A5\uC5EC\uBD80");
+		JLabel lb_isOpen = new JLabel("개장여부");
 		lb_isOpen.setFont(new Font("굴림", Font.PLAIN, 15));
 		lb_isOpen.setBounds(100, 117, 56, 18);
 		panel.add(lb_isOpen);
@@ -188,11 +186,6 @@ public class AddStock extends JFrame implements BasicGUI{
 		name.setFont(new Font("굴림", Font.PLAIN, 15));
 		name.setBounds(186, 5, 144, 18);
 		panel.add(name);
-		btn_cancle.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e){
-				f.setVisible(false);
-			}
-		});
 		
 		f.setType(Type.UTILITY);
 		f.setTitle("Add Stock");
@@ -201,7 +194,6 @@ public class AddStock extends JFrame implements BasicGUI{
 		f.setBounds(100, 100, 450, 300);
 		f.setVisible(true);
 	}
-
 	public void reset() {
 		setName("");
 		setPrice_t("");
@@ -209,8 +201,7 @@ public class AddStock extends JFrame implements BasicGUI{
 		setChange("");
 		setIsOpen("");
 	}
-	
-	public boolean addStock_check(String code) {
+	private boolean addStock_check(String code) {
 		try {
 			this.stock = Stock.createStock(code);
 			if(!stock.getExist()) {
@@ -232,8 +223,7 @@ public class AddStock extends JFrame implements BasicGUI{
 		lb_narr.setText("보유 중인 수량을 입력하세요.");
 		return true;
 	}
-	
-	public boolean addStock_asset(String Asset) {
+	private boolean addStock_asset(String Asset) {
 		if(Asset.equals("")) {
 			lb_narr.setText("보유 중인 수량을 입력하세요.");
 			return false;
@@ -254,28 +244,23 @@ public class AddStock extends JFrame implements BasicGUI{
 		lb_narr.setText("주식 등록 완료! 주식에 대한 설명을 입력하세요.(선택사항)");
 		return true;
 	}
-	
-	public boolean addStock_desc(String Desc) {
+	private boolean addStock_desc(String Desc) {
 		if(Desc.isEmpty()) stock.setDescription("(입력하지 않음)");
 		else stock.setDescription(Desc);
 		return true;
 	}
-	
 	public void setNarr(String narr) {
 		this.lb_narr.setText(narr);
 		return;
 	}
-	
 	public void setName(String name) {
 		this.name.setText(name);
 		return;
 	}
-	
 	public void setPrice_t(String price_t) {
 		this.price_t.setText(price_t);
 		return;
 	}
-	
 	public void setPrice_y(String price_y) {
 		this.price_y.setText(price_y);
 		return;
@@ -288,5 +273,4 @@ public class AddStock extends JFrame implements BasicGUI{
 		this.isOpen.setText(isOpen);
 		return;
 	}
-	
 }
