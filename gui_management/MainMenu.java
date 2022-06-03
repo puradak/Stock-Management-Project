@@ -4,13 +4,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-
 import javax.swing.*;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
 import data.GUIs;
 import data.News;
 import interfaces.BasicGUI;
@@ -126,7 +123,7 @@ public class MainMenu extends JFrame implements BasicGUI{
 			btn[index].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			p_button.add(btn[index]);
 		}
-		
+		frame.add(btn[8]);
 		btn[0].setBounds(483, 75, 145, 55);
 		btn[1].setBounds(12, 75, 145, 55);
 		btn[2].setBounds(12, 10, 145, 55);
@@ -136,7 +133,6 @@ public class MainMenu extends JFrame implements BasicGUI{
 		btn[6].setBounds(169, 75, 145, 55);
 		btn[7].setBounds(326, 75, 145, 55);
 		btn[8].setBounds(275, 278, 100, 30);
-		frame.add(btn[8]);
 		
 		btn[0].addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
