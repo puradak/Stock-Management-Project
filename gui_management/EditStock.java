@@ -3,10 +3,8 @@ package gui_management;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 import data.Stock;
 import interfaces.BasicGUI;
 import log_management.LoadManager;
@@ -115,6 +113,7 @@ public class EditStock extends JFrame implements BasicGUI {
 			public void mouseClicked(MouseEvent e) {
 				if(sqFlag == 0) {
 					try {
+						if(Integer.parseInt(tF_input.getText()) <= 0 ) throw new NumberFormatException();
 						stock.setAsset(Integer.parseInt(tF_input.getText()));
 						lb_narr.setText("변경할 주식 설명을 입력하세요. 취소를 누르면 변경하지 않습니다.");
 						lb_changes.setText("[변경사항] "+saveAsset+"주 → "+tF_input.getText()+"주");
