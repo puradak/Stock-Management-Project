@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
 import data.Stock;
+import exceptions.IntegerNotInRangeException;
 import functions.ToolFunction;
 import interfaces.BasicGUI;
 import log_management.LoadManager;
@@ -21,41 +22,47 @@ public class AddStock extends JFrame implements BasicGUI{
 	ArrayList<Stock> foreignStockList = loader.getList(1);
 	private ToolFunction tool = new ToolFunction();
 	private JFrame f;
-	private JLabel lb_narr = new JLabel("주식명");;
-	private JLabel name = new JLabel(""); 
-	private JLabel price_t = new JLabel(""); 
-	private JLabel price_y = new JLabel(""); 
-	private JLabel change = new JLabel(""); 
-	private JLabel isOpen = new JLabel(""); 
+	private JLabel lb_narr = new JLabel("보유한 주식의 주식코드를 입력하고, 확인 버튼을 누르세요.");
+	private JLabel lb_input = new JLabel("입력 : ");
+	private JLabel[] labels = {
+			new JLabel("(주식명)"),		// name
+			new JLabel("(현재가)"),		// price_t
+			new JLabel("(전일가)"),		// price_y
+			new JLabel("(변화율)"),		// change
+			new JLabel("(개장여부)"),	// isOpen
+	};
+	private JLabel[] lb_labels = {
+			new JLabel("주식명"),		// lb_name
+			new JLabel("현재가"),		// lb_price_t
+			new JLabel("전일가"),		// lb_price_y
+			new JLabel("변화율"),		// lb_change
+			new JLabel("개장여부"),	// lb_isOpen
+	};
 	private JTextField tF_input = new JTextField("");
-	private int sqFlag = 0;
 	private Stock stock;
+	private int sqFlag = 0;
 	
 	public void printGUI() { 
 		f = new JFrame();
 		f.getContentPane().setBackground(Color.WHITE);
 		f.getContentPane().setLayout(null);
 		
-		lb_narr = new JLabel("보유한 주식의 주식코드를 입력하고, 확인 버튼을 누르세요.");
 		lb_narr.setHorizontalTextPosition(SwingConstants.CENTER);
 		lb_narr.setHorizontalAlignment(SwingConstants.CENTER);
 		lb_narr.setBounds(0, 10, 432, 15);
 		f.getContentPane().add(lb_narr);
 		
-		JLabel lb_input = new JLabel("입력 : ");
 		lb_input.setBounds(112, 27, 36, 20);
 		f.getContentPane().add(lb_input);
 		
-		tF_input = new JTextField();
 		tF_input.setFont(new Font("굴림", Font.PLAIN, 18));
 		tF_input.setHorizontalAlignment(SwingConstants.LEFT);
 		tF_input.setBounds(150, 26, 133, 21);
-		f.getContentPane().add(tF_input);
 		tF_input.setColumns(10);
+		f.getContentPane().add(tF_input);
 		
 		JButton btn_ok = new JButton("확인");
 		btn_ok.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btn_ok.setPreferredSize(new Dimension(60, 60));
 		btn_ok.setBounds(152, 201, 60, 60);
 		f.getContentPane().add(btn_ok);
 		btn_ok.addMouseListener(new MouseAdapter() {
@@ -69,53 +76,17 @@ public class AddStock extends JFrame implements BasicGUI{
 					if(!addStock_check(tF_input.getText())) {
 						lb_narr.setText("잘못된 주식코드입니다. 다시 입력하세요.");
 						tF_input.setText("");
-						return;
 					}
-					else {
-						sqFlag = 1;
-						return;
-					}
+					else sqFlag++;
+					return;
 				}
 				while(sqFlag == 1) {
-					if(addStock_asset(tF_input.getText())) {
-						sqFlag++;
-						return;
-					}
+					if(addStock_asset(tF_input.getText())) sqFlag++;
+					tF_input.setText("");
 					return;
 				}
 				while(sqFlag == 2) {
-					if(addStock_desc(tF_input.getText())) {
-						JFrame checkFrame = new JFrame();
-						checkFrame.setTitle("Add Stock");
-						checkFrame.setType(Type.UTILITY);
-						checkFrame.setBounds(100, 100, 400, 200);
-						checkFrame.getContentPane().setLayout(null);
-						
-						JButton btn_ok = new JButton("확인");
-						btn_ok.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						btn_ok.setPreferredSize(new Dimension(60, 60));
-						btn_ok.setBounds(164, 91, 60, 60);
-						checkFrame.getContentPane().add(btn_ok);
-						btn_ok.addMouseListener(new MouseAdapter(){
-							public void mouseClicked(MouseEvent e) {
-								tF_input.setText("");
-								checkFrame.setVisible(false);
-							}
-						});
-						
-						JLabel lb_sentence = new JLabel("추가가 완료되었습니다.");
-						lb_sentence.setHorizontalAlignment(SwingConstants.CENTER);
-						lb_sentence.setFont(new Font("굴림", Font.PLAIN, 15));
-						lb_sentence.setBounds(12, 39, 360, 20);
-						checkFrame.getContentPane().add(lb_sentence);
-						
-						lb_narr.setText("보유한 주식의 주식코드를 입력하고, 확인 버튼을 누르세요.");
-						checkFrame.setVisible(true);
-						
-						reset();
-						sqFlag = 0;
-						return;
-					}
+					if(addStock_desc(tF_input.getText())) check();
 				}
 				return;
 			}
@@ -137,55 +108,25 @@ public class AddStock extends JFrame implements BasicGUI{
 		f.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lb_name = new JLabel("주식명");
-		lb_name.setFont(new Font("굴림", Font.PLAIN, 15));
-		lb_name.setBounds(100, 6, 42, 18);
-		panel.add(lb_name);
+		labels[0].setBounds(186, 5, 144, 18);
+		labels[1].setBounds(186, 32, 143, 18);
+		labels[2].setBounds(186, 60, 143, 18);
+		labels[3].setBounds(186, 88, 143, 18);
+		labels[4].setBounds(186, 116, 143, 18);
+		for(JLabel label : labels) {
+			label.setFont(new Font("굴림", Font.PLAIN, 15));
+			panel.add(label);
+		}
 		
-		JLabel lb_price_t = new JLabel("현재가");
-		lb_price_t.setFont(new Font("굴림", Font.PLAIN, 15));
-		lb_price_t.setBounds(100, 33, 42, 18);
-		panel.add(lb_price_t);
-		
-		JLabel lb_price_y = new JLabel("전일가");
-		lb_price_y.setFont(new Font("굴림", Font.PLAIN, 15));
-		lb_price_y.setBounds(100, 61, 42, 18);
-		panel.add(lb_price_y);
-		
-		JLabel lb_change = new JLabel("변화율");
-		lb_change.setFont(new Font("굴림", Font.PLAIN, 15));
-		lb_change.setBounds(100, 89, 42, 18);
-		panel.add(lb_change);
-		
-		JLabel lb_isOpen = new JLabel("개장여부");
-		lb_isOpen.setFont(new Font("굴림", Font.PLAIN, 15));
-		lb_isOpen.setBounds(100, 117, 56, 18);
-		panel.add(lb_isOpen);
-		
-		isOpen = new JLabel("");
-		isOpen.setFont(new Font("굴림", Font.PLAIN, 15));
-		isOpen.setBounds(186, 116, 143, 18);
-		panel.add(isOpen);
-		
-		change = new JLabel("");
-		change.setFont(new Font("굴림", Font.PLAIN, 15));
-		change.setBounds(186, 88, 143, 18);
-		panel.add(change);
-		
-		price_y = new JLabel("");
-		price_y.setFont(new Font("굴림", Font.PLAIN, 15));
-		price_y.setBounds(186, 60, 143, 18);
-		panel.add(price_y);
-		
-		price_t = new JLabel("");
-		price_t.setFont(new Font("굴림", Font.PLAIN, 15));
-		price_t.setBounds(186, 32, 143, 18);
-		panel.add(price_t);
-		
-		name = new JLabel("");
-		name.setFont(new Font("굴림", Font.PLAIN, 15));
-		name.setBounds(186, 5, 144, 18);
-		panel.add(name);
+		lb_labels[0].setBounds(100, 6, 42, 18);
+		lb_labels[1].setBounds(100, 33, 42, 18);
+		lb_labels[2].setBounds(100, 61, 42, 18);
+		lb_labels[3].setBounds(100, 89, 42, 18);
+		lb_labels[4].setBounds(100, 117, 56, 18);
+		for(JLabel label : lb_labels) {
+			label.setFont(new Font("굴림", Font.PLAIN, 15));
+			panel.add(label);
+		}
 		
 		f.setType(Type.UTILITY);
 		f.setTitle("Add Stock");
@@ -194,12 +135,42 @@ public class AddStock extends JFrame implements BasicGUI{
 		f.setBounds(100, 100, 450, 300);
 		f.setVisible(true);
 	}
-	public void reset() {
-		setName("");
-		setPrice_t("");
-		setPrice_y("");
-		setChange("");
-		setIsOpen("");
+	
+	private void check() {
+		JFrame checkFrame = new JFrame();
+		checkFrame.setTitle("Add Stock");
+		checkFrame.setType(Type.UTILITY);
+		checkFrame.setBounds(100, 100, 400, 200);
+		checkFrame.getContentPane().setLayout(null);
+		
+		JButton btn_ok = new JButton("확인");
+		btn_ok.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btn_ok.setPreferredSize(new Dimension(60, 60));
+		btn_ok.setBounds(164, 91, 60, 60);
+		checkFrame.getContentPane().add(btn_ok);
+		btn_ok.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				tF_input.setText("");
+				checkFrame.setVisible(false);
+			}
+		});
+		
+		JLabel lb_sentence = new JLabel("추가가 완료되었습니다.");
+		lb_sentence.setHorizontalAlignment(SwingConstants.CENTER);
+		lb_sentence.setFont(new Font("굴림", Font.PLAIN, 15));
+		lb_sentence.setBounds(12, 39, 360, 20);
+		checkFrame.getContentPane().add(lb_sentence);
+		
+		lb_narr.setText("보유한 주식의 주식코드를 입력하고, 확인 버튼을 누르세요.");
+		checkFrame.setVisible(true);
+		
+		reset();
+		sqFlag = 0;
+	}
+	private void reset() {
+		for(int i=0; i<5; i++) {
+			setText(i, "");
+		}
 	}
 	private boolean addStock_check(String code) {
 		try {
@@ -209,12 +180,12 @@ public class AddStock extends JFrame implements BasicGUI{
 				return false;
 			}
 			else {
-				setName(stock.getName());
-				setPrice_t(stock.getPrice_t());
-				setPrice_y(stock.getPrice_y());
-				setChange(stock.getNetChange());
-				if(tool.isOpen(stock)) setIsOpen("개장");
-				else setIsOpen("폐장");
+				setText(0,stock.getName());
+				setText(1,stock.getPrice_t());
+				setText(2,stock.getPrice_y());
+				setText(3,stock.getNetChange());
+				if(tool.isOpen(stock)) setText(4,"개장");
+				else setText(4,"폐장");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -253,24 +224,12 @@ public class AddStock extends JFrame implements BasicGUI{
 		this.lb_narr.setText(narr);
 		return;
 	}
-	public void setName(String name) {
-		this.name.setText(name);
-		return;
-	}
-	public void setPrice_t(String price_t) {
-		this.price_t.setText(price_t);
-		return;
-	}
-	public void setPrice_y(String price_y) {
-		this.price_y.setText(price_y);
-		return;
-	}
-	public void setChange(String Change) {
-		this.change.setText(Change);
-		return;
-	}
-	public void setIsOpen(String isOpen) {
-		this.isOpen.setText(isOpen);
-		return;
+	public void setText(int number, String value) {
+		try{
+			if(number < 0 || number > 4) throw new IntegerNotInRangeException(0,4);
+			labels[number].setText(value);
+		} catch ( IntegerNotInRangeException e ) {
+			e.printStackTrace();
+		}
 	}
 }

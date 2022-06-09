@@ -121,9 +121,13 @@ public class MainMenu extends JFrame implements BasicGUI{
 		
 		for(index=0; index < 8; index++) {
 			btn[index].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			btn[index].setFocusable(false);
 			p_button.add(btn[index]);
 		}
+		btn[8].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btn[8].setFocusable(false);
 		frame.add(btn[8]);
+		
 		btn[0].setBounds(483, 75, 145, 55);
 		btn[1].setBounds(12, 75, 145, 55);
 		btn[2].setBounds(12, 10, 145, 55);

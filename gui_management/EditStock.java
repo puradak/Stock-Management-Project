@@ -3,6 +3,8 @@ package gui_management;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import data.Stock;
@@ -16,15 +18,26 @@ public class EditStock extends JFrame implements BasicGUI {
 	private JTextField tF_input = new JTextField();
 	private JLabel lb_narr = new JLabel("변경할 주식을 선택하고, 확인 버튼을 눌러주세요.");
 	private Stock stock = null;
-	private int saveAsset= 0;
+	private int saveAsset = 0;
 	private int sqFlag = 0;
 	
-	public void printGUI() {
+	private ArrayList<DefaultListModel<String>> models = new ArrayList<>(); 
+	private ArrayList<JList<String>> lists= new ArrayList<>();
+	private JScrollPane[] scPane = {
+			new JScrollPane(),	// local
+			new JScrollPane()	// foreign
+			};
+
+	private JButton[] btn_selects = {
+			new JButton("선택하기"),	//local
+			new JButton("선택하기")	//foreign
+	};
+	
+	public EditStock() {
 		editFrame.setAlwaysOnTop(true); 
 		editFrame.setType(Type.UTILITY);
 		editFrame.setTitle("Edit Stock");
 		editFrame.setBounds(100, 100, 450, 330);
-		
 		editFrame.getContentPane().setBackground(Color.WHITE);
 		editFrame.getContentPane().setLayout(null);
 		
@@ -37,6 +50,17 @@ public class EditStock extends JFrame implements BasicGUI {
 		tF_input.setColumns(10);
 		editFrame.getContentPane().add(tF_input);
 		
+		for(int i=0; i<2; i++) {
+			models.add(new DefaultListModel<>()); // local
+			lists.add(new JList<String>(models.get(i)));
+		}
+		scPane[0].setBounds(32, 30, 182, 100);
+		scPane[1].setBounds(215, 30, 182, 100);
+		btn_selects[0].setBounds(38, 135, 168, 30);
+		btn_selects[1].setBounds(223, 135, 168, 30);
+	}
+
+	public void printGUI() {
 		JLabel lb_input = new JLabel("입력 :");
 		lb_input.setBounds(32, 170, 57, 15);
 		editFrame.getContentPane().add(lb_input);
@@ -47,65 +71,36 @@ public class EditStock extends JFrame implements BasicGUI {
 		lb_changes.setBackground(new Color(240, 248, 255));
 		lb_changes.setBounds(32, 190, 365, 28);
 		editFrame.getContentPane().add(lb_changes);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(32, 30, 182, 100);
-		editFrame.getContentPane().add(scrollPane);
-		
-		DefaultListModel<String> localModel = new DefaultListModel<>();
-		for(Stock stock : loader.getList(0)) {
-			localModel.addElement(stock.getName());
-		}
-		JList<String> localList = new JList<>(localModel);
-		scrollPane.setViewportView(localList);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(215, 30, 182, 100);
-		editFrame.getContentPane().add(scrollPane_1);
-		
-		DefaultListModel<String> foreignModel = new DefaultListModel<>();
-		for(Stock stock : loader.getList(1)) {
-			foreignModel.addElement(stock.getName());
-		}
-		JList<String> foreignList = new JList<>(foreignModel);
-		scrollPane_1.setViewportView(foreignList);
-		
-		JButton btn_select1 = new JButton("선택하기");
-		btn_select1.setBounds(38, 135, 168, 30);
-		editFrame.getContentPane().add(btn_select1);
-		btn_select1.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if(sqFlag != 0) return;
-				int saveAsset= 0;
-				for(Stock s : loader.getList(0)) {
-					try{
-						if(localList.getSelectedValue().equals(s.getName())) {
-						stock = s;
-						saveAsset = stock.getAsset();
+
+		for(int i=0; i<2; i++) {
+			editFrame.getContentPane().add(scPane[i]);
+			
+			for(Stock stock : loader.getList(i)) {
+				models.get(i).addElement(stock.getName());
+			}
+			scPane[i].setViewportView(lists.get(i));
+			
+			JButton button = btn_selects[i];
+			int index = i;
+			editFrame.getContentPane().add(button);
+			button.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(sqFlag != 0) return;
+					saveAsset = 0;
+					for(Stock s : loader.getList(index)) {
+						try{
+							if(lists.get(index).getSelectedValue().equals(s.getName())) {
+							stock = s;
+							saveAsset = s.getAsset();
+							}
+						} catch ( NullPointerException e1 ) {
 						}
-					} catch ( NullPointerException e1 ) {}
-				}
-				lb_narr.setText("변경할 보유 주식 수를 입력하세요. 현재 "+saveAsset+"주를 보유중입니다.");
-			}
-		});
-		
-		JButton btn_select2 = new JButton("선택하기");
-		btn_select2.setBounds(223, 135, 168, 30);
-		editFrame.getContentPane().add(btn_select2);
-		btn_select2.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if(sqFlag != 0) return;
-				for(Stock s : loader.getList(1)) {
-					if(foreignList.getSelectedValue().equals(s.getName())) {
-						stock = s;
-						saveAsset = stock.getAsset();
 					}
+					lb_narr.setText("변경할 보유 주식 수를 입력하세요. 현재 "+saveAsset+"주를 보유중입니다.");
+					tF_input.setText("");
 				}
-				lb_narr.setText("변경할 보유 주식 수를 입력하세요. 현재 "+saveAsset+"주를 보유중입니다.");
-				tF_input.setText("");
-			}
-		});
-		
+			});
+		}
 		JButton btn_ok = new JButton("변경");
 		btn_ok.setBounds(150, 225, 60, 60);
 		editFrame.getContentPane().add(btn_ok);
@@ -130,11 +125,9 @@ public class EditStock extends JFrame implements BasicGUI {
 					lb_narr.setText("변경되었습니다.");
 					lb_changes.setText("[변경사항] "+saveDesc+" → "+tF_input.getText());
 					tF_input.setText("");
-					
 				}
 			}
 		});
-		
 		JButton btn_cancle = new JButton("취소");
 		btn_cancle.setBounds(220, 225, 60, 60);
 		editFrame.getContentPane().add(btn_cancle);
@@ -143,8 +136,6 @@ public class EditStock extends JFrame implements BasicGUI {
 				editFrame.setVisible(false);
 			}
 		});
-		
 		editFrame.setVisible(true);
 	}
-
 }
