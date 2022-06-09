@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.*;
 import data.Stock;
 import exceptions.IntegerNotInRangeException;
@@ -17,9 +16,7 @@ import log_management.LoadManager;
 
 public class AddStock extends JFrame implements BasicGUI{
 	private static final long serialVersionUID = 5227932774846019655L;
-	LoadManager loader = LoadManager.getLoadManagerObject();
-	ArrayList<Stock> localStockList = loader.getList(0);
-	ArrayList<Stock> foreignStockList = loader.getList(1);
+	private LoadManager loader = LoadManager.getLoadManagerObject();
 	private ToolFunction tool = new ToolFunction();
 	private JFrame f;
 	private JLabel lb_narr = new JLabel("보유한 주식의 주식코드를 입력하고, 확인 버튼을 누르세요.");
@@ -36,7 +33,7 @@ public class AddStock extends JFrame implements BasicGUI{
 			new JLabel("현재가"),		// lb_price_t
 			new JLabel("전일가"),		// lb_price_y
 			new JLabel("변화율"),		// lb_change
-			new JLabel("개장여부"),	// lb_isOpen
+			new JLabel("개 폐"),		// lb_isOpen
 	};
 	private JTextField tF_input = new JTextField("");
 	private Stock stock;
@@ -91,7 +88,6 @@ public class AddStock extends JFrame implements BasicGUI{
 				return;
 			}
 		});
-		
 		JButton btn_cancle = new JButton("취소");
 		btn_cancle.setPreferredSize(new Dimension(60, 60));
 		btn_cancle.setBounds(223, 201, 60, 60);
@@ -101,33 +97,20 @@ public class AddStock extends JFrame implements BasicGUI{
 				f.setVisible(false);
 			}
 		});
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 248, 255));
 		panel.setBounds(12, 52, 422, 140);
 		f.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		labels[0].setBounds(186, 5, 144, 18);
-		labels[1].setBounds(186, 32, 143, 18);
-		labels[2].setBounds(186, 60, 143, 18);
-		labels[3].setBounds(186, 88, 143, 18);
-		labels[4].setBounds(186, 116, 143, 18);
-		for(JLabel label : labels) {
-			label.setFont(new Font("굴림", Font.PLAIN, 15));
-			panel.add(label);
+		for(int i=0; i<5; i++) {
+			labels[i].setBounds(186, 5+28*i, 144, 18);
+			lb_labels[i].setBounds(100, 6+28*i, 42, 18);
+			labels[i].setFont(new Font("굴림", Font.PLAIN, 15));
+			lb_labels[i].setFont(new Font("굴림", Font.PLAIN, 15));
+			panel.add(labels[i]);
+			panel.add(lb_labels[i]);
 		}
-		
-		lb_labels[0].setBounds(100, 6, 42, 18);
-		lb_labels[1].setBounds(100, 33, 42, 18);
-		lb_labels[2].setBounds(100, 61, 42, 18);
-		lb_labels[3].setBounds(100, 89, 42, 18);
-		lb_labels[4].setBounds(100, 117, 56, 18);
-		for(JLabel label : lb_labels) {
-			label.setFont(new Font("굴림", Font.PLAIN, 15));
-			panel.add(label);
-		}
-		
 		f.setType(Type.UTILITY);
 		f.setTitle("Add Stock");
 		f.setResizable(false);
@@ -154,7 +137,6 @@ public class AddStock extends JFrame implements BasicGUI{
 				checkFrame.setVisible(false);
 			}
 		});
-		
 		JLabel lb_sentence = new JLabel("추가가 완료되었습니다.");
 		lb_sentence.setHorizontalAlignment(SwingConstants.CENTER);
 		lb_sentence.setFont(new Font("굴림", Font.PLAIN, 15));
@@ -199,18 +181,16 @@ public class AddStock extends JFrame implements BasicGUI{
 			lb_narr.setText("보유 중인 수량을 입력하세요.");
 			return false;
 		}
-		
 		try {
 			int asset = Integer.parseInt(Asset);
 			if(asset <= 0) throw new NumberFormatException();
 			stock.setAsset(asset);
 		}catch( NumberFormatException e ) {
-			setNarr("잘못 입력하셨습니다. 자연수를 입력하세요");
+			lb_narr.setText("잘못 입력하셨습니다. 자연수를 입력하세요");
 			return false;
 		}
-		
-		if(stock.getType().equals("local")) localStockList.add(stock);
-		if(stock.getType().equals("foreign")) foreignStockList.add(stock);
+		if(stock.getType().equals("local")) loader.getList(0).add(stock);
+		if(stock.getType().equals("foreign")) loader.getList(1).add(stock);
 
 		lb_narr.setText("주식 등록 완료! 주식에 대한 설명을 입력하세요.(선택사항)");
 		return true;
@@ -219,10 +199,6 @@ public class AddStock extends JFrame implements BasicGUI{
 		if(Desc.isEmpty()) stock.setDescription("(입력하지 않음)");
 		else stock.setDescription(Desc);
 		return true;
-	}
-	public void setNarr(String narr) {
-		this.lb_narr.setText(narr);
-		return;
 	}
 	public void setText(int number, String value) {
 		try{
