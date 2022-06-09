@@ -19,7 +19,7 @@ public class ToolFunction {
 					return true;
 				}
 			}
-		}		
+		}
 		return false;
 	}
 

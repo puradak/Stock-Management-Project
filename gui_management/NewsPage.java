@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Insets;
-
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-
 import data.News;
 import interfaces.BasicGUI;
 
@@ -25,7 +23,7 @@ public class NewsPage extends JFrame implements BasicGUI {
 	}
 	public void printGUI() {
 		JFrame articleFrame = new JFrame();
-		articleFrame.setTitle("ariticle");
+		articleFrame.setTitle("article");
 		articleFrame.setType(Type.UTILITY);
 		articleFrame.setAlwaysOnTop(true);
 		articleFrame.setBounds(100, 100, 630, 650);
@@ -54,7 +52,7 @@ public class NewsPage extends JFrame implements BasicGUI {
 		for(String str : this.Body) {
 			News += str;
 		}
-		News = News.replaceAll("\n", System.getProperty("line.separator"));
+		
 		JTextArea body = new JTextArea(News);
 		body.setFont(new Font("±¼¸²", Font.PLAIN, 14));
 		body.setDragEnabled(true);

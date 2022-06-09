@@ -19,11 +19,11 @@ public class About extends JFrame implements BasicGUI{
 		frame.setBounds(100, 100, 450, 300);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Stock-Management-System");
-		lblNewLabel.setFont(new Font("±¼¸²", Font.BOLD, 18));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(12, 10, 420, 44);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel lb_title = new JLabel("Stock-Management-System");
+		lb_title.setFont(new Font("±¼¸²", Font.BOLD, 18));
+		lb_title.setHorizontalAlignment(SwingConstants.CENTER);
+		lb_title.setBounds(12, 10, 420, 44);
+		frame.getContentPane().add(lb_title);
 		
 		JLabel myName = new JLabel("My name : Lee Jeong Hyun");
 		myName.setBounds(12, 84, 158, 15);
