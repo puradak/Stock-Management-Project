@@ -26,7 +26,7 @@ public class RemoveStock extends JFrame implements BasicGUI{
 	private ArrayList<JList<String>> lists = new ArrayList<>();
 	private JTextArea desc = new JTextArea();
 	private JLabel[] labels = { new JLabel(), new JLabel(), new JLabel(), new JLabel("") };
-	private JLabel[] lb_labels = { new JLabel("주식명"), new JLabel("현재가"), new JLabel("보유주"), new JLabel("설 명") };
+	private JLabel[] lb_labels = { new JLabel("주식명"), new JLabel("보유주"), new JLabel("현재가"), new JLabel("설 명") };
 	private JButton[] btn_remove = { new JButton("삭제"), new JButton("삭제") };
 	public RemoveStock() {
 		removeFrame.setType(Type.UTILITY);
